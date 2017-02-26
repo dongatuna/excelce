@@ -1,8 +1,8 @@
 <div class="row">
     <div class="col-md-4 col-md-offset-4">
         <h2>Sign Up</h2>
-        Validation Errors
-        <form action="/users/register/{{data.role}}" method="post">
+        Validation Errors for find jobs form
+        <form action="/users/provider/register" method="post">
             <div class="form-group">
                 <label for="email">E-Mail</label>
                 <input type="email" id="email" name="email" class="form-control" placeholder="Enter email address">
@@ -16,8 +16,7 @@
                 <label for="password2">Confirm Password</label>
                 <input type="password" id="password2" name="password2" class="form-control" placeholder="Confirm password">
             </div>
-            <input type="hidden" name="_csrf" value="{{csrfToken}}" class="form-control">
-            <input type="hidden" id="role" name="role" value="{{data.role}}" class="form-control">
+            <input type="hidden" name="_csrf" id="_csrf" value="{{csrfToken}}" >
 
             <button type="submit" class="btn btn-primary">Sign Up</button>
         </form>

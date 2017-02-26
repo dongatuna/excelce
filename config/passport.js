@@ -1,5 +1,6 @@
 var passport = require('passport');
-var User = require('../models/user');
+var Organization = require('../models/organization');
+var Provider = require('../models/provider');
 
 var LocalStrategy = require('passport-local').Strategy;
 
@@ -8,52 +9,61 @@ passport.serializeUser(function (user, done) {
 });
 
 passport.deserializeUser(function (id, done) {
-    User.findById(id, function (err, user) {
+    Organization.findById(id, function (err, user) {
         done(err, user);
     });
 });
-
-//this local sign up strategy is used to create users
-passport.use('local.signup', new LocalStrategy({
+//this local sign up strategy is used to log in existing organization
+passport.use('local.organization.signup', new LocalStrategy({
     //this is where data is passed from form
     passwordField: 'password',
     usernameField: 'email',
     passReqToCallback: true
 }, function (req, email, password, done) {
 
-    User.findOne({'email':email}, function (err, user) {
+    Organization.findOne({'email':email}, function (err, user) {
         //if you find an error, return the error
        if(err) return done(err);
 
        //if you find a user, then it means the email has been taken
-        if(user){
-            return done(null, false, {message: 'Email is already in use.'});
+        if(!user){
+            return done(null, false, {message: 'No user has that email address.'});
         }
-            //if there is no error and the email is not in use, we can create new user
-            //using mongoose
-            var newUser = new User();
 
-            //var role = newUser.role;
-            if(req.body.role) return req.body.role;
+        user.checkPassword(password, function (err, isMatch) {
+            if(err) return done(err);
 
-            newUser.role = req.body.role;
-            newUser.email = email;
-
-            //encrypt password
-            if(req.body.password===req.body.password2){
-                newUser.password = newUser.encryptPassword(password);
-            } else return done(null, false, {message: 'Password must match confirm password'});
-
-            //var results = role(req.body.role);
-
-            newUser.save(function (err, result) {
-                if(err){
-                    return done(err);
-                }
-                console.log('new user added');
-                return(null, newUser);
-            });
-
+            if(isMatch){
+                return done (null, user);
+            }else return done (null, false, {message:"Invalid password"});
+        });
     });
+}));
 
+
+//this local sign up strategy is used to log in existing provider
+passport.use('local.provider.signup', new LocalStrategy({
+    //this is where data is passed from form
+    passwordField: 'password',
+    usernameField: 'email',
+    passReqToCallback: true
+}, function (req, email, password, done) {
+
+    Provider.findOne({'email':email}, function (err, user) {
+        //if you find an error, return the error
+        if(err) return done(err);
+
+        //if you find a user, then it means the email has been taken
+        if(!user){
+            return done(null, false, {message: 'No user has that email address.'});
+        }
+
+        user.checkPassword(password, function (err, isMatch) {
+            if(err) return done(err);
+
+            if(isMatch){
+                return done (null, user);
+            }else return done (null, false, {message:"Invalid password"});
+        });
+    });
 }));

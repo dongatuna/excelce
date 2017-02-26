@@ -10,9 +10,6 @@ var session = require('express-session');
 var passport = require('passport');
 var flash = require ('connect-flash');
 
-
-
-
 var index = require('./routes/index');
 
 var app = express();
@@ -49,7 +46,11 @@ app.use(function(req, res, next) {
 //Connect Flash
 // error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
+
+  res.locals.success_msg = req.flash('success_msg');
+  res.locals.error_msg=req.flash('error_msg');
+
+    // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 

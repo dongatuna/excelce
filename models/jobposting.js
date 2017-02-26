@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var posting_schema = new Schema({
+var postingSchema = new Schema({
     name: {type:String, required:true},
     title: {type:String, required:true},
     description: {type:String, required:true},
@@ -9,4 +9,4 @@ var posting_schema = new Schema({
     imagePath:{type:String}
 });
 
-module.exports=mongoose.model('JobModel', posting_schema);
+module.exports=mongoose.model('Posting', postingSchema);
