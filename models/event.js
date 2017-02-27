@@ -5,7 +5,8 @@ var eventSchema = new Schema({
     presenter: {type:String, required:true},
     topic: {type:String, required:true},
     description: {type:String, required:true},
-    price: {type: Number},
+    //start:{type: Date},
+    //end:{type:Date},
     imagePath:{type:String}
 });
 

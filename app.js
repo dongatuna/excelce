@@ -14,6 +14,10 @@ var index = require('./routes/index');
 
 var app = express();
 
+mongoose.Promise = require('bluebird');
+// connect to mongo function
+mongoose.Promise = global.Promise;
+
 mongoose.connect('mongodb://dongatuna:Embabros33@ds157349.mlab.com:57349/excelce');
 //including the passport
 require('./config/passport');
@@ -27,7 +31,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(session({secret:'embabroswillmakeit', resave:false, saveUninitialized:false}));
+app.use(session({secret:'embabroswillmakeit', resave:true, saveUninitialized:true}));
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
