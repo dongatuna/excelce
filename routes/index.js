@@ -38,7 +38,6 @@ router.get('/users/provider/register', function (req, res) {
 });
 
 //router.post('/users/register/:role')
-
 router.post('/users/organization/register', function(req, res, next){
 
     var email = req.body.email;
@@ -99,6 +98,23 @@ router.post('/users/provider/register', function(req, res, next){
     failureFlash:true
 }));
 
+//router for showing events - needs to be authenticated
+
+router.get('/users/organization/job', function (req, res) {
+    res.render('users/organization/job', {csrfToken: req.csrfToken()})
+});
+
+router.get('/users/organization/event', function (req, res) {
+    res.render('users/organization/event', {csrfToken: req.csrfToken()})
+});
+
+router.get('/users/organization/:id/profile', function (req, res) {
+    res.render('users/organization/:id/profile', {csrfToken: req.csrfToken()})
+});
+
+router.get('/users/provider/application', function (req, res) {
+    res.render('users/provider/application', {csrfToken: req.csrfToken()})
+});
 module.exports = router;
 
 

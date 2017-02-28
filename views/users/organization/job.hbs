@@ -1,7 +1,8 @@
 <div class="row">
-    <div class="col-md-4 col-md-offset-4">
-        <h2>Post|Share an Event About Alzheimer's, Long Term Care</h2>
-        Validation Errors for find caregivers form
+    <div class="col-md-6 col-md-offset-4">
+        <h2>Post a Job Opening</h2>
+        <p>$ 20 of the posting fee goes to pay for caregivers training in your community</p>
+        ////Validation Errors for find caregivers form
         <form action="/users/organization/job" method="post">
             <div class="form-group">
                 <label for="name">Name</label>
@@ -14,14 +15,67 @@
 
             <div class="form-group">
                 <label for="description">Job Description</label>
-                <textarea name="description" id="description">Enter Job Description Here</textarea>
+                <textarea name="description" id="description" class="form-control" rows = "15">Enter Job Description Here</textarea>
+            </div>
+            <hr>
+
+            <p><strong>Required Certifications</strong></p>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="NAC/CNA" value="NAC/CNA"> NAC/CNA
+                    </label>
+                </div>
+
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" value="hca" name="hca">75 hour Training/Home Care Aide
+                    </label>
+                </div>
+
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" value="corebasic" name="corebasic">Core Basic Training
+                    </label>
+                </div>
+
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" value="mhealth" name="mhealth">Safety and Orientation
+                    </label>
+                </div>
+
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" value="dementia" name="dementia">Dementia Certification
+                    </label>
+                </div>
+
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" value="mhealth" name="mhealth">Mental Health Certification
+                    </label>
+                </div>
+
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" value="delegation" name="delegation">Nurse Delegation
+                    </label>
+                </div>
+
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" value="diabetes" name="diabetes">Nurse Delegation for Diabetes
+                    </label>
+                </div>
+
             </div>
 
             <div class="form-group">
-                <label for="attachment">Attach Resume</label>
+                <label for="attachment">Attach A Flyer</label>
                 <input type="file" id="attachment" name="attachment" class="form-control">
             </div>
-
+            <!--<input type="hidden" name="" id="" value="-->
             <input type="hidden" name="_csrf" id="_csrf" value="{{csrfToken}}" >
 
             <button type="submit" class="btn btn-primary">Post Job</button>
