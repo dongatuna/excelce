@@ -91,7 +91,7 @@ router.post('/users/provider/register', function(req, res, next){
             password: password
         });
 
-        console.log('newProvider', newProvider);
+       // console.log('newProvider', newProvider);
 
 
         try {
@@ -105,7 +105,7 @@ router.post('/users/provider/register', function(req, res, next){
         }
     });
 
-} , passport.authenticate("login.provider.signup",{
+} , passport.authenticate("local.provider.signup",{
     successRedirect: "/users/provider/profile",
     failureRedirect: "/users/register/provider",
     failureFlash:true
