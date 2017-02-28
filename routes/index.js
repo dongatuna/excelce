@@ -3,6 +3,7 @@ var router = express.Router();
 var csrf = require('csurf');
 var passport = require('passport');
 
+
 var Course = require('../models/course');
 var Provider = require('../models/provider');
 var Organization = require('../models/organization');
@@ -58,11 +59,10 @@ router.post('/users/organization/register', function(req, res, next){
             email: email,
             password: password
         });
-
         newOrganization.save(next);
     });
 
-} , passport.authenticate("login.organization.signup",{
+} , passport.authenticate("local.organization.signup",{
     successRedirect: "/users/organization/profile",
     failureRedirect: "/users/organization/register",
     failureFlash:true
@@ -71,6 +71,8 @@ router.post('/users/organization/register', function(req, res, next){
 router.post('/users/provider/register', function(req, res, next){
 
     var email = req.body.email;
+
+    console.log(email);
 
     if(req.body.password ===req.body.password2){
         var password = req.body.password;
@@ -89,7 +91,18 @@ router.post('/users/provider/register', function(req, res, next){
             password: password
         });
 
-        newProvider.save(next);
+        console.log('newProvider', newProvider);
+
+
+        try {
+            newProvider.save(function (err, result) {
+
+                console.log('Saved new provider', err, result);
+                next();
+            });
+        } catch (e) {
+            console.log('err', e);
+        }
     });
 
 } , passport.authenticate("login.provider.signup",{
@@ -108,8 +121,8 @@ router.get('/users/organization/event', function (req, res) {
     res.render('users/organization/event', {csrfToken: req.csrfToken()})
 });
 
-router.get('/users/organization/:id/profile', function (req, res) {
-    res.render('users/organization/:id/profile', {csrfToken: req.csrfToken()})
+router.get('/users/organization/profile', function (req, res) {
+    res.render('users/organization/profile', {csrfToken: req.csrfToken()})
 });
 
 router.get('/users/provider/application', function (req, res) {

@@ -10,13 +10,12 @@ var session = require('express-session');
 var passport = require('passport');
 var flash = require ('connect-flash');
 
+var bluebird = require('bluebird');
+mongoose.Promise = bluebird;
+
 var index = require('./routes/index');
 
 var app = express();
-
-mongoose.Promise = require('bluebird');
-// connect to mongo function
-mongoose.Promise = global.Promise;
 
 mongoose.connect('mongodb://dongatuna:Embabros33@ds157349.mlab.com:57349/excelce');
 //including the passport

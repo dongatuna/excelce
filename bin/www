@@ -4,6 +4,10 @@
  * Module dependencies.
  */
 
+require('mongoose').Promise = require('bluebird');
+// connect to mongo function
+// mongoose.Promise = global.Promise;
+
 var app = require('../app');
 var debug = require('debug')('excelce:server');
 var http = require('http');

@@ -13,13 +13,20 @@ var organizationSchema = new Schema({
 var noop = function () {};
 
 organizationSchema.pre("save", function (done) {
+    console.log('saving organization');
+
     var organization = this;
 
     if(!organization.isModified("password")) return done();
-    bcrypt.genSaltSync(SALT_FACTOR, function (err, salt) {
+
+    console.log('generating salt');
+    bcrypt.genSalt(SALT_FACTOR, function (err, salt) {
         if(err) return done (err);
 
-        bcrypt.hash(organization.password, salt, noop, function (err, hashedPassword) {
+        console.log('hashing password');
+        bcrypt.hash(organization.password, salt, null, function (err, hashedPassword) {
+            console.log('hashed password');
+            console.log('err', err);
             if(err) return done(err);
             organization.password=hashedPassword;
             done();
