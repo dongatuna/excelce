@@ -9,6 +9,7 @@ var mongoose = require('mongoose');
 var session = require('express-session');
 var passport = require('passport');
 var flash = require ('connect-flash');
+var validator = require('express-validator');
 
 var bluebird = require('bluebird');
 mongoose.Promise = bluebird;
@@ -29,6 +30,7 @@ app.set('view engine', '.hbs');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(validator());
 app.use(cookieParser());
 app.use(session({secret:'embabroswillmakeit', resave:true, saveUninitialized:true}));
 app.use(flash());

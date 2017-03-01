@@ -3,7 +3,6 @@ var router = express.Router();
 var csrf = require('csurf');
 var passport = require('passport');
 
-
 var Course = require('../models/course');
 var Provider = require('../models/provider');
 var Organization = require('../models/organization');
@@ -31,11 +30,17 @@ router.get('/courses', function(req, res, next) {
 });
 
 router.get('/users/organization/register', function (req, res) {
-    res.render('users/organization/register', {csrfToken: req.csrfToken()});
+    //get any errors from passport
+    var messages = req.flash('error');
+    //pass the errors to the register page
+    res.render('users/organization/register', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0});
 });
 
 router.get('/users/provider/register', function (req, res) {
-    res.render('users/provider/register', {csrfToken: req.csrfToken()});
+    //get any errors from passport
+    var messages = req.flash('error');
+
+    res.render('users/provider/register', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0});
 });
 
 //router.post('/users/register/:role')
@@ -47,12 +52,32 @@ router.post('/users/organization/register', function(req, res, next){
         var password = req.body.password;
     }
 
+    //validate the email and ensure email and password are not empty
+    req.checkBody('email', 'Invalid email').notEmpty().isEmail();
+    req.checkBody('password', 'Invalid password').notEmpty().isLength({min:6});
+
+    //if the validation errors exist, store them in the variable errors
+    var errors = req.validationErrors(); //validationErrors() extracts all errors of validation
+    //store the errors messages in the error.msg property
+    if(errors){
+        //create an array of messages to pass to the view
+        var messages = [];
+        errors.forEach(function(error){
+            //push any error you find INTO the messages array
+            messages.push(error.msg);
+        });
+
+        //return done (null, false, req.flash('error', messages));
+        res.render('users/organization/register', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0});
+
+    }
+
     Organization.findOne({email: email}, function (err, user){
         if (err) return next (err);
 
         if(user){
             req.flash("error", "User already exists");
-            return res.redirect("/users/organization/signin");
+            //return res.redirect("/users/organization/register");
         }
 
         var newOrganization = new Organization({
@@ -62,17 +87,17 @@ router.post('/users/organization/register', function(req, res, next){
         newOrganization.save(next);
     });
 
-} , passport.authenticate("local.organization.signup",{
-    successRedirect: "/users/organization/profile",
-    failureRedirect: "/users/organization/register",
-    failureFlash:true
-}));
+} , passport.authenticate("local.organization.signup",
+    {
+        successRedirect: "/users/organization/profile",
+        failureRedirect: "/users/organization/register",
+        failureFlash: true
+    }
+));
 
 router.post('/users/provider/register', function(req, res, next){
 
     var email = req.body.email;
-
-    console.log(email);
 
     if(req.body.password ===req.body.password2){
         var password = req.body.password;
@@ -86,7 +111,7 @@ router.post('/users/provider/register', function(req, res, next){
             return res.redirect("/users/provider/signin");
         }
 
-        var newProvider = new Organization({
+        var newProvider = new Provider({
             email: email,
             password: password
         });
@@ -114,19 +139,23 @@ router.post('/users/provider/register', function(req, res, next){
 //router for showing events - needs to be authenticated
 
 router.get('/users/organization/job', function (req, res) {
-    res.render('users/organization/job', {csrfToken: req.csrfToken()})
+    res.render('users/organization/job', {csrfToken: req.csrfToken()});
 });
 
 router.get('/users/organization/event', function (req, res) {
-    res.render('users/organization/event', {csrfToken: req.csrfToken()})
+    res.render('users/organization/event', {csrfToken: req.csrfToken()});
 });
 
-router.get('/users/organization/profile', function (req, res) {
-    res.render('users/organization/profile', {csrfToken: req.csrfToken()})
+router.get('/users/organization/profile', function (req, res, next) {
+    res.render('users/organization/profile', {csrfToken: req.csrfToken()});
+});
+
+router.get('/users/provider/profile', function (req, res, next) {
+    res.render('users/provider/profile', {csrfToken: req.csrfToken()});
 });
 
 router.get('/users/provider/application', function (req, res) {
-    res.render('users/provider/application', {csrfToken: req.csrfToken()})
+    res.render('users/provider/application', {csrfToken: req.csrfToken()});
 });
 module.exports = router;
 

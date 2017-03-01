@@ -23,8 +23,7 @@ organizationSchema.pre("save", function (done) {
     bcrypt.genSalt(SALT_FACTOR, function (err, salt) {
         if(err) return done (err);
 
-        console.log('hashing password');
-        bcrypt.hash(organization.password, salt, null, function (err, hashedPassword) {
+        bcrypt.hash(organization.password, salt, noop, function (err, hashedPassword) {
             console.log('hashed password');
             console.log('err', err);
             if(err) return done(err);

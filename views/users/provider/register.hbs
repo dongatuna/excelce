@@ -1,7 +1,13 @@
 <div class="row">
     <div class="col-md-4 col-md-offset-4">
         <h2>Sign Up</h2>
-        Validation Errors for find jobs form
+        {{#if hasErrors}}
+            <div class="alert alert-danger">
+                {{#each messages}}
+                    <p>{{this}}</p>
+                {{/each}}
+            </div>
+        {{/if}}
         <form action="/users/provider/register" method="post">
             <div class="form-group">
                 <label for="email">E-Mail</label>
