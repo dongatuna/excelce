@@ -85,7 +85,7 @@ router.post('/signin', passport.authenticate('local.provider.signin',
 ));
 
 //add log out path
-router.get('/logout')
+router.get('/logout');
 
 router.get('/profile', isLoggedIn, function (req, res, next) {
     res.render('users/provider/profile', {csrfToken: req.csrfToken()});
