@@ -14,7 +14,11 @@ var validator = require('express-validator');
 var bluebird = require('bluebird');
 mongoose.Promise = bluebird;
 
+//route paths
 var index = require('./routes/index');
+
+var providerRoutes = require('./routes/provider');
+var organizationRoutes = require('./routes/organization');
 
 var app = express();
 
@@ -38,7 +42,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/users/organization', organizationRoutes);
+app.use('/users/provider', providerRoutes);
 app.use('/', index);
+
 
 
 // catch 404 and forward to error handler
