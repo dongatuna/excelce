@@ -19,7 +19,7 @@ var index = require('./routes/index');
 var app = express();
 
 mongoose.connect('mongodb://dongatuna:Embabros33@ds157349.mlab.com:57349/excelce');
-//including the passport
+//including the passport configuration
 require('./config/passport');
 // view engine setup
 app.engine('.hbs', expressHbs({defaultLayout:'layout', extname:'.hbs'}));

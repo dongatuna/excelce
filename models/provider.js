@@ -35,5 +35,6 @@ providerSchema.methods.checkPassword = function(guess, done){
         done(err, isMatch);
     });
 };
+
 module.exports = mongoose.model('Provider', providerSchema);
 

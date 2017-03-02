@@ -48,8 +48,12 @@ router.post('/users/organization/register', function(req, res, next){
 
     var email = req.body.email;
 
-    if(req.body.password ===req.body.password2){
+    if(req.body.password === req.body.password2){
         var password = req.body.password;
+    }else{
+        //if password does not match password
+        req.flash("error", "Password must match confirm password");
+        return res.redirect("/users/organization/register");
     }
 
     //validate the email and ensure email and password are not empty
@@ -77,7 +81,7 @@ router.post('/users/organization/register', function(req, res, next){
 
         if(user){
             req.flash("error", "User already exists");
-            //return res.redirect("/users/organization/register");
+            return res.redirect("/users/organization/register");
         }
 
         var newOrganization = new Organization({
@@ -99,8 +103,30 @@ router.post('/users/provider/register', function(req, res, next){
 
     var email = req.body.email;
 
-    if(req.body.password ===req.body.password2){
+    if(req.body.password === req.body.password2){
         var password = req.body.password;
+    }else{
+        //if password does not match password
+        req.flash("error", "Password must match confirm password");
+        return res.redirect("/users/organization/register");
+    }
+    //validate the email and ensure email and password are not empty
+    req.checkBody('email', 'Invalid email').notEmpty().isEmail();
+    req.checkBody('password', 'Invalid password').notEmpty().isLength({min:6});
+
+    //if the validation errors exist, store them in the variable errors
+    var errors = req.validationErrors(); //validationErrors() extracts all errors of validation
+    //store the errors messages in the error.msg property
+    if(errors){
+        //create an array of messages to pass to the view
+        var messages = [];
+        errors.forEach(function(error){
+            //push any error you find INTO the messages array
+            messages.push(error.msg);
+        });
+        //return done (null, false, req.flash('error', messages));
+        res.render('users/provider/register', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0});
+
     }
 
     Provider.findOne({email: email}, function (err, user){
@@ -116,27 +142,47 @@ router.post('/users/provider/register', function(req, res, next){
             password: password
         });
 
-       // console.log('newProvider', newProvider);
-
-
-        try {
-            newProvider.save(function (err, result) {
-
-                console.log('Saved new provider', err, result);
-                next();
-            });
-        } catch (e) {
-            console.log('err', e);
-        }
+        newProvider.save(next);
     });
 
-} , passport.authenticate("local.provider.signup",{
+} , passport.authenticate("local.provider.signup",
+    {
     successRedirect: "/users/provider/profile",
     failureRedirect: "/users/register/provider",
     failureFlash:true
-}));
+    }
+ ));
 
 //router for showing events - needs to be authenticated
+
+router.get('/users/organization/signin', function (req, res) {
+    //get any errors from passport
+    var messages = req.flash('error');
+    //pass the errors to the register page
+    res.render('users/organization/signin', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0});
+});
+
+router.post('/users/organization/signin', passport.authenticate('local.organization.signin',
+    {
+        successRedirect: '/users/organization/profile',
+        failureRedirect: '/users/organization/signin',
+        failureFlash: true
+    }
+));
+
+router.post('/users/provider/signin', passport.authenticate('local.provider.signin',
+    {
+        successRedirect: '/users/organization/profile',
+        failureRedirect: '/users/organization/signin',
+        failureFlash: true
+    }
+));
+
+
+router.get('/users/provider/signin', function (req, res) {
+    var messages = req.flash('error');
+    res.render('users/provider/signin', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0});
+});
 
 router.get('/users/organization/job', function (req, res) {
     res.render('users/organization/job', {csrfToken: req.csrfToken()});
