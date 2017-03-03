@@ -46,7 +46,7 @@ router.post('/register', function(req, res, next){
 
     //validate the email and ensure email and password are not empty
     req.checkBody('email', 'Invalid email').notEmpty().isEmail();
-    req.checkBody('password', 'Invalid password').notEmpty().isLength({min:6});
+    req.checkBody('password', 'Password must be at least 6 characters long.').notEmpty().isLength({min:6});
 
     //if the validation errors exist, store them in the variable errors
     var errors = req.validationErrors(); //validationErrors() extracts all errors of validation
