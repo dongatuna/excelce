@@ -13,13 +13,11 @@ var organizationSchema = new Schema({
 var noop = function () {};
 
 organizationSchema.pre("save", function (done) {
-    console.log('saving organization');
 
     var organization = this;
 
     if(!organization.isModified("password")) return done();
 
-    console.log('generating salt');
     bcrypt.genSalt(SALT_FACTOR, function (err, salt) {
         if(err) return done (err);
 

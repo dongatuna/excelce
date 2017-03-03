@@ -7,6 +7,18 @@ var passport = require('passport');
 var csrfProtection =  csrf();
 router.use(csrfProtection);
 
+router.get('/profile', isLoggedIn, function (req, res, next) {
+    res.render('users/provider/profile', {csrfToken: req.csrfToken()});
+});
+
+router.get('/application', isLoggedIn, function (req, res, next) {
+    res.render('users/provider/application', {csrfToken: req.csrfToken()});
+});
+
+router.use('/', notLoggedIn, function (req, res, next) {
+    next();
+});
+
 router.get('/register', function (req, res) {
     //get any errors from passport
     var messages = req.flash('error');
@@ -14,9 +26,7 @@ router.get('/register', function (req, res) {
     res.render('users/provider/register', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0});
 });
 
-
-
-router.post('register', function(req, res, next){
+router.post('/register', function(req, res, next){
 
     var email = req.body.email;
 
@@ -25,7 +35,7 @@ router.post('register', function(req, res, next){
     }else{
         //if password does not match password
         req.flash("error", "Password must match confirm password");
-        return res.redirect("/users/organization/register");
+        return res.redirect("/users/provider/register");
     }
     //validate the email and ensure email and password are not empty
     req.checkBody('email', 'Invalid email').notEmpty().isEmail();
@@ -45,7 +55,6 @@ router.post('register', function(req, res, next){
         res.render('users/provider/register', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0});
 
     }
-
     Provider.findOne({email: email}, function (err, user){
         if (err) return next (err);
 
@@ -64,9 +73,9 @@ router.post('register', function(req, res, next){
 
 } , passport.authenticate("local.provider.signup",
     {
-    successRedirect: "/users/provider/profile",
-    failureRedirect: "/users/register/provider",
-    failureFlash:true
+        successRedirect: "/users/provider/profile",
+        failureRedirect: "/users/provider/register",
+        failureFlash:true
     }
  ));
 
@@ -85,18 +94,13 @@ router.post('/signin', passport.authenticate('local.provider.signin',
 ));
 
 //add log out path
-router.get('/logout');
-
-router.get('/profile', isLoggedIn, function (req, res, next) {
-    res.render('users/provider/profile', {csrfToken: req.csrfToken()});
-});
-
-router.get('/application', isLoggedIn, function (req, res, next) {
-    res.render('users/provider/application', {csrfToken: req.csrfToken()});
+router.get('/logout', function(req, res, next){
+    req.logout();
+    res.redirect('/users/provider/signin');
 });
 
 module.exports = router;
-
+//function to ensure that specific provider routes can be accessed after authentication
 function isLoggedIn(req, res, next){
     if(req.isAuthenticated()){
      next();
@@ -104,4 +108,11 @@ function isLoggedIn(req, res, next){
         req.flash("info", "You must log in to access this page.");
         res.redirect('/users/provider/signin');
     }
+}
+//function to use in the provider routes that do NOT require authentication
+function notLoggedIn(req, res, next){
+    if(!req.isAuthenticated()){
+       return next();
+    }
+    res.redirect('/');
 }

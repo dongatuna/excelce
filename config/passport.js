@@ -148,16 +148,15 @@ passport.use('local.provider.signin', new LocalStrategy(
                 return done(null, false, {message: "No such user found"});
             }
 
+            user.checkPassword(password, function (err, isMatch) {
+                if(err) return done( err);
 
-           user.checkPassword(password, function (err, isMatch) {
-               if(err) return done( err);
-
-               if(isMatch){
-                   return done(null, user);
-               }else{
-                   return done(null, false, {message: "Invalid password"});
-               }
-           });
+                if(isMatch){
+                    return done(null, user);
+                }else{
+                    return done(null, false, {message: "Invalid password"});
+                }
+            });
 
         });
     }
