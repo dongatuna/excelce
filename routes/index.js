@@ -4,9 +4,10 @@ var router = express.Router();
 var Course = require('../models/course');
 /* GET home page. */
 
-router.use('/', notLoggedIn, function (req, res, next) {
+/*router.use('/', notLoggedIn, function (req, res, next) {
     next();
-});
+});*/
+
 router.get('/', function(req, res, next) {
   res.render('pages/index', { title: 'Excel CE' });
 });
@@ -27,9 +28,10 @@ router.get('/courses', function(req, res, next) {
 
 module.exports = router;
 
+/*
 function notLoggedIn(req, res, next){
     if(!req.isAuthenticated()){
         return next();
     }
     res.redirect('/');
-}
+}*/

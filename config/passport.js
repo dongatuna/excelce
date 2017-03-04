@@ -140,7 +140,6 @@ passport.use('local.provider.signin', new LocalStrategy(
             });
             return done (null, false, req.flash('error', messages));
         }
-
         Provider.findOne({email: email}, function (err, user){
             if (err) return next (err);
 

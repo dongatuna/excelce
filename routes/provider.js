@@ -7,7 +7,7 @@ var passport = require('passport');
 var csrfProtection =  csrf();
 router.use(csrfProtection);
 
-router.get('/profile', isLoggedIn, function (req, res, next) {
+router.get('/profile', isLoggedIn, function (req, res) {
     res.render('users/provider/profile', {csrfToken: req.csrfToken()});
 });
 
@@ -87,8 +87,8 @@ router.get('/signin', function (req, res) {
 
 router.post('/signin', passport.authenticate('local.provider.signin',
     {
-        successRedirect: '/users/organization/profile',
-        failureRedirect: '/users/organization/signin',
+        successRedirect: '/users/provider/profile',
+        failureRedirect: '/users/provider/signin',
         failureFlash: true
     }
 ));
