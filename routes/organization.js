@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var csrf = require('csurf');
+var Organization = require('../models/organization');
 var passport = require('passport');
 
-var Organization = require('../models/organization');
 
 var csrfProtection =  csrf();
 router.use(csrfProtection);
@@ -60,7 +60,7 @@ router.post('/register', function(req, res, next){
         });
 
         //return done (null, false, req.flash('error', messages));
-        res.render('users/organization/register', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0});
+        return res.render('users/organization/register', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0});
 
     }
 

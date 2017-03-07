@@ -14,6 +14,9 @@ var validator = require('express-validator');
 var bluebird = require('bluebird');
 mongoose.Promise = bluebird;
 
+//including the passport configuration
+require('./config/passport');
+
 //route paths
 var index = require('./routes/index');
 
@@ -23,8 +26,7 @@ var organizationRoutes = require('./routes/organization');
 var app = express();
 
 mongoose.connect('mongodb://dongatuna:Embabros33@ds157349.mlab.com:57349/excelce');
-//including the passport configuration
-require('./config/passport');
+
 // view engine setup
 app.engine('.hbs', expressHbs({defaultLayout:'layout', extname:'.hbs'}));
 app.set('view engine', '.hbs');
@@ -42,8 +44,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/users/organization', organizationRoutes);
 app.use('/users/provider', providerRoutes);
+
+app.use('/users/organization', organizationRoutes);
 app.use('/', index);
 
 

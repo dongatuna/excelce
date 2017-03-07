@@ -10,9 +10,16 @@ passport.serializeUser(function (user, done) {
 
 passport.deserializeUser(function (id, done) {
     Organization.findById(id, function (err, user) {
-        done(err, user);
+        if (err) return done(err);
+
+        if (user) return done(null, user);
+
+        Provider.findById(id, function (err, user) {
+            done(err, user);
+        });
     });
 });
+
 //this local sign up strategy is used to log in existing organization
 passport.use('local.organization.signup', new LocalStrategy({
     //this is where data is passed from form
@@ -148,10 +155,13 @@ passport.use('local.provider.signin', new LocalStrategy(
                 return done(null, false, {message: "No such user found"});
             }
 
+            console.log('found provider', user);
+
             user.checkPassword(password, function (err, isMatch) {
                 if(err) return done( err);
 
                 if(isMatch){
+                    console.log('password matched');
                     return done(null, user);
                 }else{
                     return done(null, false, {message: "Invalid password"});

@@ -104,8 +104,10 @@ module.exports = router;
 //function to ensure that specific provider routes can be accessed after authentication
 function isLoggedIn(req, res, next){
     if(req.isAuthenticated()){
+        console.log('Logged in!!', req);
      next();
     }else{
+        console.log('Logged in!!', req);
         req.flash("info", "You must log in to access this page.");
         res.redirect('/users/provider/signin');
     }
