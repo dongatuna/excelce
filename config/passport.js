@@ -42,6 +42,7 @@ passport.use('local.organization.signup', new LocalStrategy({
 
 
 //this local sign up strategy is used to log in existing provider
+//the validation is done in the route
 passport.use('local.provider.signup', new LocalStrategy({
     //this is where data is passed from form
     passwordField: 'password',

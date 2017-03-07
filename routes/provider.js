@@ -60,7 +60,7 @@ router.post('/register', function(req, res, next){
 
         if(user){
             req.flash("error", "User already exists");
-            return res.redirect("/users/provider/signin");
+            //return res.redirect("/users/provider/signin");
         }
 
         var newProvider = new Provider({
@@ -100,6 +100,7 @@ router.get('/logout', function(req, res, next){
 });
 
 module.exports = router;
+
 //function to ensure that specific provider routes can be accessed after authentication
 function isLoggedIn(req, res, next){
     if(req.isAuthenticated()){
