@@ -3,17 +3,18 @@ var router = express.Router();
 
 var Course = require('../models/course');
 /* GET home page. */
-
-/*router.use('/', notLoggedIn, function (req, res, next) {
-    next();
-});*/
-
 router.get('/', function(req, res, next) {
-  res.render('pages/index', { title: 'Excel CE' });
+    res.render('pages/index', { title: 'Excel CE' });
 });
 
+router.use('/', notLoggedIn, function (req, res, next) {
+    next();
+});
+
+
+
 /* GET courses page. */
-router.get('/courses', function(req, res, next) {
+router.get('/courses',notLoggedIn, function(req, res, next) {
     Course.find(function (err, docs) {
         var productChunks = [];
         var chunkSize = 3;
@@ -28,10 +29,10 @@ router.get('/courses', function(req, res, next) {
 
 module.exports = router;
 
-/*
+
 function notLoggedIn(req, res, next){
     if(!req.isAuthenticated()){
         return next();
     }
     res.redirect('/');
-}*/
+}

@@ -60,7 +60,7 @@ router.post('/register', function(req, res, next){
 
         if(user){
             req.flash("error", "User already exists");
-            //return res.redirect("/users/provider/signin");
+            return res.redirect("/users/provider/signup");
         }
 
         var newProvider = new Provider({
