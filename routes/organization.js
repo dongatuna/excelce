@@ -69,7 +69,7 @@ router.post('/register', function(req, res, next){
 
         if(user){
             req.flash("error", "User already exists");
-            return res.redirect("/users/organization/signin");
+            return res.redirect("/users/organization/signup");
         }
 
         var newOrganization = new Organization({
