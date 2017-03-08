@@ -13,8 +13,9 @@ router.get('/logout', isLoggedIn, function(req, res, next){
 });
 
 router.get('/profile', isLoggedIn, function (req, res) {
-    console.log(req.params.role);
-    res.render('users/provider/profile', {csrfToken: req.csrfToken()});
+    var role = 'provider';
+
+    res.render('users/provider/profile', {provider: role, csrfToken: req.csrfToken()});
 });
 
 router.get('/application', isLoggedIn, function (req, res, next) {

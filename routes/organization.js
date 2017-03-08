@@ -23,7 +23,9 @@ router.get('/event', isLoggedIn, function (req, res) {
 });
 
 router.get('/profile', isLoggedIn, function (req, res) {
-    res.render('users/organization/profile', {csrfToken: req.csrfToken()});
+    var role = 'organization';
+
+    res.render('users/organization/profile', {organization:role, csrfToken: req.csrfToken()});
 });
 
 router.use('/', notLoggedIn, function (req, res, next) {
