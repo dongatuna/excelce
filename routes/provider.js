@@ -6,8 +6,14 @@ var passport = require('passport');
 
 var csrfProtection =  csrf();
 router.use(csrfProtection);
+//add log out path
+router.get('/logout', isLoggedIn, function(req, res, next){
+    req.logout();
+    res.redirect('/users/provider/signin');
+});
 
 router.get('/profile', isLoggedIn, function (req, res) {
+    console.log(req.params.role);
     res.render('users/provider/profile', {csrfToken: req.csrfToken()});
 });
 
@@ -29,6 +35,7 @@ router.get('/register', function (req, res) {
 router.post('/register', function(req, res, next){
 
     var email = req.body.email;
+    var role = req.body.role;
 
     if(req.body.password === req.body.password2){
         var password = req.body.password;
@@ -65,7 +72,8 @@ router.post('/register', function(req, res, next){
 
         var newProvider = new Provider({
             email: email,
-            password: password
+            password: password,
+            role: role
         });
 
         newProvider.save(next);
@@ -92,12 +100,6 @@ router.post('/signin', passport.authenticate('local.provider.signin',
         failureFlash: true
     }
 ));
-
-//add log out path
-router.get('/logout', function(req, res, next){
-    req.logout();
-    res.redirect('/users/provider/signin');
-});
 
 module.exports = router;
 

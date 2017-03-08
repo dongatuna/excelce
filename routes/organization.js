@@ -8,6 +8,12 @@ var passport = require('passport');
 var csrfProtection =  csrf();
 router.use(csrfProtection);
 
+//add log out path
+router.get('/logout', isLoggedIn, function(req, res, next){
+    req.logout();
+    res.redirect('/signin');
+});
+
 router.get('/job', isLoggedIn, function (req, res) {
     res.render('users/organization/job', {csrfToken: req.csrfToken()});
 });
@@ -35,6 +41,7 @@ router.get('/register', function (req, res) {
 router.post('/register', function(req, res, next){
 
     var email = req.body.email;
+    var role = req.body.role;
 
     if(req.body.password === req.body.password2){
         var password = req.body.password;
@@ -74,7 +81,8 @@ router.post('/register', function(req, res, next){
 
         var newOrganization = new Organization({
             email: email,
-            password: password
+            password: password,
+            role:role
         });
         newOrganization.save(next);
     });
@@ -103,11 +111,6 @@ router.post('/signin', passport.authenticate('local.organization.signin',
         failureFlash: true
     }
 ));
-//add log out path
-router.get('/logout', function(req, res, next){
-    req.logout();
-    res.redirect('/signin');
-});
 
 module.exports = router;
 

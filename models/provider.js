@@ -8,6 +8,7 @@ var SALT_FACTOR = 10;
 var providerSchema = new Schema({
     email:{type: String, required:true, unique:true},
     password:{type: String, required:true},
+    role: {type: String, enum: ['organization', 'provider'], required:true},
     createdAt:{type: Date, default:Date.now}
 });
 

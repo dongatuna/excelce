@@ -7,9 +7,7 @@ var SALT_FACTOR = 10;
 var organizationSchema = new Schema({
     email: {type: String, required:true, unique:true},
     password: {type: String, required:true},
-    //HOW TO INCLUDE OTHER SCHEMAS IN THIS FILE AND THEN HAVE THE SCHEMA DEFINITIONS SOMEWHERE ELSE
-    //jobs:[JobSchema],
-    //events:[EventSchema]
+    role: {type: String, enum: ['organization', 'provider'], required:true},
     createdAt:{type: Date, default:Date.now}
 });
 

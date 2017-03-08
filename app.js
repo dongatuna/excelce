@@ -10,7 +10,6 @@ var session = require('express-session');
 var passport = require('passport');
 var flash = require ('connect-flash');
 var validator = require('express-validator');
-
 var bluebird = require('bluebird');
 mongoose.Promise = bluebird;
 
@@ -44,6 +43,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 app.use('/users/provider', providerRoutes);
 
 app.use('/users/organization', organizationRoutes);
@@ -64,10 +64,11 @@ app.use(function(err, req, res, next) {
 
   res.locals.success_msg = req.flash('success_msg');
   res.locals.error_msg=req.flash('error_msg');
-
     // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+  res.local.login =req.isAuthenticated();
 
   // render the error page
   res.status(err.status || 500);
