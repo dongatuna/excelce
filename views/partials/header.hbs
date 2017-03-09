@@ -30,16 +30,19 @@
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="fa fa-sign-in" aria-hidden="true"></i> Sign In<span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                                {{# if login }}
+                                {{#ifCond login '&&' organization }}
                                     <li><a href="/users/organization/profile">Account</a></li>
                                     <li><a href="/users/organization/logout">Log Out</a></li>
-                                 {{else if providerlogin}}
+                                 {{/ifCond}}
+
+                                {{#ifCond login '&&' provider }}
                                     <li><a href="/users/provider/profile">Account</a></li>
                                     <li><a href="/users/provider/logout">Log Out</a></li>
-                                {{else}}
-                                    <li><a href="/users/provider/signin">Care Provider</a></li>
-                                    <li><a href="/users/organization/signin">Employer</a></li>
-                                {{/if}}
+                                {{/ifCond}}
+
+                                <li><a href="/users/provider/signin">Care Provider</a></li>
+                                <li><a href="/users/organization/signin">Employer</a></li>
+
                         </ul>
 
                 </li>

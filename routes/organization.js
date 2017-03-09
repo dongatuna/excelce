@@ -3,7 +3,7 @@ var router = express.Router();
 var csrf = require('csurf');
 var Organization = require('../models/organization');
 var passport = require('passport');
-
+var Handlebars = require('handlebars');
 
 var csrfProtection =  csrf();
 router.use(csrfProtection);
@@ -23,9 +23,9 @@ router.get('/event', isLoggedIn, function (req, res) {
 });
 
 router.get('/profile', isLoggedIn, function (req, res) {
-    var role = 'organization';
+    var organization = true;
 
-    res.render('users/organization/profile', {organization:role, csrfToken: req.csrfToken()});
+    res.render('users/organization/profile', {organization:organization, csrfToken: req.csrfToken()});
 });
 
 router.use('/', notLoggedIn, function (req, res, next) {
@@ -131,3 +131,31 @@ function notLoggedIn(req, res, next){
     }
     res.redirect('/');
 }
+
+Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
+
+    switch (operator) {
+        case '==':
+            return (v1 == v2) ? options.fn(this) : options.inverse(this);
+        case '===':
+            return (v1 === v2) ? options.fn(this) : options.inverse(this);
+        case '!=':
+            return (v1 != v2) ? options.fn(this) : options.inverse(this);
+        case '!==':
+            return (v1 !== v2) ? options.fn(this) : options.inverse(this);
+        case '<':
+            return (v1 < v2) ? options.fn(this) : options.inverse(this);
+        case '<=':
+            return (v1 <= v2) ? options.fn(this) : options.inverse(this);
+        case '>':
+            return (v1 > v2) ? options.fn(this) : options.inverse(this);
+        case '>=':
+            return (v1 >= v2) ? options.fn(this) : options.inverse(this);
+        case '&&':
+            return (v1 && v2) ? options.fn(this) : options.inverse(this);
+        case '||':
+            return (v1 || v2) ? options.fn(this) : options.inverse(this);
+        default:
+            return options.inverse(this);
+    }
+});
