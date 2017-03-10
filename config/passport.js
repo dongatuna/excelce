@@ -9,12 +9,12 @@ passport.serializeUser(function (user, done) {
 });
 
 passport.deserializeUser(function (id, done) {
-    Organization.findById(id, function (err, user) {
+    Organization.Organization.findById(id, function (err, user) {
         if (err) return done(err);
 
         if (user) return done(null, user);
 
-        Provider.findById(id, function (err, user) {
+        Provider.Provider.findById(id, function (err, user) {
             done(err, user);
         });
     });
@@ -28,7 +28,7 @@ passport.use('local.organization.signup', new LocalStrategy({
     passReqToCallback: true
 }, function (req, email, password, done) {
 
-    Organization.findOne({'email':email}, function (err, user) {
+    Organization.Organization.findOne({'email':email}, function (err, user) {
         //if you find an error, return the error
        if(err) return done(err);
 
@@ -57,7 +57,7 @@ passport.use('local.provider.signup', new LocalStrategy({
     passReqToCallback: true
 }, function (req, email, password, done) {
 
-    Provider.findOne({'email':email}, function (err, user) {
+    Provider.Provider.findOne({'email':email}, function (err, user) {
         //if you find an error, return the error
         if(err) return done(err);
 
@@ -102,7 +102,7 @@ passport.use('local.organization.signin', new LocalStrategy(
             return done (null, false, req.flash('error', messages));
         }
 
-        Organization.findOne({email: email}, function (err, user){
+        Organization.Organization.findOne({email: email}, function (err, user){
             if (err) return next (err);
 
             if(!user){
@@ -148,7 +148,7 @@ passport.use('local.provider.signin', new LocalStrategy(
             });
             return done (null, false, req.flash('error', messages));
         }
-        models.Provider.findOne({email: email}, function (err, user){
+        Provider.Provider.findOne({email: email}, function (err, user){
             if (err) return next (err);
 
             if(!user){

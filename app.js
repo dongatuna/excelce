@@ -45,9 +45,18 @@ app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-app.use('/users/provider', providerRoutes);
+//app.use('/users/provider', providerRoutes);
 
-app.use('/users/organization', organizationRoutes);
+//app.use('/users/organization', organizationRoutes);
+
+app.use('/users', function(err, req, res, next){
+  if (req.user.type == 'provider') {
+    return providerRoutes(err, req, res, next);
+  } else {
+    return organizationRoutes(err, req, res, next);
+  }
+});
+
 app.use('/', index);
 
 

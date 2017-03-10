@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt-nodejs');
 
 var SALT_FACTOR = 10;
-
+//this is a model of the employer
 var organizationSchema = new Schema({
     email: {type: String, required:true, unique:true},
     username:{type: String, required:true, unique:true},
@@ -11,7 +11,7 @@ var organizationSchema = new Schema({
     role: {type: String, enum: ['organization', 'provider'], required:true},
     createdAt:{type: Date, default:Date.now}
 });
-
+//this is a model for job posted by employer
 var postingSchema = new Schema({
     organization: [organizationSchema],
     name: {type:String, required:true},
@@ -20,7 +20,7 @@ var postingSchema = new Schema({
     requirements: [],
     imagePath:{type:String}
 });
-
+//this is a model for the event posted by the employer
 var eventSchema = new Schema({
     organization: [organizationSchema],
     presenter: {type:String, required:true},
