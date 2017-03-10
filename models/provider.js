@@ -7,9 +7,18 @@ var SALT_FACTOR = 10;
 
 var providerSchema = new Schema({
     email:{type: String, required:true, unique:true},
+    username:{type: String, required:true, unique:true},
     password:{type: String, required:true},
     role: {type: String, enum: ['organization', 'provider'], required:true},
     createdAt:{type: Date, default:Date.now}
+});
+
+var applicationSchema = new Schema ({
+    provider:[providerSchema],
+    name: {type:String, required:true},
+    description: {type:String, required:true},
+    requirements: {type:String},
+    imagePath:{type:String}
 });
 
 var noop = function () {};
@@ -37,5 +46,11 @@ providerSchema.methods.checkPassword = function(guess, done){
     });
 };
 
-module.exports = mongoose.model('Provider', providerSchema);
+var Provider = mongoose.model('Provider', providerSchema);
+var Application = mongoose.model('Application', applicationSchema);
+
+module.exports = {
+    Provider: Provider,
+    Application:Application
+};
 

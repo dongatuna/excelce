@@ -6,10 +6,32 @@ var SALT_FACTOR = 10;
 
 var organizationSchema = new Schema({
     email: {type: String, required:true, unique:true},
+    username:{type: String, required:true, unique:true},
     password: {type: String, required:true},
     role: {type: String, enum: ['organization', 'provider'], required:true},
     createdAt:{type: Date, default:Date.now}
 });
+
+var postingSchema = new Schema({
+    organization: [organizationSchema],
+    name: {type:String, required:true},
+    title: {type:String, required:true},
+    description: {type:String, required:true},
+    requirements: [],
+    imagePath:{type:String}
+});
+
+var eventSchema = new Schema({
+    organization: [organizationSchema],
+    presenter: {type:String, required:true},
+    topic: {type:String, required:true},
+    description: {type:String, required:true},
+    start:{type: Date},
+    end:{type:Date},
+    imagePath:{type:String}
+});
+
+
 
 var noop = function () {};
 
@@ -38,5 +60,14 @@ organizationSchema.methods.checkPassword = function(guess, done){
         done(err, isMatch);
     });
 };
-module.exports = mongoose.model('Organization', organizationSchema);
+
+var Organization = mongoose.model('Organization', organizationSchema);
+var Posting =mongoose.model('Posting', postingSchema);
+var Event = mongoose.model('Event', eventSchema);
+
+module.exports = {
+    Organization: Organization,
+    Posting: Posting,
+    Event: Event
+};
 

@@ -18,6 +18,26 @@ router.get('/job', isLoggedIn, function (req, res) {
     res.render('users/organization/job', {csrfToken: req.csrfToken()});
 });
 
+router.post('/job', isLoggedIn, function (req, res) {
+    var name = res.body.name;
+    var title = res.body.title;
+    var description = res.body.description;
+
+    //how do I include arrays
+    var requirements = res.body.requirements;
+    var imagePath = res.body.file_attachment;
+
+    var newPosting = new models.Posting({
+        name: name,
+        title: title,
+        description:description,
+        requirements: requirements,
+        imagePath: imagePath
+    });
+
+    newPosting.save();
+
+});
 router.get('/event', isLoggedIn, function (req, res) {
     res.render('users/organization/event', {csrfToken: req.csrfToken()});
 });
