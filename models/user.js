@@ -3,26 +3,26 @@ var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt-nodejs');
 
 var SALT_FACTOR = 10;
-//this is a model of the employer
-var organizationSchema = new Schema({
+//this is a model of the User
+var userSchema = new Schema({
     email: {type: String, required:true, unique:true},
     username:{type: String, required:true, unique:true},
     password: {type: String, required:true},
     role: {type: String, enum: ['organization', 'provider'], required:true},
     createdAt:{type: Date, default:Date.now}
 });
-//this is a model for job posted by employer
+//this is a model for job posted by user employer
 var postingSchema = new Schema({
-    organization: [organizationSchema],
+    organization: [userSchema],
     name: {type:String, required:true},
     title: {type:String, required:true},
     description: {type:String, required:true},
     requirements: [],
     imagePath:{type:String}
 });
-//this is a model for the event posted by the employer
+//this is a model for the event posted by the user employer
 var eventSchema = new Schema({
-    organization: [organizationSchema],
+    organization: [userSchema],
     presenter: {type:String, required:true},
     topic: {type:String, required:true},
     description: {type:String, required:true},
@@ -30,16 +30,23 @@ var eventSchema = new Schema({
     end:{type:Date},
     imagePath:{type:String}
 });
-
+//this is a model for the application posted by user provider
+var applicationSchema = new Schema ({
+    provider:[userSchema],
+    name: {type:String, required:true},
+    description: {type:String, required:true},
+    requirements: {type:String},
+    imagePath:{type:String}
+});
 
 
 var noop = function () {};
 
-organizationSchema.pre("save", function (done) {
+userSchema.pre("save", function (done) {
 
-    var organization = this;
+    var user = this;
 
-    if(!organization.isModified("password")) return done();
+    if(!user.isModified("password")) return done();
 
     bcrypt.genSalt(SALT_FACTOR, function (err, salt) {
         if(err) return done (err);
@@ -55,19 +62,22 @@ organizationSchema.pre("save", function (done) {
 
 });
 
-organizationSchema.methods.checkPassword = function(guess, done){
+userSchema.methods.checkPassword = function(guess, done){
     bcrypt.compare(guess, this.password, function (err, isMatch) {
         done(err, isMatch);
     });
 };
 
-var Organization = mongoose.model('Organization', organizationSchema);
+var User = mongoose.model('User', userSchema);
 var Posting =mongoose.model('Posting', postingSchema);
 var Event = mongoose.model('Event', eventSchema);
+var Application = mongoose.model('Application', applicationSchema);
+
 
 module.exports = {
-    Organization: Organization,
+    User: User,
     Posting: Posting,
-    Event: Event
+    Event: Event,
+    Application:Application
 };
 

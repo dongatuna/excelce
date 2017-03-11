@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var csrf = require('csurf');
-var Provider = require('../models/provider');
+var User = require('../models/user');
 var passport = require('passport');
-var Handlebars = require('handlebars');
+
 var csrfProtection =  csrf();
 router.use(csrfProtection);
 //add log out path
@@ -13,9 +13,9 @@ router.get('/logout', isLoggedIn, function(req, res, next){
 });
 
 router.get('/profile', isLoggedIn, function (req, res) {
-    var provider = true;
 
-    res.render('users/provider/profile', {provider:provider, csrfToken: req.csrfToken()});
+
+    res.render('users/provider/profile', {csrfToken: req.csrfToken()});
 });
 
 router.get('/application', isLoggedIn, function (req, res, next) {
@@ -63,7 +63,7 @@ router.post('/register', function(req, res, next){
         res.render('users/provider/register', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0});
 
     }
-    Provider.findOne({email: email}, function (err, user){
+    User.findOne({email: email}, function (err, user){
         if (err) return next (err);
 
         if(user){
@@ -71,7 +71,7 @@ router.post('/register', function(req, res, next){
             return res.redirect("/users/provider/signup");
         }
 
-        var newProvider = new Provider({
+        var newProvider = new User({
             email: email,
             password: password,
             role: role
@@ -80,7 +80,7 @@ router.post('/register', function(req, res, next){
         newProvider.save(next);
     });
 
-} , passport.authenticate("local.provider.signup",
+} , passport.authenticate("local.signup",
     {
         successRedirect: "/users/provider/profile",
         failureRedirect: "/users/provider/register",
@@ -94,7 +94,7 @@ router.get('/signin', function (req, res) {
 });
 
 
-router.post('/signin', passport.authenticate('local.provider.signin',
+router.post('/signin', passport.authenticate('local.signin',
     {
         successRedirect: '/users/provider/profile',
         failureRedirect: '/users/provider/signin',
@@ -122,32 +122,3 @@ function notLoggedIn(req, res, next){
     }
     res.redirect('/');
 }
-
-
-Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
-
-    switch (operator) {
-        case '==':
-            return (v1 == v2) ? options.fn(this) : options.inverse(this);
-        case '===':
-            return (v1 === v2) ? options.fn(this) : options.inverse(this);
-        case '!=':
-            return (v1 != v2) ? options.fn(this) : options.inverse(this);
-        case '!==':
-            return (v1 !== v2) ? options.fn(this) : options.inverse(this);
-        case '<':
-            return (v1 < v2) ? options.fn(this) : options.inverse(this);
-        case '<=':
-            return (v1 <= v2) ? options.fn(this) : options.inverse(this);
-        case '>':
-            return (v1 > v2) ? options.fn(this) : options.inverse(this);
-        case '>=':
-            return (v1 >= v2) ? options.fn(this) : options.inverse(this);
-        case '&&':
-            return (v1 && v2) ? options.fn(this) : options.inverse(this);
-        case '||':
-            return (v1 || v2) ? options.fn(this) : options.inverse(this);
-        default:
-            return options.inverse(this);
-    }
-});

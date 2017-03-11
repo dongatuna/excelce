@@ -28,8 +28,6 @@ router.get('/courses',notLoggedIn, function(req, res, next) {
 });
 
 module.exports = router;
-
-
 function notLoggedIn(req, res, next){
     if(!req.isAuthenticated()){
         return next();

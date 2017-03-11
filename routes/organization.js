@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var csrf = require('csurf');
-var Organization = require('../models/organization');
+var User = require('../models/user');
 var passport = require('passport');
-var Handlebars = require('handlebars');
+
 
 var csrfProtection =  csrf();
 router.use(csrfProtection);
@@ -43,9 +43,9 @@ router.get('/event', isLoggedIn, function (req, res) {
 });
 
 router.get('/profile', isLoggedIn, function (req, res) {
-    var organization = true;
 
-    res.render('users/organization/profile', {organization:organization, csrfToken: req.csrfToken()});
+
+    res.render('users/organization/profile', {csrfToken: req.csrfToken()});
 });
 
 router.use('/', notLoggedIn, function (req, res, next) {
@@ -93,7 +93,7 @@ router.post('/register', function(req, res, next){
 
     }
 
-    Organization.findOne({email: email}, function (err, user){
+    User.findOne({email: email}, function (err, user){
         if (err) return next (err);
 
         if(user){
@@ -101,7 +101,7 @@ router.post('/register', function(req, res, next){
             return res.redirect("/users/organization/signup");
         }
 
-        var newOrganization = new Organization({
+        var newOrganization = new User({
             email: email,
             password: password,
             role:role
@@ -152,30 +152,4 @@ function notLoggedIn(req, res, next){
     res.redirect('/');
 }
 
-Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
 
-    switch (operator) {
-        case '==':
-            return (v1 == v2) ? options.fn(this) : options.inverse(this);
-        case '===':
-            return (v1 === v2) ? options.fn(this) : options.inverse(this);
-        case '!=':
-            return (v1 != v2) ? options.fn(this) : options.inverse(this);
-        case '!==':
-            return (v1 !== v2) ? options.fn(this) : options.inverse(this);
-        case '<':
-            return (v1 < v2) ? options.fn(this) : options.inverse(this);
-        case '<=':
-            return (v1 <= v2) ? options.fn(this) : options.inverse(this);
-        case '>':
-            return (v1 > v2) ? options.fn(this) : options.inverse(this);
-        case '>=':
-            return (v1 >= v2) ? options.fn(this) : options.inverse(this);
-        case '&&':
-            return (v1 && v2) ? options.fn(this) : options.inverse(this);
-        case '||':
-            return (v1 || v2) ? options.fn(this) : options.inverse(this);
-        default:
-            return options.inverse(this);
-    }
-});
