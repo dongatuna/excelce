@@ -4,13 +4,11 @@
                 ////Validation Errors for find caregivers form
         <form action="/users/provider/job" method="post">
             <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" id="name" name="name" class="form-control" placeholder="Enter full name">
-            </div>
-
-            <div class="form-group">
                 <label for="description">Resume</label>
-                <textarea name="description" id="description" class="form-control" rows = "15">Enter or Copy & Paste Resume/CV Here</textarea>
+                <textarea name="description" id="description" class="form-control" rows = "15">
+                    Enter or Copy & Paste Resume/CV Here
+                    Include your availability/and when you can start
+                </textarea>
             </div>
             <hr>
 
@@ -19,49 +17,49 @@
             <div class="form-group">
                 <div class="checkbox">
                     <label for="CNA">
-                        <input type="checkbox" value="NAC/CNA" name="requirements[]" > NAC/CNA
+                        <input type="checkbox" value="NAC/CNA" name="certifications[]" > NAC/CNA
                     </label>
                 </div>
 
                 <div class="checkbox">
                     <label for ="HCA">
-                        <input type="checkbox" value="hca" name="requirements[]">75 hour Training/Home Care Aide
+                        <input type="checkbox" value="hca" name="certifications[]">75 hour Training/Home Care Aide
                     </label>
                 </div>
 
                 <div class="checkbox">
                     <label for = "Core Basic Training">
-                        <input type="checkbox" value="corebasic" name="requirements[]">Core Basic Training
+                        <input type="checkbox" value="corebasic" name="certifications[]">Core Basic Training
                     </label>
                 </div>
 
                 <div class="checkbox">
                     <label for ="Safety and Orientation">
-                        <input type="checkbox" value="mhealth" name="requirements[]">Safety and Orientation
+                        <input type="checkbox" value="mhealth" name="certifications[]">Safety and Orientation
                     </label>
                 </div>
 
                 <div class="checkbox">
                     <label for="Dementia">
-                        <input type="checkbox" value="dementia" name="requirements[]">Dementia Certification
+                        <input type="checkbox" value="dementia" name="certifications[]">Dementia Certification
                     </label>
                 </div>
 
                 <div class="checkbox">
                     <label for ="Mental Health">
-                        <input type="checkbox" value="mhealth" name="requirements[]">Mental Health Certification
+                        <input type="checkbox" value="mhealth" name="certifications[]">Mental Health Certification
                     </label>
                 </div>
 
                 <div class="checkbox">
                     <label for ="Nurse Delegation">
-                        <input type="checkbox" value="delegation" name="requirements[]">Nurse Delegation
+                        <input type="checkbox" value="delegation" name="certifications[]">Nurse Delegation
                     </label>
                 </div>
 
                 <div class="checkbox">
                     <label for ="Diabetes">
-                        <input type="checkbox" value="diabetes" name="requirements[]">Nurse Delegation for Diabetes
+                        <input type="checkbox" value="diabetes" name="certifications[]">Nurse Delegation for Diabetes
                     </label>
                 </div>
 

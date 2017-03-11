@@ -38,8 +38,33 @@ router.post('/job', isLoggedIn, function (req, res) {
     newPosting.save();
 
 });
+
 router.get('/event', isLoggedIn, function (req, res) {
     res.render('users/organization/event', {csrfToken: req.csrfToken()});
+});
+
+router.post('/event', isLoggedIn, function (req, res) {
+    var presenter= res.body.presenter;
+    var topic = res.body.topic;
+    var description = res.body.description;
+
+    var eventdate = res.body.eventdate;
+    var starttime = res.body.starttime;
+    var endtime = res.body.endtime;
+    var imagePath = res.body.file_attachment;
+
+    var newEvent = new models.Event({
+        presenter: presenter,
+        topic: topic,
+        description:description,
+        eventdate: eventdate,
+        starttime: starttime,
+        endtime:endtime,
+        imagePath: imagePath
+    });
+
+    newEvent.save();
+
 });
 
 router.get('/profile', isLoggedIn, function (req, res) {

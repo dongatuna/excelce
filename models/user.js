@@ -33,7 +33,6 @@ var eventSchema = new Schema({
 //this is a model for the application posted by user provider
 var applicationSchema = new Schema ({
     provider:[userSchema],
-    name: {type:String, required:true},
     description: {type:String, required:true},
     certifications: [],
     imagePath:{type:String}

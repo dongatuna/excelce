@@ -49,7 +49,7 @@ app.use('/users/provider', providerRoutes);
 
 app.use('/users/organization', organizationRoutes);
 
-app.use('/users', function(err, req, res, next){
+/*app.use('/users', function(err, req, res, next){
   if (req.models.user.role == 'provider') {
     return providerRoutes(err, req, res, next);
       //app.use('/users/provider', providerRoutes);
@@ -57,7 +57,7 @@ app.use('/users', function(err, req, res, next){
      return organizationRoutes(err, req, res, next);
       //app.use('/users/organization', organizationRoutes);
   }
-});
+});*/
 
 app.use('/', index);
 
