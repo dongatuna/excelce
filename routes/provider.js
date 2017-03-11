@@ -14,7 +14,6 @@ router.get('/logout', isLoggedIn, function(req, res, next){
 
 router.get('/profile', isLoggedIn, function (req, res) {
 
-
     res.render('users/provider/profile', {csrfToken: req.csrfToken()});
 });
 

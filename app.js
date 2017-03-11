@@ -14,6 +14,7 @@ var bluebird = require('bluebird');
 var Handlebars = require('handlebars');
 mongoose.Promise = bluebird;
 
+var user = require('./models/user');
 //including the passport configuration
 require('./config/passport');
 
@@ -44,22 +45,21 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/users/provider', providerRoutes);
 
-//app.use('/users/provider', providerRoutes);
-
-//app.use('/users/organization', organizationRoutes);
+app.use('/users/organization', organizationRoutes);
 
 app.use('/users', function(err, req, res, next){
-  if (req.user.type == 'provider') {
+  if (req.models.user.role == 'provider') {
     return providerRoutes(err, req, res, next);
+      //app.use('/users/provider', providerRoutes);
   } else {
-    return organizationRoutes(err, req, res, next);
+     return organizationRoutes(err, req, res, next);
+      //app.use('/users/organization', organizationRoutes);
   }
 });
 
 app.use('/', index);
-
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -71,9 +71,6 @@ app.use(function(req, res, next) {
 //Connect Flash
 // error handler
 app.use(function(err, req, res, next) {
-
-
-
 
   res.locals.success_msg = req.flash('success_msg');
   res.locals.error_msg=req.flash('error_msg');
@@ -87,7 +84,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
-
 
 module.exports = app;

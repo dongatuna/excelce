@@ -43,8 +43,6 @@ router.get('/event', isLoggedIn, function (req, res) {
 });
 
 router.get('/profile', isLoggedIn, function (req, res) {
-
-
     res.render('users/organization/profile', {csrfToken: req.csrfToken()});
 });
 

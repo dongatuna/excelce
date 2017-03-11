@@ -35,7 +35,7 @@ var applicationSchema = new Schema ({
     provider:[userSchema],
     name: {type:String, required:true},
     description: {type:String, required:true},
-    requirements: {type:String},
+    certifications: [],
     imagePath:{type:String}
 });
 
