@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var csrf = require('csurf');
-var User = require('../models/user');
+var models = require('../models/user');
 var passport = require('passport');
 
 var csrfProtection =  csrf();
@@ -22,7 +22,7 @@ router.get('/application', isLoggedIn, function (req, res, next) {
 });
 
 
-router.get('/application', isLoggedIn, function (req, res, next) {
+router.post('/application', isLoggedIn, function (req, res, next) {
     var description = res.body.description;
 
     //how do I include arrays
@@ -55,6 +55,7 @@ router.get('/register', function (req, res) {
 router.post('/register', function(req, res, next){
 
     var email = req.body.email;
+    var username = req.body.username;
     var role = req.body.role;
 
     if(req.body.password === req.body.password2){
@@ -67,6 +68,8 @@ router.post('/register', function(req, res, next){
     //validate the email and ensure email and password are not empty
     req.checkBody('email', 'Invalid email').notEmpty().isEmail();
     req.checkBody('password', 'Password must be at least 6 characters long.').notEmpty().isLength({min:6});
+    req.checkBody('username', 'Username must NOT be empty.').notEmpty();
+
 
     //if the validation errors exist, store them in the variable errors
     var errors = req.validationErrors(); //validationErrors() extracts all errors of validation
@@ -82,7 +85,7 @@ router.post('/register', function(req, res, next){
         res.render('users/provider/register', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0});
 
     }
-    User.findOne({email: email}, function (err, user){
+    models.User.findOne({email: email}, function (err, user){
         if (err) return next (err);
 
         if(user){
@@ -90,8 +93,9 @@ router.post('/register', function(req, res, next){
             return res.redirect("/users/provider/signup");
         }
 
-        var newProvider = new User({
+        var newProvider = new models.User({
             email: email,
+            username:username,
             password: password,
             role: role
         });

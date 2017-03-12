@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var csrf = require('csurf');
-var User = require('../models/user');
+var models = require('../models/user');
 var passport = require('passport');
 
 
@@ -38,6 +38,11 @@ router.post('/job', isLoggedIn, function (req, res) {
     newPosting.save();
 
 });
+
+/*router.update('/job/:id', function (err, req, res, next){
+
+
+})*/
 
 router.get('/event', isLoggedIn, function (req, res) {
     res.render('users/organization/event', {csrfToken: req.csrfToken()});
@@ -86,6 +91,7 @@ router.get('/register', function (req, res) {
 router.post('/register', function(req, res, next){
 
     var email = req.body.email;
+    var username = req.body.username;
     var role = req.body.role;
 
     if(req.body.password === req.body.password2){
@@ -99,7 +105,7 @@ router.post('/register', function(req, res, next){
     //validate the email and ensure email and password are not empty
     req.checkBody('email', 'Invalid email').notEmpty().isEmail();
     req.checkBody('password', 'Password must be at least 6 characters long.').notEmpty().isLength({min:6});
-
+    req.checkBody('username', 'Username must NOT be empty.').notEmpty();
     //if the validation errors exist, store them in the variable errors
     var errors = req.validationErrors(); //validationErrors() extracts all errors of validation
     //store the errors messages in the error.msg property
@@ -116,7 +122,7 @@ router.post('/register', function(req, res, next){
 
     }
 
-    User.findOne({email: email}, function (err, user){
+    models.User.findOne({email: email}, function (err, user){
         if (err) return next (err);
 
         if(user){
@@ -124,15 +130,16 @@ router.post('/register', function(req, res, next){
             return res.redirect("/users/organization/signup");
         }
 
-        var newOrganization = new User({
+        var newOrganization = new models.User({
             email: email,
+            username:username,
             password: password,
             role:role
         });
         newOrganization.save(next);
     });
 
-} , passport.authenticate("local.organization.signup",
+} , passport.authenticate("local.signup",
     {
         successRedirect: "/users/organization/profile",
         failureRedirect: "/users/organization/register",
@@ -149,7 +156,7 @@ router.get('/signin', function (req, res) {
     res.render('users/organization/signin', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0});
 });
 
-router.post('/signin', passport.authenticate('local.organization.signin',
+router.post('/signin', passport.authenticate('local.signin',
     {
         successRedirect: '/users/organization/profile',
         failureRedirect: '/users/organization/signin',

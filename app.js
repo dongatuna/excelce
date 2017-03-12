@@ -11,7 +11,7 @@ var passport = require('passport');
 var flash = require ('connect-flash');
 var validator = require('express-validator');
 var bluebird = require('bluebird');
-var Handlebars = require('handlebars');
+
 mongoose.Promise = bluebird;
 
 var user = require('./models/user');
@@ -26,7 +26,7 @@ var organizationRoutes = require('./routes/organization');
 
 var app = express();
 
-mongoose.connect('mongodb://dongatuna:Embabros33@ds157349.mlab.com:57349/excelce');
+mongoose.connect('mongodb://dongatuna:Embabros33@ds157349.mlab.com:57349/expbranch');
 
 // view engine setup
 app.engine('.hbs', expressHbs({defaultLayout:'layout', extname:'.hbs'}));
@@ -49,16 +49,6 @@ app.use('/users/provider', providerRoutes);
 
 app.use('/users/organization', organizationRoutes);
 
-/*app.use('/users', function(err, req, res, next){
-  if (req.models.user.role == 'provider') {
-    return providerRoutes(err, req, res, next);
-      //app.use('/users/provider', providerRoutes);
-  } else {
-     return organizationRoutes(err, req, res, next);
-      //app.use('/users/organization', organizationRoutes);
-  }
-});*/
-
 app.use('/', index);
 
 // catch 404 and forward to error handler
@@ -72,6 +62,7 @@ app.use(function(req, res, next) {
 // error handler
 app.use(function(err, req, res, next) {
 
+  res.locals.currentUser = req.user;
   res.locals.success_msg = req.flash('success_msg');
   res.locals.error_msg=req.flash('error_msg');
     // set locals, only providing error in development
@@ -83,6 +74,16 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+app.use('/users', function(err, req, res, next){
+    if (req.user == 'provider') {
+        return providerRoutes(err, req, res, next);
+        //app.use('/users/provider', providerRoutes);
+    } else {
+        return organizationRoutes(err, req, res, next);
+        //app.use('/users/organization', organizationRoutes);
+    }
 });
 
 module.exports = app;
