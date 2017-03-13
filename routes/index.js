@@ -26,23 +26,11 @@ router.get('/users/signin', function (req, res) {
     res.render('users/signin', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0});
 });
 
-/*
+
 router.post('/users/signin', passport.authenticate('local.signin'), function(req, res){
     console.log("Here is here");
-    res.redirect('/users/'+req.user.role+'/profile');
-});*/
-
-router.get("/users/signin", function(req, res, next) {
-    passport.authenticate('local.signin', function(err, user, info) {
-        if (err) { return next(err); }
-        if (!user) { return res.redirect('/login'); }
-        req.logIn(user, function(err) {
-            if (err) { return next(err); }
-            return res.redirect('/users/' + user.role +"/profile"+user.username, {user:user});
-        });
-    })(req, res, next);
+    res.redirect('/users/'+req.user.role+'/profile'+req.user.username);
 });
-
 
 
 /* GET courses page. */

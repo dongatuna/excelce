@@ -2,7 +2,7 @@
     <div class="col-md-6 col-md-offset-4">
         <h2>Apply for a Job</h2>
                 ////Validation Errors for find caregivers form
-        <form action="/users/provider/job" method="post">
+        <form action="/users/application/create" method="post">
             <div class="form-group">
                 <label for="description">Resume</label>
                 <textarea name="description" id="description" class="form-control" rows = "15">
@@ -69,7 +69,7 @@
                 <label for="attachment">Attach A Resume</label>
                 <input type="file" id="attachment" name="attachment" class="form-control">
             </div>
-            <!--<input type="hidden" name="" id="" value="-->
+            <!--<input type="hidden" name="applicant" id="applicant" value="{{applicant}}">-->
             <input type="hidden" name="_csrf" id="_csrf" value="{{csrfToken}}" >
 
             <button type="submit" class="btn btn-primary">Post Resume</button>

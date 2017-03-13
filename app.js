@@ -19,10 +19,15 @@ var user = require('./models/user');
 require('./config/passport');
 
 //route paths
+
 var index = require('./routes/index');
 
-var providerRoutes = require('./routes/provider');
 var organizationRoutes = require('./routes/organization');
+var providerRoutes = require('./routes/provider');
+var applicationRoutes = require('./routes/application');
+var eventRoutes = require("./routes/event");
+
+var jobRoutes = require("./routes/job");
 
 var app = express();
 
@@ -46,8 +51,10 @@ app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/users/provider', providerRoutes);
-
 app.use('/users/organization', organizationRoutes);
+app.use('/users/application', applicationRoutes);
+app.use('/users/event', eventRoutes);
+app.use("/users/job", jobRoutes);
 
 app.use('/', index);
 
@@ -74,17 +81,6 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
-});
-
-app.use('/users', function(err, req, res, next){
-    console.log (req.user.role);
-    if (req.user.role == 'provider') {
-        return providerRoutes(err, req, res, next);
-        //app.use('/users/provider', providerRoutes);
-    } else {
-        return organizationRoutes(err, req, res, next);
-        //app.use('/users/organization', organizationRoutes);
-    }
 });
 
 module.exports = app;

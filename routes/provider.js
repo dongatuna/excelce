@@ -17,27 +17,6 @@ router.get('/profile', isLoggedIn, function (req, res) {
     res.render('users/provider/profile', {csrfToken: req.csrfToken()});
 });
 
-router.get('/application', isLoggedIn, function (req, res, next) {
-    res.render('users/provider/application', {csrfToken: req.csrfToken()});
-});
-
-
-router.post('/application', isLoggedIn, function (req, res, next) {
-    var description = res.body.description;
-
-    //how do I include arrays
-    var requirements = res.body.requirements;
-    var imagePath = res.body.file_attachment;
-
-    var newPosting = new models.Posting({
-
-        description:description,
-        requirements: requirements,
-        imagePath: imagePath
-    });
-
-    newPosting.save();
-});
 
 
 
