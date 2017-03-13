@@ -42,8 +42,6 @@ passport.use('local.signup', new LocalStrategy({
 }));
 
 
-
-
 //passport strategy for signing in the user
 passport.use('local.signin', new LocalStrategy(
     {

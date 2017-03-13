@@ -48,8 +48,9 @@ router.get('/event', isLoggedIn, function (req, res) {
     res.render('users/organization/event', {csrfToken: req.csrfToken()});
 });
 
-router.post('/event', isLoggedIn, function (req, res) {
+router.post("/event/:username", isLoggedIn, function (req, res) {
    //collect all data from the path
+    var poster = req.params.username;
     var presenter= res.body.presenter;//include plust
     var topic = res.body.topic;
     var description = res.body.description;
@@ -78,6 +79,7 @@ router.post('/event', isLoggedIn, function (req, res) {
     }
 
     var newEvent = new models.Event({
+        poster:poster,
         presenter: presenter,
         topic: topic,
         description:description,
@@ -91,7 +93,7 @@ router.post('/event', isLoggedIn, function (req, res) {
 
 });
 
-router.get('/profile', isLoggedIn, function (req, res) {
+router.get("/profile/:username", isLoggedIn, function (req, res) {
     res.render('users/organization/profile', {csrfToken: req.csrfToken()});
 });
 
