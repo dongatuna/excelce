@@ -111,7 +111,7 @@ router.post('/register', function(req, res, next){
     }
  ));
 
-router.get('/signin', function (req, res) {
+/*router.get('/signin', function (req, res) {
     var messages = req.flash('error');
     res.render('users/provider/signin', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0});
 });
@@ -123,7 +123,7 @@ router.post('/signin', passport.authenticate('local.signin',
         failureRedirect: '/users/provider/signin',
         failureFlash: true
     }
-));
+));*/
 
 module.exports = router;
 

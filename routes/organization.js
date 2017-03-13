@@ -49,14 +49,33 @@ router.get('/event', isLoggedIn, function (req, res) {
 });
 
 router.post('/event', isLoggedIn, function (req, res) {
-    var presenter= res.body.presenter;
+   //collect all data from the path
+    var presenter= res.body.presenter;//include plust
     var topic = res.body.topic;
     var description = res.body.description;
-
     var eventdate = res.body.eventdate;
     var starttime = res.body.starttime;
     var endtime = res.body.endtime;
     var imagePath = res.body.file_attachment;
+
+    //validate the email and ensure email and password are not empty
+    req.checkBody('presenter', 'Please enter name of presenter').notEmpty();
+    req.checkBody('topic', 'Enter the topic of the event.').notEmpty();
+    req.checkBody('description', 'Enter description').notEmpty();
+    //if the validation errors exist, store them in the variable errors
+    var errors = req.validationErrors(); //validationErrors() extracts all errors of validation
+    //store the errors messages in the error.msg property
+    if(errors){
+        //create an array of messages to pass to the view
+        var messages = [];
+        errors.forEach(function(error){
+            //push any error you find INTO the messages array
+            messages.push(error.msg);
+        });
+
+        //return done (null, false, req.flash('error', messages));
+        return res.render('users/organization/register', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0});
+    }
 
     var newEvent = new models.Event({
         presenter: presenter,
@@ -119,7 +138,6 @@ router.post('/register', function(req, res, next){
 
         //return done (null, false, req.flash('error', messages));
         return res.render('users/organization/register', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0});
-
     }
 
     models.User.findOne({email: email}, function (err, user){
@@ -147,8 +165,8 @@ router.post('/register', function(req, res, next){
     }
 ));
 
+/*
 //router for showing events - needs to be authenticated
-
 router.get('/signin', function (req, res) {
     //get any errors from passport
     var messages = req.flash('error');
@@ -163,6 +181,7 @@ router.post('/signin', passport.authenticate('local.signin',
         failureFlash: true
     }
 ));
+*/
 
 module.exports = router;
 

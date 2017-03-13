@@ -26,7 +26,7 @@ var organizationRoutes = require('./routes/organization');
 
 var app = express();
 
-mongoose.connect('mongodb://dongatuna:Embabros33@ds157349.mlab.com:57349/expbranch');
+mongoose.connect('mongodb://dongatuna:Embabros33@ds129050.mlab.com:29050/expbranch');
 
 // view engine setup
 app.engine('.hbs', expressHbs({defaultLayout:'layout', extname:'.hbs'}));
@@ -77,7 +77,8 @@ app.use(function(err, req, res, next) {
 });
 
 app.use('/users', function(err, req, res, next){
-    if (req.user == 'provider') {
+    console.log (req.user.role);
+    if (req.user.role == 'provider') {
         return providerRoutes(err, req, res, next);
         //app.use('/users/provider', providerRoutes);
     } else {

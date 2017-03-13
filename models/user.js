@@ -50,11 +50,11 @@ userSchema.pre("save", function (done) {
     bcrypt.genSalt(SALT_FACTOR, function (err, salt) {
         if(err) return done (err);
 
-        bcrypt.hash(organization.password, salt, noop, function (err, hashedPassword) {
+        bcrypt.hash(user.password, salt, noop, function (err, hashedPassword) {
             console.log('hashed password');
             console.log('err', err);
             if(err) return done(err);
-            organization.password=hashedPassword;
+            user.password=hashedPassword;
             done();
         })
     })
