@@ -29,7 +29,9 @@ router.get('/users/signin', function (req, res) {
 
 router.post('/users/signin', passport.authenticate('local.signin'), function(req, res){
     console.log("Here is here");
-    res.redirect('/users/'+req.user.role+'/profile'+req.user.username);
+    //res.redirect('/users/'+req.user.role+'/profile/'+req.user.username);
+
+    res.redirect('/users/'+req.user.role+'/profile/');
 });
 
 

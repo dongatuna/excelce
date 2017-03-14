@@ -30,8 +30,16 @@ var eventRoutes = require("./routes/event");
 var jobRoutes = require("./routes/job");
 
 var app = express();
+//Connect to mongodb
+mongoose.connect("mongodb://localhost/exproute");
 
-mongoose.connect('mongodb://dongatuna:Embabros33@ds129050.mlab.com:29050/expbranch');
+//listen when connection is successfully made
+mongoose.connection.once('open', function(){
+    console.log("Connection has been made, now make fireworks...");
+}).on('error', function(error){
+    console.log("Connection error:", error);
+});
+//mongoose.connect('mongodb://dongatuna:Embabros33@ds129050.mlab.com:29050/expbranch');
 
 // view engine setup
 app.engine('.hbs', expressHbs({defaultLayout:'layout', extname:'.hbs'}));

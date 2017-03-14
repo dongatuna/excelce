@@ -26,7 +26,7 @@ router.get('/register', function (req, res) {
     //get any errors from passport
     var messages = req.flash('error');
     //pass the errors to the register page
-    res.render('users/organization/register', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0});
+    res.render('users/organization/register', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0, type: 'organization', postUrl: '/users/organization/register' });
 });
 
 //router.post('/users/register/:role')
