@@ -61,7 +61,7 @@ router.post('/register', function(req, res, next){
             messages.push(error.msg);
         });
         //return done (null, false, req.flash('error', messages));
-        res.render('users/provider/register', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0});
+        return res.render('/users/provider/register', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0});
 
     }
     models.User.findOne({email: email}, function (err, user){
