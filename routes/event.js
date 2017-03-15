@@ -8,12 +8,21 @@ var passport = require('passport');
 var csrfProtection =  csrf();
 router.use(csrfProtection);
 
+//this gets the page of all the events displayed in a descending order
+router.get("/view", function (req, res, next) {
+    models.Event.find().sort({createdAt: "descending"}).exec(function(err, events){
+        if(err) {return next(err);}
 
-router.get('/event', isLoggedIn, function (req, res) {
+        res.render('users/event/view', {events:events});
+    });
+});
+
+//to create an event
+router.get('/create', isLoggedIn, function (req, res) {
     res.render('users/organization/event', {csrfToken: req.csrfToken()});
 });
 
-router.post("/event/:username", isLoggedIn, function (req, res) {
+router.post("/create/:username", isLoggedIn, function (req, res) {
     //collect all data from the path
     var poster = req.params.username;
     var presenter= res.body.presenter;//include plust

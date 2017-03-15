@@ -11,18 +11,28 @@ var userSchema = new Schema({
     role: {type: String, enum: ['organization', 'provider'], required:true},
     createdAt:{type: Date, default:Date.now}
 });
+//this is a model for the application posted by user provider
+var applicationSchema = new Schema ({
+    provider:{type:[userSchema], required:true},
+    description: {type:String, required:true},
+    certifications: [],
+    imagePath:{type:String},
+
+});
+
 //this is a model for job posted by user employer
 var postingSchema = new Schema({
-    organization: [userSchema],
+    organization: {type:[userSchema], required:true},
     name: {type:String, required:true},
     title: {type:String, required:true},
     description: {type:String, required:true},
     requirements: [],
-    imagePath:{type:String}
+    imagePath:{type:String},
+    respondents:[applicationSchema]
 });
 //this is a model for the event posted by the user employer
 var eventSchema = new Schema({
-    organization: [userSchema],
+    organization: {type:[userSchema], required:true},
     presenter: {type:String, required:true},
     topic: {type:String, required:true},
     description: {type:String, required:true},
@@ -30,14 +40,21 @@ var eventSchema = new Schema({
     end:{type:Date},
     imagePath:{type:String}
 });
-//this is a model for the application posted by user provider
-var applicationSchema = new Schema ({
-    provider:[userSchema],
-    description: {type:String, required:true},
-    certifications: [],
-    imagePath:{type:String}
+
+
+//this is a model for the appointment made by the employer for example
+var appointmentSchema = new Schema({
+    provider: {type: String},
+    time: {type: Date},
+    posting: [postingSchema]//use the posting schema to access organization
 });
 
+//this is a model for the organization appointment response made by the provider
+var responseSchema = new Schema({
+    organization: {type: String},
+    time: {type: Date},
+    application: [applicationSchema] //use the application schema to provider
+});
 
 var noop = function () {};
 
@@ -71,12 +88,15 @@ var User = mongoose.model('User', userSchema);
 var Posting =mongoose.model('Posting', postingSchema);
 var Event = mongoose.model('Event', eventSchema);
 var Application = mongoose.model('Application', applicationSchema);
-
+var Appointment  = mongoose.model('Appointment', appointmentSchema);
+var Response = mongoose.model ('Response', responseSchema);
 
 module.exports = {
     User: User,
     Posting: Posting,
     Event: Event,
-    Application:Application
+    Application:Application,
+    Appointment: Appointment,
+    Response: Response
 };
 

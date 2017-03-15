@@ -22,12 +22,11 @@ require('./config/passport');
 
 var index = require('./routes/index');
 
-var organizationRoutes = require('./routes/organization');
-var providerRoutes = require('./routes/provider');
 var applicationRoutes = require('./routes/application');
 var eventRoutes = require("./routes/event");
-
 var jobRoutes = require("./routes/job");
+var userRoutes = require("./routes/user");
+
 
 var app = express();
 //Connect to mongodb
@@ -58,11 +57,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/users/provider', providerRoutes);
-app.use('/users/organization', organizationRoutes);
-app.use('/users/application', applicationRoutes);
-app.use('/users/event', eventRoutes);
-app.use("/users/job", jobRoutes);
+app.use("/user", userRoutes);
+app.use('/application', applicationRoutes);
+app.use('/event', eventRoutes);
+app.use("/job", jobRoutes);
 
 app.use('/', index);
 
@@ -77,18 +75,20 @@ app.use(function(req, res, next) {
 // error handler
 app.use(function(err, req, res, next) {
 
-  res.locals.currentUser = req.user;
+  res.locals.login =req.isAuthenticated();
   res.locals.success_msg = req.flash('success_msg');
   res.locals.error_msg=req.flash('error_msg');
     // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  res.locals.login =req.isAuthenticated();
+
 
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+
+  next();
 });
 
 module.exports = app;

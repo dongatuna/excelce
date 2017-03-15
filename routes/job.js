@@ -8,8 +8,18 @@ var passport = require('passport');
 var csrfProtection =  csrf();
 router.use(csrfProtection);
 
-router.get('/job', isLoggedIn, function (req, res) {
-    res.render('users/organization/job', {csrfToken: req.csrfToken()});
+//this gets the page of all the job postings displayed in a descending order -- will only allow applications if user
+//is logged in
+router.get("/view", function (req, res, next) {
+    models.Posting.find().sort({createdAt: "descending"}).exec(function(err, postings){
+        if(err) {return next(err);}
+
+        res.render('view', {postings:postings});
+    });
+});
+
+router.get('/create', isLoggedIn, function (req, res) {
+    res.render('users/job/create', {csrfToken: req.csrfToken()});
 });
 
 router.post('/job', isLoggedIn, function (req, res) {

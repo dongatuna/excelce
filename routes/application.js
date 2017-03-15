@@ -8,6 +8,15 @@ var passport = require('passport');
 var csrfProtection =  csrf();
 router.use(csrfProtection);
 
+//this gets the page of all the events displayed in a descending order
+router.get("/view", function (req, res, next) {
+    models.Application.find().sort({createdAt: "descending"}).exec(function(err, events){
+        if(err) {return next(err);}
+
+        res.render('users/event/view', {events:events});
+    });
+});
+
 router.get("/create/:username", isLoggedIn, function (req, res, next) {
     var applicant = req.params.username;
 
