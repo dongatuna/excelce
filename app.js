@@ -57,7 +57,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use("/user", userRoutes);
+app.use("/users", userRoutes);
 app.use('/application', applicationRoutes);
 app.use('/event', eventRoutes);
 app.use("/job", jobRoutes);

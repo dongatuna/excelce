@@ -10,24 +10,14 @@ router.use(csrfProtection);
 //add log out path
 router.get('/logout', isLoggedIn, function(req, res, next){
     req.logout();
-    res.redirect('/signin');
+    res.redirect('/users/signin');
 });
 
-
-router.get("/:role", function (req, res) {
-
-    var role = req.params.role;
+router.get('/provider/', isLoggedIn, function (req, res) {
     //get any errors from passport
     var messages = req.flash('error');
     //pass the errors to the register page
-    res.render('users/register', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0, type: role, postUrl: '/users/register' });
-});
-
-router.get('/provider', function (req, res) {
-    //get any errors from passport
-    var messages = req.flash('error');
-    //pass the errors to the register page
-    res.render('users/register', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0, type: 'provider', postUrl: '/users/register' });
+    res.render('users/provider', {csrfToken: req.csrfToken(), user:req.user, messages: messages, hasErrors:messages.length>0, type: 'provider', postUrl: '/users/register' });
 });
 
 //router.post('/users/register/:role')
@@ -82,21 +72,19 @@ router.post('/register', function(req, res, next){
         });
         //
     },
-    passport.authenticate("local.signin", function(req, res, next){
-            if(err) {return next(err);}
+    passport.authenticate("local.signin",
 
-             req.logIn(user, function (err) {
-                 if(err){return next(err);}
-
-                 return res.redirect('users'+user.role);
-             });
-
-        }
+            {
+                successRedirect: '/users/success',
+                failureRedirect: '/users/signin',
+                failureFlash: true
+            }
     ));
 
 //router for signing in users
 router.get('/signin', function (req, res) {
     //get any errors from passport
+    console.log("I am in the get route");
     var messages = req.flash('error');
     //pass the errors to the register page
     res.render('users/signin', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0});
@@ -123,17 +111,13 @@ router.post('/signin', function(req, res, next){
             return res.render('users/signin', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0});
         }
 
-    }, passport.authenticate("local.signin", function(req, res, next){
-            if(err) {return next(err);}
+    }, passport.authenticate("local.signin",
+            {
+                successRedirect: '/users/success',
+                failureRedirect: '/users/signin',
+                failureFlash: true
+            })
 
-            req.logIn(user, function (err) {
-                if(err){return next(err);}
-
-                return res.redirect('users'+user.role);
-            });
-
-        }
-    )
 );
 
 
@@ -145,15 +129,34 @@ router.post('/signin', function(req, res, next){
  //pass the errors to the register page
  res.render('users/organization/signin', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0});
  });
-
+ */
  router.post('/signin', passport.authenticate('local.signin',
  {
- successRedirect: '/users/organization/profile',
- failureRedirect: '/users/organization/signin',
+ successRedirect: '/users/success',
+ failureRedirect: '/users/signin',
  failureFlash: true
  }
  ));
- */
+
+ router.get('/success', function (req, res) {
+     if(req.user.role==='organization'){
+         console.log("Organizaton", req.user);
+         res.redirect("/users/organization/");
+     }else{
+         console.log("Provider", req.user);
+         res.redirect("/users/provider/");
+     }
+ });
+
+router.get("/:role", function (req, res) {
+
+    var role = req.params.role;
+    //get any errors from passport
+    var messages = req.flash('error');
+    //pass the errors to the register page
+    res.render('users/register', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0, type: role, postUrl: '/users/register' });
+});
+
 
 module.exports = router;
 
