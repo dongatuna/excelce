@@ -18,21 +18,6 @@ router.use('/', notLoggedIn, function (req, res, next) {
     next();
 });
 
-//router for signing in users
-router.get('/users/signin', function (req, res) {
-    //get any errors from passport
-    var messages = req.flash('error');
-    //pass the errors to the register page
-    res.render('users/signin', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0});
-});
-
-
-router.post('/users/signin', passport.authenticate('local.signin'), function(req, res){
-    console.log("Here is here");
-    //res.redirect('/users/'+req.user.role+'/profile/'+req.user.username);
-
-    res.redirect('/users/'+req.user.role+'/profile/');
-});
 
 
 /* GET courses page. */

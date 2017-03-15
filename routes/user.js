@@ -13,25 +13,14 @@ router.get('/logout', isLoggedIn, function(req, res, next){
     res.redirect('/signin');
 });
 
-router.get("/organizationprofile", isLoggedIn, function (req, res) {
 
-    res.render("users/organizationprofile");
-});
+router.get("/:role", function (req, res) {
 
-router.get("/providerprofile", isLoggedIn, function (req, res) {
-
-    res.render("users/providerprofile");
-});
-
-router.use('/', notLoggedIn, function (req, res, next) {
-    next();
-});
-
-router.get('/organization', function (req, res) {
+    var role = req.params.role;
     //get any errors from passport
     var messages = req.flash('error');
     //pass the errors to the register page
-    res.render('users/register', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0, type: 'organization', postUrl: '/users/register' });
+    res.render('users/register', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0, type: role, postUrl: '/users/register' });
 });
 
 router.get('/provider', function (req, res) {
@@ -80,7 +69,7 @@ router.post('/register', function(req, res, next){
 
             if(user){
                 req.flash("error", "User already exists");
-                return res.redirect("/users/organization/signup");
+                return res.redirect("/users/"+role);
             }
 
             var newOrganization = new models.User({
@@ -93,13 +82,60 @@ router.post('/register', function(req, res, next){
         });
         //
     },
-    passport.authenticate("local.signup",
-        {
-            successRedirect: "/users/organization/profile/",
-            failureRedirect: "/users/organization/register",
-            failureFlash: true
+    passport.authenticate("local.signin", function(req, res, next){
+            if(err) {return next(err);}
+
+             req.logIn(user, function (err) {
+                 if(err){return next(err);}
+
+                 return res.redirect('users'+user.role);
+             });
+
         }
     ));
+
+//router for signing in users
+router.get('/signin', function (req, res) {
+    //get any errors from passport
+    var messages = req.flash('error');
+    //pass the errors to the register page
+    res.render('users/signin', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0});
+});
+
+
+router.post('/signin', function(req, res, next){
+        //validate the email and ensure email and password are not empty
+        req.checkBody('email', 'Invalid email or password').notEmpty().isEmail();
+        req.checkBody('password', 'Invalid email or password ').notEmpty();
+
+        //if the validation errors exist, store them in the variable errors
+        var errors = req.validationErrors(); //validationErrors() extracts all errors of validation
+        //store the errors messages in the error.msg property
+        if(errors){
+            //create an array of messages to pass to the view
+            var messages = [];
+            errors.forEach(function(error){
+                //push any error you find INTO the messages array
+                messages.push(error.msg);
+            });
+
+            //return done (null, false, req.flash('error', messages));
+            return res.render('users/signin', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0});
+        }
+
+    }, passport.authenticate("local.signin", function(req, res, next){
+            if(err) {return next(err);}
+
+            req.logIn(user, function (err) {
+                if(err){return next(err);}
+
+                return res.redirect('users'+user.role);
+            });
+
+        }
+    )
+);
+
 
 /*
  //router for showing events - needs to be authenticated
