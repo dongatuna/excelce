@@ -9,19 +9,17 @@ var passport = require('passport');
 var csrfProtection =  csrf();
 router.use(csrfProtection);
 
+router.use('/', notLoggedIn, function (req, res, next) {
+    next();
+});
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
     res.render('pages/index', { title: 'Excel CE' });
 });
 
-router.use('/', notLoggedIn, function (req, res, next) {
-    next();
-});
-
-
-
 /* GET courses page. */
-router.get('/courses',notLoggedIn, function(req, res, next) {
+router.get('/courses', function(req, res, next) {
     Course.find(function (err, docs) {
         var productChunks = [];
         var chunkSize = 3;

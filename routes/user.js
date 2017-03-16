@@ -13,11 +13,39 @@ router.get('/logout', isLoggedIn, function(req, res, next){
     res.redirect('/users/signin');
 });
 
-router.get('/provider/', isLoggedIn, function (req, res) {
+router.get('/provider', isLoggedIn, function (req, res) {
+
+    //pass the errors to the register page
+    res.render('users/provider', {user:req.user });
+});
+
+router.get('/organization', isLoggedIn, function (req, res) {
+
+    //pass the errors to the register page
+    res.render('users/organization', {user:req.user });
+});
+
+router.get('/success', isLoggedIn, function (req, res) {
+    if(req.user.role==='organization'){
+        console.log("Organizaton", req.user);
+        return res.redirect("/users/organization");
+    }else{
+        console.log("Provider", req.user);
+        return res.redirect("/users/provider");
+    }
+});
+
+//all the routes below this function will not require authentication
+router.use('/', notLoggedIn, function (req, res, next) {
+    next();
+});
+router.get("/register/:role", function (req, res) {
+
+    var role = req.params.role;
     //get any errors from passport
     var messages = req.flash('error');
     //pass the errors to the register page
-    res.render('users/provider', {csrfToken: req.csrfToken(), user:req.user, messages: messages, hasErrors:messages.length>0, type: 'provider', postUrl: '/users/register' });
+    return res.render('users/register', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0, type: role, postUrl: '/users/register' });
 });
 
 //router.post('/users/register/:role')
@@ -79,7 +107,7 @@ router.post('/register', function(req, res, next){
                 failureRedirect: '/users/signin',
                 failureFlash: true
             }
-    ));
+));
 
 //router for signing in users
 router.get('/signin', function (req, res) {
@@ -90,12 +118,13 @@ router.get('/signin', function (req, res) {
     res.render('users/signin', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0});
 });
 
-
-router.post('/signin', function(req, res, next){
+/*
+router.post('/signin', function(req, res){
         //validate the email and ensure email and password are not empty
         req.checkBody('email', 'Invalid email or password').notEmpty().isEmail();
         req.checkBody('password', 'Invalid email or password ').notEmpty();
 
+    console.log("validating form input");
         //if the validation errors exist, store them in the variable errors
         var errors = req.validationErrors(); //validationErrors() extracts all errors of validation
         //store the errors messages in the error.msg property
@@ -111,51 +140,25 @@ router.post('/signin', function(req, res, next){
             return res.render('users/signin', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0});
         }
 
+    console.log("below if errors logic"+user);
+
     }, passport.authenticate("local.signin",
             {
+
                 successRedirect: '/users/success',
                 failureRedirect: '/users/signin',
                 failureFlash: true
             })
 
-);
+);*/
 
-
-/*
- //router for showing events - needs to be authenticated
- router.get('/signin', function (req, res) {
- //get any errors from passport
- var messages = req.flash('error');
- //pass the errors to the register page
- res.render('users/organization/signin', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0});
- });
- */
- router.post('/signin', passport.authenticate('local.signin',
- {
- successRedirect: '/users/success',
- failureRedirect: '/users/signin',
- failureFlash: true
- }
- ));
-
- router.get('/success', function (req, res) {
-     if(req.user.role==='organization'){
-         console.log("Organizaton", req.user);
-         res.redirect("/users/organization/");
-     }else{
-         console.log("Provider", req.user);
-         res.redirect("/users/provider/");
+router.post('/signin', passport.authenticate('local.signin',
+     {
+     successRedirect: '/users/success',
+     failureRedirect: '/users/signin',
+     failureFlash: true
      }
- });
-
-router.get("/:role", function (req, res) {
-
-    var role = req.params.role;
-    //get any errors from passport
-    var messages = req.flash('error');
-    //pass the errors to the register page
-    res.render('users/register', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0, type: role, postUrl: '/users/register' });
-});
+ ));
 
 
 module.exports = router;
@@ -165,7 +168,7 @@ function isLoggedIn(req, res, next){
         return next();
     }else{
         req.flash("info", "You must log in to access this page.");
-        res.redirect('/users/organization/signin');
+        res.redirect('/users/signin');
     }
 }
 

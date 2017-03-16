@@ -57,6 +57,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(function(req, res, next) {
+    res.locals.Notlogin =!req.isAuthenticated();
+    next();
+
+});
 app.use("/users", userRoutes);
 app.use('/application', applicationRoutes);
 app.use('/event', eventRoutes);
@@ -75,7 +80,7 @@ app.use(function(req, res, next) {
 // error handler
 app.use(function(err, req, res, next) {
 
-  res.locals.login =req.isAuthenticated();
+
   res.locals.success_msg = req.flash('success_msg');
   res.locals.error_msg=req.flash('error_msg');
     // set locals, only providing error in development

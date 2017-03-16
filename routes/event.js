@@ -19,12 +19,12 @@ router.get("/view", function (req, res, next) {
 
 //to create an event
 router.get('/create', isLoggedIn, function (req, res) {
-    res.render('users/organization/event', {csrfToken: req.csrfToken()});
+    res.render('users/organization/event', {user:req.user, csrfToken: req.csrfToken()});
 });
 
-router.post("/create/:username", isLoggedIn, function (req, res) {
+router.post("/create", isLoggedIn, function (req, res) {
     //collect all data from the path
-    var poster = req.params.username;
+    var poster = user;
     var presenter= res.body.presenter;//include plust
     var topic = res.body.topic;
     var description = res.body.description;
