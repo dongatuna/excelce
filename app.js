@@ -52,13 +52,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(validator());
 app.use(cookieParser());
-app.use(session({
-    secret:'embabroswillmakeit',
-    resave:false,
-    saveUninitialized:false,
-    store: new MongoStore({mongooseConnection: mongoose.connection}),
-    cookie: {maxAge: 4320 * 60 *1000 }
-}));
+app.use(session(
+    {
+        secret:'embabroswillmakeit',
+        resave:false,
+        saveUninitialized:false,
+        store: new MongoStore({mongooseConnection: mongoose.connection}),
+        cookie: {maxAge: 4320 * 60 *1000 }
+    }
+));
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
@@ -88,7 +90,6 @@ app.use(function(req, res, next) {
 //Connect Flash
 // error handler
 app.use(function(err, req, res, next) {
-
 
   res.locals.success_msg = req.flash('success_msg');
   res.locals.error_msg=req.flash('error_msg');

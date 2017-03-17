@@ -1,6 +1,6 @@
 var Course = require('../models/course');
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://dongatuna:Embabros33@ds157349.mlab.com:57349/excelce');
+mongoose.connect("mongodb://localhost/exproute");
 
 var courses = [
     new Course({

@@ -3,6 +3,7 @@ var router = express.Router();
 var csrf = require('csurf');
 var Course = require('../models/course');
 var models = require('../models/user');
+var Product = require('../models/cart');
 
 var passport = require('passport');
 
@@ -30,6 +31,22 @@ router.get('/courses', function(req, res, next) {
 
         res.render('pages/courses', { title: 'courses', data: productChunks });
     });
+});
+
+router.get('/add-to-cart/:id', function(req, res, next){
+   var productId = req.params.id;
+   var cart = new Cart(req.session.cart ? req.session.cart: {items:{}});
+
+   Product.findById(productId, function(err, product){
+       if(err){return res.redirect('/');}//you need to add error messages in development
+
+       cart.add(product, product.id);
+       req.session.cart = cart;
+        console.log(req.session.cart);
+       res.redirect('/')
+   });
+
+
 });
 
 module.exports = router;
