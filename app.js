@@ -15,14 +15,13 @@ var MongoStore =require('connect-mongo')(session);
 
 mongoose.Promise = bluebird;
 
-//var user = require('./models/user');
+var user = require('./models/user');
 //including the passport configuration
 require('./config/passport');
 
 //route paths
 
 var index = require('./routes/index');
-
 var applicationRoutes = require('./routes/application');
 var eventRoutes = require("./routes/event");
 var jobRoutes = require("./routes/job");
@@ -71,8 +70,8 @@ app.use(function(req, res, next) {
     //enable access of session variable to be available to routes and templates
     res.locals.session = req.session;
     next();
-
 });
+
 app.use("/users", userRoutes);
 app.use('/application', applicationRoutes);
 app.use('/event', eventRoutes);
