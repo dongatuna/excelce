@@ -41,3 +41,7 @@
     "imagePath": "../images/DSHS - Food Handling CE.png"
 
 }
+
+go to the root: C:\
+cd into data folder: cd data
+run "C:\Program Files\MongoDB\Server\3.4\bin\mongod.exe"
