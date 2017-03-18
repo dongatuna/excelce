@@ -28,6 +28,12 @@
             </form> -->
 
             <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#">
+                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>Cart
+                        <span class ="badge">{{session.cart.totalQty}}</span>
+                    </a>
+                </li>
                 {{#if Notlogin}}
                 <li><a href="/users/signin"><i class="fa fa-sign-in" aria-hidden="true"></i> Sign In</a></li>
                 <li class="dropdown">
