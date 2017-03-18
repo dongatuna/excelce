@@ -3,7 +3,7 @@ var router = express.Router();
 var csrf = require('csurf');
 var Course = require('../models/course');
 var models = require('../models/user');
-var Product = require('../models/cart');
+var Cart = require('../models/cart');
 
 var passport = require('passport');
 
@@ -33,17 +33,17 @@ router.get('/courses', function(req, res, next) {
     });
 });
 
-router.get('/add-to-cart/:id', function(req, res, next){
-   var productId = req.params.id;
-   var cart = new Cart(req.session.cart ? req.session.cart: {items:{}});
+router.get("/add-to-cart/:id", function(req, res, next){
+   var courseId = req.params.id;
+   var cart = new Cart(req.session.cart ? req.session.cart: {});
 
-   Product.findById(productId, function(err, product){
+   Course.findById(courseId, function(err, course){
        if(err){return res.redirect('/');}//you need to add error messages in development
 
-       cart.add(product, product.id);
+       cart.add(course, course.id);
        req.session.cart = cart;
         console.log(req.session.cart);
-       res.redirect('/')
+       res.redirect('/courses');
    });
 
 
