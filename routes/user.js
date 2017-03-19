@@ -118,39 +118,6 @@ router.get('/signin', function (req, res) {
     res.render('users/signin', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0});
 });
 
-/*
-router.post('/signin', function(req, res){
-        //validate the email and ensure email and password are not empty
-        req.checkBody('email', 'Invalid email or password').notEmpty().isEmail();
-        req.checkBody('password', 'Invalid email or password ').notEmpty();
-
-    console.log("validating form input");
-        //if the validation errors exist, store them in the variable errors
-        var errors = req.validationErrors(); //validationErrors() extracts all errors of validation
-        //store the errors messages in the error.msg property
-        if(errors){
-            //create an array of messages to pass to the view
-            var messages = [];
-            errors.forEach(function(error){
-                //push any error you find INTO the messages array
-                messages.push(error.msg);
-            });
-
-            //return done (null, false, req.flash('error', messages));
-            return res.render('users/signin', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0});
-        }
-
-    console.log("below if errors logic"+user);
-
-    }, passport.authenticate("local.signin",
-            {
-
-                successRedirect: '/users/success',
-                failureRedirect: '/users/signin',
-                failureFlash: true
-            })
-
-);*/
 
 router.post('/signin', passport.authenticate('local.signin',
      {

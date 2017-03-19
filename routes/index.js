@@ -21,6 +21,9 @@ router.get('/', function(req, res, next) {
 
 /* GET courses page. */
 router.get('/courses', function(req, res, next) {
+
+    var successMsg = req.flash("success")[0];
+
     Course.find(function (err, docs) {
         var productChunks = [];
         var chunkSize = 3;
@@ -29,7 +32,7 @@ router.get('/courses', function(req, res, next) {
             productChunks.push(docs.slice(i, i+chunkSize));
         }
 
-        res.render('pages/courses', { title: 'courses', data: productChunks });
+        res.render('pages/courses', { title: 'courses', data: productChunks, successMsg: successMsg, noMessages: !successMsg });
     });
 });
 
@@ -66,10 +69,47 @@ router.get('/checkout', function (req, res, next) {
     }
 
     var cart = new Cart(req.session.cart);
-    res.render('pages/checkout', {total:cart.totalPrice});
+
+    var errMsg = req.flash('error')[0];
+
+    res.render('pages/checkout', {total:cart.totalPrice, errMsg:errMsg, noError:!errMsg});
+});
+
+router.post("/checkout", function(req, res, next){
+    if(!req.session.cart){
+        return res.redirect('pages/shopping-cart');
+    }
+
+    var cart = new Cart(req.session.cart);
+
+    // Set your secret key: remember to change this to your live secret key in production
+// See your keys here: https://dashboard.stripe.com/account/apikeys
+    var stripe = require("stripe")("sk_test_kWOaHzogv8SjynnUtJWU8RA6");
+
+// Token is created using Stripe.js or Checkout!
+// Get the payment token submitted by the form:
+    var token = req.body.stripeToken; // Using Express
+    // Create a Charge:
+    stripe.charges.create({
+        amount: cart.totalPrice*100,//in cents
+        currency: "usd",
+        source: token,
+        description: "Test Charge"
+    },function (err, charge) {
+        if (err) {
+            req.flash("error", err.message);
+            return res.redirect("/checkout");
+        }
+
+        req.flash("success", "Successfully bought product!");
+        req.session.cart = null;
+        res.redirect("/index");
+    });
 });
 
 module.exports = router;
+
+//function to use in the provider routes that do NOT require authentication
 function notLoggedIn(req, res, next){
     if(!req.isAuthenticated()){
         return next();
