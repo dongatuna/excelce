@@ -4,19 +4,16 @@ var csrf = require('csurf');
 var Course = require('../models/course');
 var models = require('../models/user');
 var Cart = require('../models/cart');
+var Order = require("../models/order");
 
 var passport = require('passport');
 
 var csrfProtection =  csrf();
 router.use(csrfProtection);
 
+
 router.use('/', notLoggedIn, function (req, res, next) {
     next();
-});
-
-/* GET home page. */
-router.get('/', function(req, res, next) {
-    res.render('pages/index', { title: 'Excel CE' });
 });
 
 /* GET courses page. */
@@ -75,9 +72,9 @@ router.get('/checkout', function (req, res, next) {
     res.render('pages/checkout', {total:cart.totalPrice, errMsg:errMsg, noError:!errMsg});
 });
 
-router.post("/checkout", function(req, res, next){
+router.post('/checkout', function(req, res, next){
     if(!req.session.cart){
-        return res.redirect('pages/shopping-cart');
+        return res.redirect('/shopping-cart');
     }
 
     var cart = new Cart(req.session.cart);
@@ -101,15 +98,34 @@ router.post("/checkout", function(req, res, next){
             return res.redirect("/checkout");
         }
 
-        req.flash("success", "Successfully bought product!");
-        req.session.cart = null;
-        res.redirect("/index");
+        var order = new Order({
+            user: req.user,
+            cart: cart,
+            address: req.body.address,
+            name: req.body.name,
+            paymentId: charge.id
+        });
+
+        order.save(function(err, result){
+            req.flash("success", "Your order was successful!");
+            req.session.cart = null;
+            res.redirect("/courses");
+        });
+
+
     });
+});
+
+
+/* GET home page. */
+router.get('/', function(req, res, next) {
+    res.render('pages/index', { title: 'Excel CE' });
 });
 
 module.exports = router;
 
 //function to use in the provider routes that do NOT require authentication
+
 function notLoggedIn(req, res, next){
     if(!req.isAuthenticated()){
         return next();

@@ -15,7 +15,7 @@ var MongoStore =require('connect-mongo')(session);
 
 mongoose.Promise = bluebird;
 
-var user = require('./models/user');
+//var user = require('./models/user');
 //including the passport configuration
 require('./config/passport');
 

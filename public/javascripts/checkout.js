@@ -3,6 +3,7 @@ Stripe.setPublishableKey('pk_test_FgBE9JjMUDZGe7i1k6KvBKEv');
 var $form = $("#checkout-form");
 
 $form.submit(function (event) {
+
     $('#charge-error').addClass("hidden");
     $form.find('button').prop('disabled', true);
     Stripe.card.createToken({
@@ -31,9 +32,8 @@ function stripeResponseHandler(status, response) {
 
         // Insert the token into the form so it gets submitted to the server:
         $form.append($('<input type="hidden" name="stripeToken" />').val(token));
-
+        console.log(token);
         // Submit the form:
         $form.get(0).submit();
-
     }
 }
