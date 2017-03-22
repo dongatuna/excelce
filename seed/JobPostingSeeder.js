@@ -1,6 +1,6 @@
 var Posting = require('../models/jobposting');
 var mongoose = require('mongoose');
-mongoose.connect("mongodb://localhost/expaddress");
+mongoose.connect("process.env.MONGO_URL");
 
 var postings = [
 
