@@ -1,8 +1,6 @@
 var Course = require('../models/course');
 var mongoose = require('mongoose');
-mongoose.connect("mongodb://localhost/expaddress");
-
-
+mongoose.connect(process.env.MONGO_URL);
 
 var courses = [
     new Course({

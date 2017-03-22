@@ -30,7 +30,7 @@ var userRoutes = require("./routes/user");
 
 var app = express();
 //Connect to mongodb
-mongoose.connect("mongodb://localhost/expaddress");
+mongoose.connect(process.env.MONGO_URL);
 
 //listen when connection is successfully made
 mongoose.connection.once('open', function(){
