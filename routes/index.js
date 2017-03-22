@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var csrf = require('csurf');
+//var csrf = require('csurf');
 var Course = require('../models/course');
 var models = require('../models/user');
 var Cart = require('../models/cart');
@@ -8,8 +8,8 @@ var Order = require("../models/order");
 
 var passport = require('passport');
 
-var csrfProtection =  csrf();
-router.use(csrfProtection);
+//var csrfProtection =  csrf();
+//router.use(csrfProtection);
 
 
 router.use('/', notLoggedIn, function (req, res, next) {
@@ -69,7 +69,9 @@ router.get('/checkout', function (req, res, next) {
 
     var errMsg = req.flash('error')[0];
 
-    res.render('pages/checkout', {total:cart.totalPrice, errMsg:errMsg, noError:!errMsg});
+    var stripeTotal = cart.totalPrice*100;
+
+    res.render('pages/checkout', {total:cart.totalPrice, errMsg:errMsg, noError:!errMsg, stripeTotal:stripeTotal});
 });
 
 router.post('/checkout', function(req, res, next){
@@ -107,6 +109,11 @@ router.post('/checkout', function(req, res, next){
         });
 
         order.save(function(err, result){
+            if (err) {
+                req.flash("error", err.message);
+                return res.redirect("/checkout");
+            }
+
             req.flash("success", "Your order was successful!");
             req.session.cart = null;
             res.redirect("/courses");

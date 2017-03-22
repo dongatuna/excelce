@@ -50,7 +50,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(validator());
-app.use(cookieParser());
+//app.use(cookieParser());
 app.use(session(
     {
         secret:'embabroswillmakeit',
@@ -100,7 +100,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 
-  next();
+  //next();
 });
 
 module.exports = app;
