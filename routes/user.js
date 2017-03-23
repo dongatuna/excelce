@@ -54,18 +54,10 @@ router.post('/register', function(req, res, next){
         var email = req.body.email;
         var username = req.body.username;
         var role = req.body.role;
-
-        if(req.body.password === req.body.password2){
-            var password = req.body.password;
-        }else{
-            //if password does not match password
-            req.flash("error", "Password must match confirm password");
-            return res.redirect("/users/register");
-        }
-
+        var password = req.body.password;
         //validate the email and ensure email and password are not empty
         req.checkBody('email', 'Invalid email').notEmpty().isEmail();
-        req.checkBody('password', 'Password must be at least 6 characters long.').notEmpty().isLength({min:6});
+        req.checkBody('password', 'Password must be at least 6 characters long and match confirm password.').notEmpty().isLength({min:6}).equals(req.body.password2);
         req.checkBody('username', 'Username must NOT be empty.').notEmpty();
         //if the validation errors exist, store them in the variable errors
         var errors = req.validationErrors(); //validationErrors() extracts all errors of validation
