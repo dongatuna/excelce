@@ -12,9 +12,9 @@ var passport = require('passport');
 //router.use(csrfProtection);
 
 
-router.use('/', notLoggedIn, function (req, res, next) {
+/*router.use('/', notLoggedIn, function (req, res, next) {
     next();
-});
+});*/
 
 /* GET courses page. */
 router.get('/courses', function(req, res, next) {
@@ -59,7 +59,7 @@ router.get('/shopping-cart', function (req, res, next) {
     res.render('pages/shopping-cart', {products:cart.generateArray(), totalPrice: cart.totalPrice});
 });
 
-router.get('/checkout', function (req, res, next) {
+router.get('/checkout', isLoggedIn, function (req, res, next) {
     //if the user types gets checkout route without purchasing
     if(!req.session.cart){
         return res.redirect('pages/shopping-cart');
@@ -74,13 +74,12 @@ router.get('/checkout', function (req, res, next) {
     res.render('pages/checkout', {total:cart.totalPrice, errMsg:errMsg, noError:!errMsg, stripeTotal:stripeTotal});
 });
 
-router.post('/checkout', function(req, res, next){
+router.post('/checkout', isLoggedIn, function(req, res, next){
     if(!req.session.cart){
         return res.redirect('/shopping-cart');
     }
 
     var cart = new Cart(req.session.cart);
-
     // Set your secret key: remember to change this to your live secret key in production
 // See your keys here: https://dashboard.stripe.com/account/apikeys
     var stripe = require("stripe")("sk_test_kWOaHzogv8SjynnUtJWU8RA6");
@@ -118,8 +117,6 @@ router.post('/checkout', function(req, res, next){
             req.session.cart = null;
             res.redirect("/courses");
         });
-
-
     });
 });
 
@@ -131,11 +128,19 @@ router.get('/', function(req, res, next) {
 
 module.exports = router;
 
-//function to use in the provider routes that do NOT require authentication
+function isLoggedIn(req, res, next){
+     if(req.isAuthenticated()){
+         return next();
+     }
+    req.session.oldUrl = req.url;
+    res.redirect('/users/signin');
 
-function notLoggedIn(req, res, next){
+ }
+
+//function to use in the provider routes that do NOT require authentication
+/*function notLoggedIn(req, res, next){
     if(!req.isAuthenticated()){
         return next();
     }
     res.redirect('/');
-}
+}*/

@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var csrf = require('csurf');
-var models = require('../models/user');
+var jobsCtrl= require('../controllers/jobs.Ctrl');
 var passport = require('passport');
 
 
@@ -10,38 +10,19 @@ router.use(csrfProtection);
 
 //this gets the page of all the job postings displayed in a descending order -- will only allow applications if user
 //is logged in
-router.get("/view", function (req, res, next) {
-    models.Posting.find().sort({createdAt: "descending"}).exec(function(err, postings){
-        if(err) {return next(err);}
-
-        res.render('view', {postings:postings});
-    });
-});
+router.get("/view", jobsCtrl.readAllUserJobPostings );
 
 router.get('/create', isLoggedIn, function (req, res) {
-    res.render('users/job/create', {csrfToken: req.csrfToken()});
+    res.render('job/create', {csrfToken: req.csrfToken()});
 });
 
-router.post('/job', isLoggedIn, function (req, res) {
-    var name = res.body.name;
-    var title = res.body.title;
-    var description = res.body.description;
+router.post('/create', isLoggedIn, jobsCtrl.createUserJobPosting);
 
-    //how do I include arrays
-    var requirements = res.body.requirements;
-    var imagePath = res.body.file_attachment;
+router.post('/update',  isLoggedIn,jobsCtrl.updateUserJobPosting);
 
-    var newPosting = new models.Posting({
-        name: name,
-        title: title,
-        description:description,
-        requirements: requirements,
-        imagePath: imagePath
-    });
+router.post('/delete', isLoggedIn, jobsCtrl.deleteUserJobPosting);
 
-    newPosting.save();
 
-});
 
 module.exports = router;
 

@@ -1,72 +1,26 @@
 var express = require('express');
 var router = express.Router();
 var csrf = require('csurf');
-var models = require('../models/user');
+var applicationsCtrl = require("../controllers/applications.Ctrl");
 var passport = require('passport');
 
 
 var csrfProtection =  csrf();
 router.use(csrfProtection);
 
-//this gets the page of all the events displayed in a descending order
-router.get("/view", function (req, res, next) {
-    models.Application.find().sort({createdAt: "descending"}).exec(function(err, events){
-        if(err) {return next(err);}
-
-        res.render('event/view', {events:events});
-    });
-});
-
 router.get("/create", isLoggedIn, function (req, res, next) {
-    var applicant = req.params.username;
 
-    res.render('application/create', {applicant:applicant, csrfToken: req.csrfToken()});
+    res.render('application/create', { csrfToken: req.csrfToken()});
 });
 
+router.post('/create', isLoggedIn, applicationsCtrl.createUserApplication );
 
-router.post('/create', isLoggedIn, function (req, res, next) {
-   // var provider = res.body.applicant;
-    var description = res.body.description;
+//this gets the page of the providers/jobseeker's application
+router.get("/view", isLoggedIn, applicationsCtrl.viewApplication );
 
-    //how do I include arrays
-    var requirements = res.body.requirements;
-    var imagePath = res.body.file_attachment;
+router.post('/update', isLoggedIn, applicationsCtrl.updateUserApplication );
 
-    var newPosting = new models.Posting({
-
-        description:description,
-        requirements: requirements,
-        imagePath: imagePath
-    });
-
-    newPosting.save();
-});
-
-
-router.get("/delete", isLoggedIn, function (req, res, next) {
-
-    res.render('application/delete', {applicant:applicant, csrfToken: req.csrfToken()});
-});
-
-
-router.post('/delete', isLoggedIn, function (req, res, next) {
-    // var provider = res.body.applicant;
-    var description = res.body.description;
-
-    //how do I include arrays
-    var requirements = res.body.requirements;
-    var imagePath = res.body.file_attachment;
-
-    var newPosting = new models.Posting({
-
-        description:description,
-        requirements: requirements,
-        imagePath: imagePath
-    });
-
-    newPosting.save();
-});
-
+router.post('/delete', isLoggedIn, applicationsCtrl.deleteUserApplication);
 
 module.exports = router;
 

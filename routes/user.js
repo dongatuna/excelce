@@ -69,7 +69,6 @@ router.post('/register', function(req, res, next){
                 //push any error you find INTO the messages array
                 messages.push(error.msg);
             });
-
             //return done (null, false, req.flash('error', messages));
             return res.render('users/register', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0});
         }
@@ -82,24 +81,34 @@ router.post('/register', function(req, res, next){
                 return res.redirect("/users/"+role);
             }
 
-            var newOrganization = new models.User({
+            var newUser = new models.User({
                 email: email,
                 username:username,
                 password: password,
                 role:role
             });
-            newOrganization.save(next);
+            newUser.save(next);
         });
         //
     },
     passport.authenticate("local.signin",
-
             {
-                successRedirect: '/users/success',
+                //successRedirect: '/users/success',
                 failureRedirect: '/users/signin',
                 failureFlash: true
             }
-));
+    ), function (req, res, next) {
+        if(req.session.oldUrl){
+            var oldUrl = req.session.oldUrl;
+            req.session.oldUrl =null;
+            res.redirect(oldUrl);
+
+        }else{
+            res.redirect('/users/success');
+        }
+    }
+
+);
 
 //router for signing in users
 router.get('/signin', function (req, res) {
@@ -113,22 +122,29 @@ router.get('/signin', function (req, res) {
 
 router.post('/signin', passport.authenticate('local.signin',
      {
-     successRedirect: '/users/success',
-     failureRedirect: '/users/signin',
-     failureFlash: true
-     }
- ));
-
+         failureRedirect: '/users/signin',
+         failureFlash: true
+     }), function (req, res, next) {
+            if(req.session.oldUrl){
+                var oldUrl = req.session.oldUrl;
+                req.session.oldUrl =null;
+                res.redirect(oldUrl);
+            }else{
+                res.redirect('/users/success');
+            }
+    }
+ );
 
 module.exports = router;
 
-function isLoggedIn(req, res, next){
-    if(req.isAuthenticated()){
+
+
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) {
         return next();
-    }else{
-        req.flash("info", "You must log in to access this page.");
-        res.redirect('/users/signin');
     }
+    req.session.oldUrl = req.url;
+    res.redirect('/users/signin');
 }
 
 function notLoggedIn(req, res, next){
