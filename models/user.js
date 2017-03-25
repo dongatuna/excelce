@@ -6,7 +6,7 @@ var SALT_FACTOR = 10;
 //this is a model of the User
 var userSchema = new Schema({
     email: {type: String, required:true, unique:true},
-    username:{type: String, required:true, unique:true},
+    username:{type: String, required:true},
     password: {type: String, required:true},
     role: {type: String, enum: ['organization', 'provider'], required:true},
     createdAt:{type: Date, default:Date.now}
