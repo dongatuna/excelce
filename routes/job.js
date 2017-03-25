@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var csrf = require('csurf');
 var jobsCtrl= require('../controllers/jobs.Ctrl');
-var passport = require('passport');
+
 
 
 var csrfProtection =  csrf();
@@ -12,17 +12,23 @@ router.use(csrfProtection);
 //is logged in
 router.get("/view", jobsCtrl.readAllUserJobPostings );
 
+router.get("/view", isLoggedIn, jobsCtrl.readUserJobPostings );
+
 router.get('/create', isLoggedIn, function (req, res) {
     res.render('job/create', {csrfToken: req.csrfToken()});
 });
 
 router.post('/create', isLoggedIn, jobsCtrl.createUserJobPosting);
 
-router.post('/update',  isLoggedIn,jobsCtrl.updateUserJobPosting);
+router.get('/update/:id', isLoggedIn, function (res, req) {
+    res.render('job/update', {csrfToken: req.csrfToken()});
+});
+router.post('/update/:id',  isLoggedIn, jobsCtrl.updateUserJobPosting);
 
-router.post('/delete', isLoggedIn, jobsCtrl.deleteUserJobPosting);
-
-
+router.get('/delete/:id', isLoggedIn, function (res, req) {
+    res.render('job/delete', {csrfToken: req.csrfToken()});
+});
+router.post('/delete/:id', isLoggedIn, jobsCtrl.deleteUserJobPosting);
 
 module.exports = router;
 
