@@ -57,7 +57,12 @@ router.get('/shopping-cart', function (req, res, next) {
     res.render('pages/shopping-cart', {user:req.user, products:cart.generateArray(), totalPrice: cart.totalPrice});
 });
 
-router.get('/checkout', isLoggedIn, function (req, res, next) {
+router.get('/checkout', function (req, res, next) {
+    if (!req.user) {
+        req.flash("error", "Please sign in to finish checkout");
+        req.session.oldUrl = req.url;
+        return res.redirect('/users/signin');
+    }
     //if the user types gets checkout route without purchasing
     if(!req.session.cart){
         return res.redirect('pages/shopping-cart');
