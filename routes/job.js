@@ -10,7 +10,7 @@ router.use(csrfProtection);
 
 //this gets the page of all the job postings displayed in a descending order -- will only allow applications if user
 //is logged in
-router.get("/view", jobsCtrl.readAllUserJobPostings );
+router.get("/viewall", jobsCtrl.readAllUserJobPostings );
 
 router.get("/view", isLoggedIn, jobsCtrl.readUserJobPostings );
 
@@ -21,7 +21,9 @@ router.get('/create', isLoggedIn, function (req, res) {
 router.post('/create', isLoggedIn, jobsCtrl.createUserJobPosting);
 
 router.get('/update/:id', isLoggedIn, function (res, req) {
-    res.render('job/update', {csrfToken: req.csrfToken()});
+    var id = req.params.id;
+
+    res.render('job/update', {id:id, csrfToken: req.csrfToken()});
 });
 router.post('/update/:id',  isLoggedIn, jobsCtrl.updateUserJobPosting);
 

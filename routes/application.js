@@ -16,7 +16,7 @@ router.get("/create", isLoggedIn, function (req, res, next) {
 router.post('/create', isLoggedIn, applicationsCtrl.createUserApplication );
 
 //this gets the page of the providers/jobseeker's application
-router.get("/view", isLoggedIn, applicationsCtrl.viewApplication );
+router.get("/view", isLoggedIn, applicationsCtrl.viewAllUserApplication );
 
 router.post('/update', isLoggedIn, applicationsCtrl.updateUserApplication );
 

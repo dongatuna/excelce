@@ -3,7 +3,7 @@
         <h2>Post a Job Opening</h2>
         <p>$ 20 of the posting fee goes to pay for caregivers training in your community</p>
         ////Validation Errors for find caregivers form
-        <form action="/job/update/:id" method="post">
+        <form action="/job/update" method="post">
             <div class="form-group">
                 <label for="name">Name</label>
                 <input type="text" id="name" name="name" class="form-control" placeholder="Enter name">
@@ -77,7 +77,7 @@
             </div>
             <!--<input type="hidden" name="" id="" value="-->
             <input type="hidden" name="_csrf" id="_csrf" value="{{csrfToken}}" >
-
+            <input type="hidden" name="id" id="id" value="id" >
             <button type="submit" class="btn btn-primary">Post Job</button>
         </form>
     </div>

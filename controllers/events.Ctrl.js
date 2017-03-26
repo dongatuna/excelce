@@ -1,6 +1,6 @@
 "use strict";
 
-var Event = require("../models/User.Event");
+var models = require("../models/user");
 
 exports.createUserEvent = function (req, res) {
     //collect all data from the path
@@ -32,7 +32,7 @@ exports.createUserEvent = function (req, res) {
         return res.render('users/organization/register', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0});
     }
 
-    var newEvent = new Event({
+    var newEvent = new models.Event({
         poster:poster,
         presenter: presenter,
         topic: topic,
@@ -48,18 +48,17 @@ exports.createUserEvent = function (req, res) {
 
 exports.viewAllUserEvents = function(req, res){
     //find all events and list them
-    Event.find().sort({createdAt: "descending"}).exec(function(err, events){
+    models.Event.find().sort({createdAt: "descending"}).exec(function(err, events){
         if(err) {return next(err);}
 
-        res.render('users/event/view', {events:events, title: "All Events"});
+        res.render('event/view', {events:events, title: "All Events"});
     });
-
 };
 
 exports.updateUserEvent = function(req, res, next){
     var id = req.body.id;
 
-    Event.findById(id, function(err, doc){
+    models.Event.findById(id, function(err, doc){
         if (err) {
             console.error('error, no entry found');
         }
@@ -67,19 +66,19 @@ exports.updateUserEvent = function(req, res, next){
         doc.presenter = req.body.presenter;
         doc.topic = req.body.topic;
         doc.description = req.body.description;
-        doc.eventdate = req.body.eventdate,
-        doc.starttime = req.body.starttime,
-        doc.endtime = req.body.endtime,
+        doc.eventdate = req.body.eventdate;
+        doc.starttime = req.body.starttime;
+        doc.endtime = req.body.endtime;
         doc.imagePath = req.body.imagePath;
 
         doc.save();
     });
 
-    res.redirect('/application/view');
+    res.redirect('/event/view');
 };
 
 exports.deleteUserEvent = function(req, res, next){
-    var id = req.body.id;
+    var id = req.params.id;
 
     Event.findByIdAndRemove(id).exec();
 

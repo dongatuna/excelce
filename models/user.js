@@ -15,9 +15,8 @@ var userSchema = new Schema({
 var applicationSchema = new Schema ({
     provider:{type:[userSchema], required:true},
     description: {type:String, required:true},
-    certifications: [],
-    imagePath:{type:String},
-
+    certifications: [{type:String}],
+    filePath:{type:String}
 });
 
 //this is a model for job posted by user employer
@@ -26,8 +25,8 @@ var postingSchema = new Schema({
     name: {type:String, required:true},
     title: {type:String, required:true},
     description: {type:String, required:true},
-    requirements: [],
-    imagePath:{type:String},
+    requirements: [{}],
+    filePath:{type:String},
     respondents:[applicationSchema]
 });
 //this is a model for the event posted by the user employer
@@ -38,7 +37,7 @@ var eventSchema = new Schema({
     description: {type:String, required:true},
     start:{type: Date},
     end:{type:Date},
-    imagePath:{type:String}
+    filePath:{type:String}
 });
 
 

@@ -1,16 +1,16 @@
 "use strict";
 
-var Application = require("../models/User.Application");
+var models = require("../models/user");
 
 exports.createUserApplication = function (req, res, next) {
     // var provider = res.body.applicant;
     var description = req.body.description;
-
+    req.checkBody('description', 'You description should not empty.').notEmpty();
     //how do I include arrays
     var certifications = req.body.certifications;
     var imagePath = req.body.file_attachment;
 
-    var newApplication = new  Application ({
+    var newApplication = new  models.Application ({
         user: req.user,
         description:description,
         certifications: certifications,
@@ -19,13 +19,22 @@ exports.createUserApplication = function (req, res, next) {
     newApplication.save();
 };
 
-exports.viewApplication = function(req, res, next){
-    var id = req.body.id;
+exports.viewAllUserApplication = function(req, res, next){
 
-    Application.findById(id).exec(function(err, application){
+    models.Application.find().exec(function(err, applications){
         if(err) {return next(err);}
 
-        res.render('users/application/view', {application:application, title: "All Events"});
+        res.render('application/viewall', {applications:applications, title: "View Application"});
+    });
+};
+
+exports.viewUserApplication = function(req, res, next){
+    var id = req.params.id;
+
+    models.Application.findById(id).exec(function(err, application){
+        if(err) {return next(err);}
+
+        res.render('application/view', {application:application, title: "View Application"});
     });
 };
 
@@ -33,7 +42,7 @@ exports.viewApplication = function(req, res, next){
 exports.updateUserApplication = function(req, res, next){
     var id = req.body.id;
 
-    Application.findById(id, function(err, doc){
+    models.Application.findById(id, function(err, doc){
         if (err) {
             console.error('error, no entry found');
         }
@@ -49,9 +58,9 @@ exports.updateUserApplication = function(req, res, next){
 
 
 exports.deleteUserApplication = function(req, res, next){
-    var id = req.body.id;
+    var id = req.params.id;
 
-    Application.findByIdAndRemove(id).exec();
+    models.Application.findByIdAndRemove(id).exec();
 
     res.redirect('/users/success');
 };

@@ -2,6 +2,8 @@ var Course = require('../models/course');
 var mongoose = require('mongoose');
 mongoose.connect("mongodb://localhost/expaddress");
 
+
+
 var courses = [
     new Course({
         title: 'DSHS Basic Communication CE [2 hours]' ,

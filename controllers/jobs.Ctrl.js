@@ -1,17 +1,17 @@
 "use strict";
 
-var Job = require("../models/User.Job");
+var models = require("../models/user");
 
 exports.createUserJobPosting = function (req, res) {
 
     var title = res.body.title;
     var description = res.body.description;
-
+    req.checkBody('description', 'You description should not empty.').notEmpty();
     //how do I include arrays
     var requirements = res.body.requirements;
     var imagePath = res.body.file_attachment;
 
-    var newJob= new Job({
+    var newJob= new models.Job({
         user: req.user,
         title: title,
         description:description,
@@ -23,25 +23,25 @@ exports.createUserJobPosting = function (req, res) {
 };
 
 exports.readUserJobPostings = function (req, res, next) {
-    Job.find({"organization":req.user}).sort({createdAt: "descending"}).exec(function(err, postings){
+    models.Job.find({_id:req.user._id}).sort({createdAt: "descending"}).exec(function(err, postings){
         if(err) {return next(err);}
 
-        res.render('views/job/listings', {title: "Your Job Postings", postings:postings});
+        res.render('job/listings', {title: "Job Postings By You", postings:postings});
     });
 };
 
 exports.readAllUserJobPostings = function (req, res, next) {
-    Job.find().sort({createdAt: "descending"}).exec(function(err, postings){
+    models.Job.find().sort({createdAt: "descending"}).exec(function(err, postings){
         if(err) {return next(err);}
 
-        res.render('views/job/listings', {postings:postings});
+        res.render('job/listings', {title: "Job Postings",postings:postings});
     });
 };
 
 exports.updateUserJobPosting = function (req, res, next) {
-    var id = req.params.id;
+    var id = req.body.id;
 
-    Job.findById(id, function(err, doc){
+    models.Job.findById(id, function(err, doc){
         if (err) {
             //console.error('error, no entry found');
             res.send(404, 'no entry found');
@@ -61,6 +61,6 @@ exports.updateUserJobPosting = function (req, res, next) {
 exports.deleteUserJobPosting = function (req, res, next) {
     var id = req.params.id;
 
-    Job.findByIdAndRemove(id).exec();
+    models.Job.findByIdAndRemove(id).exec();
     res.redirect('/');
 };

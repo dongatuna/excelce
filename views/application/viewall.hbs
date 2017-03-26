@@ -1,0 +1,16 @@
+{{# each applications}}
+
+<div class="row">
+
+    {{#each this}}
+    <div class="list-group">
+        <a href="#" >
+            <h4 class="list-group-item-heading">{{this.provider.[username]}}</h4>
+            <p class="list-group-item-text">{{this.description}}</p>
+        </a>
+    </div>
+    {{/each}}
+</div>
+
+
+{{/each}}
