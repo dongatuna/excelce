@@ -39,16 +39,20 @@ router.get('/success', isLoggedIn, function (req, res) {
 router.use('/', notLoggedIn, function (req, res, next) {
     next();
 });
-router.get("/register/:role", function (req, res) {
 
-    var role = req.params.role;
+router.get("/register/:role", function (req, res) {
+    req.session.role = req.params.role;
+    return res.redirect("/users/register");
+});
+
+router.get("/register", function (req, res) {
+    var role = req.session.role;
     //get any errors from passport
     var messages = req.flash('error');
     //pass the errors to the register page
-    return res.render('users/register', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0, type: role, postUrl: '/users/register' });
+    return res.render('users/register', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0, type: role, isOrganization: (role === "organization"), postUrl: '/users/register' });
 });
 
-//router.post('/users/register/:role')
 router.post('/register', function(req, res, next){
 
         var email = req.body.email;
@@ -70,7 +74,7 @@ router.post('/register', function(req, res, next){
                 messages.push(error.msg);
             });
             //return done (null, false, req.flash('error', messages));
-            return res.render('users/register', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0});
+            return res.render('users/register', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0, isOrganization: (role === "organization")});
         }
 
         models.User.findOne({email: email}, function (err, user){
