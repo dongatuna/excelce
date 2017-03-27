@@ -1,6 +1,6 @@
 "use strict";
 
-var models = require("../models/user");
+var Application = require("../models/application");
 
 exports.createUserApplication = function (req, res, next) {
     // var provider = res.body.applicant;
@@ -10,7 +10,7 @@ exports.createUserApplication = function (req, res, next) {
     var certifications = req.body.certifications;
     var imagePath = req.body.file_attachment;
 
-    var newApplication = new  models.Application ({
+    var newApplication = new  Application ({
         user: req.user,
         description:description,
         certifications: certifications,
@@ -21,7 +21,7 @@ exports.createUserApplication = function (req, res, next) {
 
 exports.viewAllUserApplication = function(req, res, next){
 
-    models.Application.find().exec(function(err, applications){
+    Application.find().populate('provider').exec(function(err, applications){
         if(err) {return next(err);}
 
         res.render('application/viewall', {applications:applications, title: "View Application"});
@@ -31,7 +31,7 @@ exports.viewAllUserApplication = function(req, res, next){
 exports.viewUserApplication = function(req, res, next){
     var id = req.params.id;
 
-    models.Application.findById(id).exec(function(err, application){
+    Application.findById(id).exec(function(err, application){
         if(err) {return next(err);}
 
         res.render('application/view', {application:application, title: "View Application"});
@@ -42,7 +42,7 @@ exports.viewUserApplication = function(req, res, next){
 exports.updateUserApplication = function(req, res, next){
     var id = req.body.id;
 
-    models.Application.findById(id, function(err, doc){
+    Application.findById(id, function(err, doc){
         if (err) {
             console.error('error, no entry found');
         }
@@ -60,7 +60,7 @@ exports.updateUserApplication = function(req, res, next){
 exports.deleteUserApplication = function(req, res, next){
     var id = req.params.id;
 
-    models.Application.findByIdAndRemove(id).exec();
+    Application.findByIdAndRemove(id).exec();
 
     res.redirect('/users/success');
 };

@@ -1,5 +1,5 @@
 var passport = require('passport');
-var models = require('../models/user');
+var User = require('../models/user');
 var LocalStrategy = require('passport-local').Strategy;
 
 passport.serializeUser(function (user, done) {
@@ -7,8 +7,7 @@ passport.serializeUser(function (user, done) {
 });
 
 passport.deserializeUser(function (id, done) {
-
-    models.User.findById(id, function (err, user) {
+    User.findById(id, function (err, user) {
         if (err) return done(err);
         if (user) return done(null, user);
     });
@@ -23,8 +22,7 @@ passport.use('local.signin', new LocalStrategy(
         passReqToCallback: true
     }, function (req, email, password, done) {
 
-
-        models.User.findOne({email: email}, function (err, user){
+        User.findOne({email: email}, function (err, user){
             if (err) return next (err);
 
             if(!user){

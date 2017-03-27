@@ -1,6 +1,6 @@
 "use strict";
 
-var models = require("../models/user");
+var Event = require("../models/event");
 
 exports.createUserEvent = function (req, res) {
     //collect all data from the path
@@ -32,7 +32,7 @@ exports.createUserEvent = function (req, res) {
         return res.render('users/organization/register', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0});
     }
 
-    var newEvent = new models.Event({
+    var newEvent = new Event({
         poster:poster,
         presenter: presenter,
         topic: topic,
@@ -48,7 +48,7 @@ exports.createUserEvent = function (req, res) {
 
 exports.viewAllUserEvents = function(req, res){
     //find all events and list them
-    models.Event.find().sort({createdAt: "descending"}).exec(function(err, events){
+    Event.find().sort({createdAt: "descending"}).exec(function(err, events){
         if(err) {return next(err);}
 
         res.render('event/view', {events:events, title: "All Events"});
@@ -58,11 +58,10 @@ exports.viewAllUserEvents = function(req, res){
 exports.updateUserEvent = function(req, res, next){
     var id = req.body.id;
 
-    models.Event.findById(id, function(err, doc){
+    Event.findById(id, function(err, doc){
         if (err) {
             console.error('error, no entry found');
         }
-
         doc.presenter = req.body.presenter;
         doc.topic = req.body.topic;
         doc.description = req.body.description;

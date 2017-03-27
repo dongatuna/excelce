@@ -1,6 +1,6 @@
 "use strict";
 
-var models = require("../models/user");
+var JobPosting = require("../models/jobposting");
 
 exports.createUserJobPosting = function (req, res) {
 
@@ -11,7 +11,7 @@ exports.createUserJobPosting = function (req, res) {
     var requirements = res.body.requirements;
     var imagePath = res.body.file_attachment;
 
-    var newJob= new models.Job({
+    var newJob= new JobPosting({
         user: req.user,
         title: title,
         description:description,
@@ -23,7 +23,7 @@ exports.createUserJobPosting = function (req, res) {
 };
 
 exports.readUserJobPostings = function (req, res, next) {
-    models.Job.find({_id:req.user._id}).sort({createdAt: "descending"}).exec(function(err, postings){
+    JobPosting.find({_id:req.user._id}).sort({createdAt: "descending"}).exec(function(err, postings){
         if(err) {return next(err);}
 
         res.render('job/listings', {title: "Job Postings By You", postings:postings});
@@ -31,7 +31,7 @@ exports.readUserJobPostings = function (req, res, next) {
 };
 
 exports.readAllUserJobPostings = function (req, res, next) {
-    models.Job.find().sort({createdAt: "descending"}).exec(function(err, postings){
+    JobPosting.find().sort({createdAt: "descending"}).exec(function(err, postings){
         if(err) {return next(err);}
 
         res.render('job/listings', {title: "Job Postings",postings:postings});
@@ -41,7 +41,7 @@ exports.readAllUserJobPostings = function (req, res, next) {
 exports.updateUserJobPosting = function (req, res, next) {
     var id = req.body.id;
 
-    models.Job.findById(id, function(err, doc){
+    JobPosting.findById(id, function(err, doc){
         if (err) {
             //console.error('error, no entry found');
             res.send(404, 'no entry found');

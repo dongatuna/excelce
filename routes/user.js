@@ -80,7 +80,6 @@ router.post('/register', function(req, res, next){
                 req.flash("error", "User already exists");
                 return res.redirect("/users/"+role);
             }
-
             var newUser = new models.User({
                 email: email,
                 username:username,
