@@ -24,6 +24,9 @@ exports.viewAllUserApplication = function(req, res, next){
     Application.find().populate('provider').exec(function(err, applications){
         if(err) {return next(err);}
 
+        applications.map(function (application) {
+            application.truncated_description = application.description.substr(0, 200) + "...";
+        })
         res.render('application/viewall', {applications:applications, title: "View Application"});
     });
 };
