@@ -57,15 +57,4 @@ userSchema.methods.checkPassword = function(guess, done){
 };
 
 module.exports = mongoose.model('User', userSchema);
-//var Appointment  = mongoose.model('Appointment', appointmentSchema);
-//var Response = mongoose.model ('Response', responseSchema);
-
-/*module.exports = {
-    User: User,
-    Posting: Posting,
-    Event: Event,
-    Application:Application,
-    Appointment: Appointment,
-    Response: Response
-};*/
 

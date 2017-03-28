@@ -1,12 +1,26 @@
 <h1>{{{user.username}}} Profile</h1>
 
-<div class="list-group">
-  <button type="button" class="list-group-item">Find Jobs</button>
-  <button type="button" class="list-group-item"><a href="/courses">Purchase Courses</a> </button>
-  <button type="button" class="list-group-item">Keep Your Continuing Education Units Current</button>
-  <button type="button" class="list-group-item">Porta ac consectetur ac</button>
-  <button type="button" class="list-group-item">Vestibulum at eros</button>
+<div class="row">
+    <div class="col-sm-6 col-md-4 col-md-offset-4 col-sm-offset-3">
+        <div id="success" class="alert alert-success" {{#if noMessages}}hidden{{/if}}>
+            {{successMsg}}
+        </div>
+    </div>
 </div>
+
+<div class="row">
+    <div class ="col-md-8 col-md-offset-2">
+        <div class="list-group">
+          <button type="button" class="list-group-item">Find Jobs</button>
+          <button type="button" class="list-group-item"><a href="/courses">Purchase Courses</a> </button>
+          <button type="button" class="list-group-item">Keep Your Continuing Education Units Current</button>
+          <button type="button" class="list-group-item">Porta ac consectetur ac</button>
+          <button type="button" class="list-group-item">Vestibulum at eros</button>
+        </div>
+    </div>
+</div>
+
+
 
 <div class="row">
     <div class ="col-md-8 col-md-offset-2">

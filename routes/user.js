@@ -1,10 +1,12 @@
 var express = require('express');
 var router = express.Router();
 var csrf = require('csurf');
-var models = require('../models/user');
 var passport = require('passport');
+var usersCtrl = require('../controllers/users.Ctrl');
+var User = require("../models/user");
 var Order = require("../models/order");
 var Cart = require("../models/cart");
+
 var csrfProtection =  csrf();
 router.use(csrfProtection);
 
@@ -15,22 +17,7 @@ router.get('/logout', isLoggedIn, function(req, res, next){
 });
 
 router.get('/provider', isLoggedIn, function (req, res) {
-
-    Order.find({user:req.user}, function(err, orders){
-        if(err){
-            req.write("There has been an error.");
-        }
-        orders.forEach(function(order){
-            cart = new Cart(order.cart);
-            order.items = cart.generateArray();
-        });
-        res.render('users/provider', {orders:orders, user:req.user});
-    });
-
-   //res.render('users/provider', {user:req.user });
-});
-
-router.get('/organization', isLoggedIn, function (req, res) {
+    var successMsg = req.flash("success")[0];
 
     Order.find({user:req.user}, function(err, orders){
 
@@ -41,21 +28,27 @@ router.get('/organization', isLoggedIn, function (req, res) {
             order.items = cart.generateArray();
         });
 
-        res.render('users/organization', {orders:orders, user:req.user});
+        res.render('users/provider', {orders:orders, user:req.user, successMsg: successMsg, noMessages: !successMsg});
     });
-    //pass the errors to the register page
-    //res.render('users/organization', {user:req.user });
 });
 
-router.get('/success', isLoggedIn, function (req, res) {
-    if(req.user.role==='organization'){
-        console.log("Organizaton", req.user);
-        return res.redirect("/users/organization");
-    }else{
-        console.log("Provider", req.user);
-        return res.redirect("/users/provider");
-    }
+router.get('/organization', isLoggedIn, function (req, res) {
+
+    var successMsg = req.flash("success")[0];
+    Order.find({user:req.user}, function(err, orders){
+
+        if(err){req.write("There has been an error");}
+
+        orders.forEach(function (order) {
+            cart = new Cart(order.cart);
+            order.items = cart.generateArray();
+        });
+
+        res.render('users/organization', {orders:orders, user:req.user, successMsg: successMsg, noMessages: !successMsg});
+    });
 });
+
+router.get('/success', isLoggedIn, usersCtrl.getSuccessRoute);
 
 //all the routes below this function will not require authentication
 router.use('/', notLoggedIn, function (req, res, next) {
@@ -67,13 +60,7 @@ router.get("/register/:role", function (req, res) {
     return res.redirect("/users/register");
 });
 
-router.get("/register", function (req, res) {
-    var role = req.session.role;
-    //get any errors from passport
-    var messages = req.flash('error');
-    //pass the errors to the register page
-    return res.render('users/register', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0, type: role, isOrganization: (role === "organization"), postUrl: '/users/register' });
-});
+router.get("/register", usersCtrl.getUserRegisterRoute);
 
 router.post('/register', function(req, res, next){
 
@@ -83,7 +70,8 @@ router.post('/register', function(req, res, next){
         var password = req.body.password;
         //validate the email and ensure email and password are not empty
         req.checkBody('email', 'Invalid email').notEmpty().isEmail();
-        req.checkBody('password', 'Password must be at least 6 characters long and match confirm password.').notEmpty().isLength({min:6}).equals(req.body.password2);
+        req.checkBody('password', 'Password must be at least 6 characters long and match ' +
+            'confirm password.').notEmpty().isLength({min:6}).equals(req.body.password2);
         req.checkBody('username', 'Username must NOT be empty.').notEmpty();
         //if the validation errors exist, store them in the variable errors
         var errors = req.validationErrors(); //validationErrors() extracts all errors of validation
@@ -96,17 +84,18 @@ router.post('/register', function(req, res, next){
                 messages.push(error.msg);
             });
             //return done (null, false, req.flash('error', messages));
-            return res.render('users/register', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0, isOrganization: (role === "organization")});
+            return res.render('users/register', {csrfToken: req.csrfToken(), messages: messages,
+                hasErrors:messages.length>0, isOrganization: (role === "organization")});
         }
 
-        models.User.findOne({email: email}, function (err, user){
+        User.findOne({email: email}, function (err, user){
             if (err) return next (err);
 
             if(user){
                 req.flash("error", "User already exists");
                 return res.redirect("/users/"+role);
             }
-            var newUser = new models.User({
+            var newUser = new User({
                 email: email,
                 username:username,
                 password: password,
@@ -117,11 +106,11 @@ router.post('/register', function(req, res, next){
         //
     },
     passport.authenticate("local.signin",
-            {
-                //successRedirect: '/users/success',
-                failureRedirect: '/users/signin',
-                failureFlash: true
-            }
+        {
+            //successRedirect: '/users/success',
+            failureRedirect: '/users/signin',
+            failureFlash: true
+        }
     ), function (req, res, next) {
         if(req.session.oldUrl){
             var oldUrl = req.session.oldUrl;
@@ -131,18 +120,10 @@ router.post('/register', function(req, res, next){
         }else{
             res.redirect('/users/success');
         }
-    }
-
-);
+ });
 
 //router for signing in users
-router.get('/signin', function (req, res) {
-    //get any errors from passport
-    console.log("I am in the get route");
-    var messages = req.flash('error');
-    //pass the errors to the register page
-    res.render('users/signin', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0});
-});
+router.get('/signin', usersCtrl.getUserSignInRoute);
 
 
 router.post('/signin', passport.authenticate('local.signin',

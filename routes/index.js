@@ -19,11 +19,7 @@ var passport = require('passport');
 /* GET courses page. */
 router.get('/courses', function(req, res, next) {
 
-    if(req.isAuthenticated()){
-        var user = req.user;
-    }
-
-    var successMsg = req.flash("success")[0];
+   var successMsg = req.flash("success")[0];
 
     Course.find(function (err, docs) {
         var productChunks = [];
@@ -33,7 +29,7 @@ router.get('/courses', function(req, res, next) {
             productChunks.push(docs.slice(i, i+chunkSize));
         }
 
-        res.render('pages/courses', { title: 'courses', data: productChunks, user:user, successMsg: successMsg, noMessages: !successMsg });
+        res.render('pages/courses', { title: 'courses', data: productChunks, user:req.user, successMsg: successMsg, noMessages: !successMsg });
     });
 });
 
@@ -49,8 +45,6 @@ router.get("/add-to-cart/:id", function(req, res, next){
         console.log(req.session.cart);
        res.redirect('/courses');
    });
-
-
 });
 
 router.get('/shopping-cart', function (req, res, next) {
@@ -60,7 +54,7 @@ router.get('/shopping-cart', function (req, res, next) {
 
     var cart = new Cart(req.session.cart);
 
-    res.render('pages/shopping-cart', {products:cart.generateArray(), totalPrice: cart.totalPrice});
+    res.render('pages/shopping-cart', {user:req.user, products:cart.generateArray(), totalPrice: cart.totalPrice});
 });
 
 router.get('/checkout', isLoggedIn, function (req, res, next) {
@@ -75,7 +69,7 @@ router.get('/checkout', isLoggedIn, function (req, res, next) {
 
     var stripeTotal = cart.totalPrice*100;
 
-    res.render('pages/checkout', {total:cart.totalPrice, errMsg:errMsg, noError:!errMsg, stripeTotal:stripeTotal});
+    res.render('pages/checkout', {user:req.user, total:cart.totalPrice, errMsg:errMsg, noError:!errMsg, stripeTotal:stripeTotal});
 });
 
 router.post('/checkout', isLoggedIn, function(req, res, next){
@@ -117,9 +111,9 @@ router.post('/checkout', isLoggedIn, function(req, res, next){
                 return res.redirect("/checkout");
             }
 
-            req.flash("success", "Your order was successful!");
+            req.flash("success", "Your order was successful.  Please check your email for further instruction!");
             req.session.cart = null;
-            res.redirect("/courses");
+            res.redirect("/users/success");
         });
     });
 });
@@ -127,7 +121,8 @@ router.post('/checkout', isLoggedIn, function(req, res, next){
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    res.render('pages/index', { title: 'Excel CE' });
+
+    res.render('pages/index', { user:req.user, title: 'Excel CE' });
 });
 
 module.exports = router;

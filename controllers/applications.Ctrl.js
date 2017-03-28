@@ -25,22 +25,25 @@ exports.viewAllUserApplication = function(req, res, next){
         if(err) {return next(err);}
 
         applications.map(function (application) {
-            application.truncated_description = application.description.substr(0, 200) + "...";
-        })
-        res.render('application/viewall', {applications:applications, title: "View Application"});
+            application.truncated_description = application.description.substr(0, 300) + "...";
+        });
+        res.render('application/viewall', {user:req.user, applications:applications, title: "View Application"});
     });
 };
 
 exports.viewUserApplication = function(req, res, next){
     var id = req.params.id;
 
+    if(req.isAuthenticated()){
+        var user = req.user;
+    }
+
     Application.findById(id).exec(function(err, application){
         if(err) {return next(err);}
 
-        res.render('application/view', {application:application, title: "View Application"});
+        res.render('application/view', {user:user, application:application, title: "View Application"});
     });
 };
-
 
 exports.updateUserApplication = function(req, res, next){
     var id = req.body.id;

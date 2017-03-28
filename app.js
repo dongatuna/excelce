@@ -38,7 +38,6 @@ mongoose.connection.once('open', function(){
 }).on('error', function(error){
     console.log("Connection error:", error);
 });
-//mongoose.connect('mongodb://dongatuna:Embabros33@ds129050.mlab.com:29050/expbranch');
 
 // view engine setup
 app.engine('.hbs', expressHbs({defaultLayout:'layout', extname:'.hbs'}));
