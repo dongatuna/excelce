@@ -19,6 +19,10 @@ var passport = require('passport');
 /* GET courses page. */
 router.get('/courses', function(req, res, next) {
 
+    if(req.isAuthenticated()){
+        var user = req.user;
+    }
+
     var successMsg = req.flash("success")[0];
 
     Course.find(function (err, docs) {
@@ -29,7 +33,7 @@ router.get('/courses', function(req, res, next) {
             productChunks.push(docs.slice(i, i+chunkSize));
         }
 
-        res.render('pages/courses', { title: 'courses', data: productChunks, successMsg: successMsg, noMessages: !successMsg });
+        res.render('pages/courses', { title: 'courses', data: productChunks, user:user, successMsg: successMsg, noMessages: !successMsg });
     });
 });
 

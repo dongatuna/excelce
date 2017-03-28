@@ -3,26 +3,48 @@ var router = express.Router();
 var csrf = require('csurf');
 var models = require('../models/user');
 var passport = require('passport');
-
+var Order = require("../models/order");
+var Cart = require("../models/cart");
 var csrfProtection =  csrf();
 router.use(csrfProtection);
 
 //add log out path
 router.get('/logout', isLoggedIn, function(req, res, next){
-    req.logout();
+    req.logout({user:req.user});
     res.redirect('/users/signin');
 });
 
 router.get('/provider', isLoggedIn, function (req, res) {
 
-    //pass the errors to the register page
-    res.render('users/provider', {user:req.user });
+    Order.find({user:req.user}, function(err, orders){
+        if(err){
+            req.write("There has been an error.");
+        }
+        orders.forEach(function(order){
+            cart = new Cart(order.cart);
+            order.items = cart.generateArray();
+        });
+        res.render('users/provider', {orders:orders, user:req.user});
+    });
+
+   //res.render('users/provider', {user:req.user });
 });
 
 router.get('/organization', isLoggedIn, function (req, res) {
 
+    Order.find({user:req.user}, function(err, orders){
+
+        if(err){req.write("There has been an error");}
+
+        orders.forEach(function (order) {
+            cart = new Cart(order.cart);
+            order.items = cart.generateArray();
+        });
+
+        res.render('users/organization', {orders:orders, user:req.user});
+    });
     //pass the errors to the register page
-    res.render('users/organization', {user:req.user });
+    //res.render('users/organization', {user:req.user });
 });
 
 router.get('/success', isLoggedIn, function (req, res) {
