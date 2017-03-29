@@ -11,6 +11,7 @@ var userSchema = new Schema({
     password: {type: String, required:true},
     role: {type: String, enum: ['organization', 'provider'], required:true},
     application:{type:Schema.Types.ObjectId, ref:'Application'},
+
     createdAt:{type: Date, default:Date.now}
 });
 

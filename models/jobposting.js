@@ -8,7 +8,7 @@ var postingSchema = new Schema({
     name: {type:String, required:true},
     title: {type:String, required:true},
     description: {type:String, required:true},
-    requirements: [{}],
+    requirements: {type:Array},
     filePath:{type:String},
     respondents:[{type:Schema.Types.ObjectId, ref:'User'}]
 });
