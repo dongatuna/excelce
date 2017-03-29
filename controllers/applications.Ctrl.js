@@ -23,7 +23,6 @@ exports.createUserApplication = function (req, res, next) {
         });
         newApplication.save();
     }
-
 };
 
 exports.viewAllUserApplication = function(req, res, next){

@@ -28,7 +28,9 @@ router.get('/provider', isLoggedIn, function (req, res) {
             order.items = cart.generateArray();
         });
 
-        res.render('users/provider', {orders:orders, user:req.user, successMsg: successMsg, noMessages: !successMsg});
+        var messages = req.flash('error');
+
+        res.render('users/provider', {orders:orders, user:req.user, messages:messages, hasErrors:messages.length>0, successMsg: successMsg, noMessages: !successMsg});
     });
 });
 
@@ -93,7 +95,7 @@ router.post('/register', function(req, res, next){
 
             if(user){
                 req.flash("error", "User already exists");
-                return res.redirect("/users/"+role);
+                return res.redirect("/users/register");
             }
             var newUser = new User({
                 email: email,
@@ -143,8 +145,6 @@ router.post('/signin', passport.authenticate('local.signin',
 
 module.exports = router;
 
-
-
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
@@ -157,5 +157,5 @@ function notLoggedIn(req, res, next){
     if(!req.isAuthenticated()){
         return next();
     }
-    res.redirect('/');
+    res.redirect('/users/register');
 }

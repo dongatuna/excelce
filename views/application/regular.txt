@@ -1,0 +1,26 @@
+
+//Our focus is only on caregivers who work in the community
+//There are a lot of qualified caregivers.  
+//Need to protect their personal information.
+//Must register as an organization (employer).
+//You will be able to contact one job seeker at a time 
+//or create a post and reach many caregivers at once.
+
+->On courses page, show how many people have taken our online courses
+and how much money has been given.
+->On find caregivers page, show how many people have signed up as caregivers.
+->On find jobs, display the number of local employers.
+
+Our focus is to connect employers, such as yourself, with qualified caregivers while at the same
+time protecting caregivers' personal information.  To that end, employers need to sign in/up
+in order to view caregivers' qualifications.  However, job opening posts are viewable by 
+anyone.
+
+Once you sign in, you can contact caregivers on a 1 -to- 1 basis or you can create a job post and reach 
+many caregivers at the same time.  Either way, you contact caregivers using either text/SMS, email
+and/or phone call - the most immediate way to notify caregivers of your opening(s). 
+
+In addition, Excel CE DSHS approved elearning courses enable caregivers meet some or all of your certification
+requirements.  And by doing so, you can get qualified caregiver in front of your client as soon as wisely possible.
+
+  
