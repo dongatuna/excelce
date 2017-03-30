@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-Application = require("./application");
+var Application = require("./application");
 var bcrypt = require('bcrypt-nodejs');
 
 var SALT_FACTOR = 10;
@@ -11,8 +11,6 @@ var userSchema = new Schema({
     password: {type: String, required:true},
     role: {type: String, enum: ['organization', 'provider'], required:true},
     application:{type:Schema.Types.ObjectId, ref:'Application'},
-    mode:{type:String, enum:['call', 'text','email']},
-    phonenumber:{type:String},
     createdAt:{type: Date, default:Date.now}
 });
 

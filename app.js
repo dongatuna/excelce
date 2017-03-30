@@ -27,6 +27,7 @@ var eventRoutes = require("./routes/event");
 var jobRoutes = require("./routes/job");
 var userRoutes = require("./routes/user");
 
+//"C:\Program Files\MongoDB\Server\3.4\bin\mongod.exe"
 
 var app = express();
 //Connect to mongodb
