@@ -52,11 +52,6 @@ router.get('/organization', isLoggedIn, function (req, res) {
 
 router.get('/success', isLoggedIn, usersCtrl.getSuccessRoute);
 
-//all the routes below this function will not require authentication
-router.use('/', notLoggedIn, function (req, res, next) {
-    next();
-});
-
 router.get("/register/:role", function (req, res) {
     req.session.role = req.params.role;
     return res.redirect("/users/register");
@@ -155,11 +150,4 @@ function isLoggedIn(req, res, next) {
     }
     req.session.oldUrl = req.url;
     res.redirect('/users/signin');
-}
-
-function notLoggedIn(req, res, next){
-    if(!req.isAuthenticated()){
-        return next();
-    }
-    res.redirect('/users/register');
 }
