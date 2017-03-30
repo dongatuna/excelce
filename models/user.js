@@ -11,7 +11,8 @@ var userSchema = new Schema({
     password: {type: String, required:true},
     role: {type: String, enum: ['organization', 'provider'], required:true},
     application:{type:Schema.Types.ObjectId, ref:'Application'},
-
+    mode:{type:String, enum:['call', 'text','email']},
+    phonenumber:{type:String},
     createdAt:{type: Date, default:Date.now}
 });
 
