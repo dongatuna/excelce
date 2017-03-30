@@ -44,3 +44,11 @@ function notLoggedIn(req, res, next){
     }
     res.redirect('/');
 }
+
+function isOrganization(req, res, next) {
+    if (req.user.role ==="organization") {
+        return next();
+    }
+    req.session.oldUrl = req.url;
+    res.redirect('/users/provider');
+}
