@@ -138,10 +138,10 @@ router.post('/signin', passport.authenticate('local.signin',
     }
  );
 
+router.get('/notification', isLoggedIn, usersCtrl.findNotification, usersCtrl.renderNotification);
 
-router.get('/notification', function (req, res, next) {
-    res.render("users/notification");
-});
+router.post('/notification', isLoggedIn, usersCtrl.findNotification, usersCtrl.updateNotification, usersCtrl.renderNotification);
+
 module.exports = router;
 
 function isLoggedIn(req, res, next) {
