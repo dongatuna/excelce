@@ -74,7 +74,7 @@ for(var i=0; i<appnumber; i++){
 
         if(err) console.error(err);
         done++;
-        if(done===applications.length){
+        if(done===appnumber){
             exit();
             console.log('items saved');
         }

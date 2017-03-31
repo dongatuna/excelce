@@ -7,6 +7,7 @@ var User = require("../models/user");
 var Order = require("../models/order");
 var Cart = require("../models/cart");
 
+
 var csrfProtection =  csrf();
 router.use(csrfProtection);
 
@@ -16,7 +17,7 @@ router.get('/logout', isLoggedIn, function(req, res, next){
     res.redirect('/users/signin');
 });
 
-router.get('/provider', isLoggedIn, function (req, res) {
+router.get('/provider', isLoggedIn, function (req, res, next) {
     var successMsg = req.flash("success")[0];
 
     Order.find({user:req.user}, function(err, orders){

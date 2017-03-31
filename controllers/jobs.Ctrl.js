@@ -22,19 +22,29 @@ exports.createUserJobPosting = function (req, res) {
     newJob.save();
 };
 
-exports.readUserJobPostings = function (req, res, next) {
-    JobPosting.find({_id:req.user._id}).sort({createdAt: "descending"}).exec(function(err, postings){
+exports.readUserJobPosting = function (req, res, next) {
+    var id = req.params.id;
+
+    JobPosting.findById(id).populate('organization respondents').exec(function(err, posting){
         if(err) {return next(err);}
 
-        res.render('job/listings', {title: "Job Postings By You", postings:postings});
+        if(posting.respondents!==null){
+            var contacts = posting.respondents.length;
+        }else var contacts = "No ";
+
+        res.render('job/view', {title: "Job Postings By You", posting:posting, contacts:contacts});
     });
 };
 
 exports.readAllUserJobPostings = function (req, res, next) {
-    JobPosting.find().sort({createdAt: "descending"}).exec(function(err, postings){
+    JobPosting.find().populate('organization respondents').sort({createdAt: "descending"}).exec(function(err, postings){
         if(err) {return next(err);}
 
-        res.render('job/listings', {title: "Job Postings",postings:postings});
+        postings.map(function (posting) {
+            posting.truncated_description = posting.description.substr(0, 300) + "...";
+        });
+
+        res.render('job/viewall', {title: "Job Postings",postings:postings});
     });
 };
 

@@ -1,0 +1,41 @@
+<div class="container">
+
+    <div class="page-header">
+        <h1>{{posting.organization.username}}</h1>
+        <p class="lead"> </p>
+    </div>
+
+    <h3>{{posting.title}}</h3>
+    <hr>
+    <p>
+        {{posting.description}}
+
+    </p>
+    <h3>Certifications</h3>
+    <hr>
+    <div class="row">
+        <ul>
+            {{#each posting.requirements}}
+                <li>{{this}}</li>
+            {{/each}}
+        </ul>
+    </div>
+    <hr>
+
+    <h3>{{contacts}} Respondents</h3>
+        {{#each posting.respondents}}
+            <strong>{{this.respondents.username}}</strong>
+            <p>{{this.description}}</p>
+            {{# each this.certifications}}
+                <ul display="inline">
+                    <li >{{this}}</li>
+                </ul>
+            {{/each}}
+        {{/each}}
+
+    <hr>
+
+
+    <hr>
+    <i class="fa fa-download" aria-hidden="true"></i> Download Job Flyer
+</div>

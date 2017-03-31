@@ -45,7 +45,7 @@ exports.viewAllUserApplication = function(req, res, next){
 exports.viewUserApplication = function(req, res, next){
     var id = req.params.id;
 
-    Application.findById(id).exec(function(err, application){
+    Application.findById(id).populate('provider').exec(function(err, application){
         if(err) {return next(err);}
 
         res.render('application/view', {user:req.user, application:application, title: "View Application"});

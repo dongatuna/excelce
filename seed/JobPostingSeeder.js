@@ -5,7 +5,7 @@ mongoose.connect("mongodb://localhost/expaddress");
 var postings = [
 
    new Posting({
-        organization:"58d8376d5fab330e3065326a",
+        organization:"58d7f03df26e2515a83ffc4e",
         title: "Live In Opportunities Available",
         description: "JOB POST 1: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam orci quam, mattis eu porta id, " +
         "congue nec nibh. Morbi vitae ligula feugiat, luctus sapien eget, volutpat dui. Suspendisse a varius urna. " +
@@ -17,12 +17,12 @@ var postings = [
         "justo finibus pharetra. Aliquam erat volutpat.",
         requirements:["CNA", "Nurse Delegation", "Diabetes"],
         filePath: "../files/resumes/rn_resume_st_francis.txt",
-        respondents:["58dd44d55037ac1374b542d8", "58dd44d55037ac1374b542da"]
+        respondents:["58db165fb5537f2c683ff99f", "58db165fb5537f2c683ff9a0"]
 
     }),
 
     new Posting({
-        organization:"58dd41ddde2af5035cb7f08e",
+        organization:"58dd92132e9581337056457d",
         title: "CNA and Home Care Aide Needed For Evening Shift",
         description:"JOB POST 2: Maecenas laoreet porta efficitur. Quisque consequat euismod orci molestie tempus. " +
         "Donec vitae tempor metus, sit amet convallis nunc. Maecenas cursus auctor ex, vitae sollicitudin ipsum suscipit" +
@@ -31,11 +31,11 @@ var postings = [
         "massa. Curabitur ante ex, laoreet at leo sit amet, congue hendrerit metus",
         requirements:["CNA", "CPR/FA"],
         filePath:'../files/resumes/rn_resume_st_francis.txt',
-        respondents:["58dd44d55037ac1374b542d8"]
+        respondents:["58db165fb5537f2c683ff99f"]
     }),
 
     new Posting({
-        organization:"58dd41ddde2af5035cb7f08e",
+        organization:"58dd92812e9581337056457e",
         title:"Caregivers Needed Urgently",
         description:"JOB POST 3: Sed consequat neque vulputate nisi luctus, efficitur lacinia nulla auctor. Nulla eget nunc mi. " +
         "Phasellus eget orci nec risus volutpat dapibus eget id purus. Donec nec nisl nec magna condimentum gravida ac " +
@@ -46,17 +46,17 @@ var postings = [
         "non velit eu pretium. Integer id odio libero.",
         requirements:["Dementia", "Mental Health", "Home Care Aide"],
         filePath:'../files/resumes/rn_resume_st_francis.txt',
-        respondents:["58dd44d55037ac1374b542d9","58dd44d55037ac1374b542d7"]
+        respondents:["58db165fb5537f2c683ff99f","58db165fb5537f2c683ff9a1"]
     }),
 
     new Posting({
-        organization:"58dd4231de2af5035cb7f08f",
+        organization:"58dd93b62e9581337056457f",
         title:"Home Care Aides Needed For All Shifts",
-        description:"JOB POST 4: Vestibulum ullamcorper porttitor urna, eget molestie est ultrices vel. Suspendisse tempor justo " +
-        "ut laoreet aliquet. Nulla tellus ligula, pellentesque ut ligula vitae, tristique pharetra odio. Aliquam magna " +
-        "mi, tempus ut gravida quis, tempor sit amet mauris. Ut tristique blandit ipsum. Maecenas id rhoncus dolor, " +
-        "quis aliquam lacus. Etiam et ante in ligula pretium sodales ut iaculis ipsum. Phasellus nec neque vitae neque " +
-        "gravida porttitor.",
+        description:"JOB POST 4 For Tranquil AFH: Vestibulum ullamcorper porttitor urna, eget molestie est ultrices " +
+        "vel. Suspendisse tempor justo ut laoreet aliquet. Nulla tellus ligula, pellentesque ut ligula vitae, tristique " +
+        "pharetra odio. Aliquam magna mi, tempus ut gravida quis, tempor sit amet mauris. Ut tristique blandit ipsum. " +
+        "Maecenas id rhoncus dolor, quis aliquam lacus. Etiam et ante in ligula pretium sodales ut iaculis ipsum. " +
+        "Phasellus nec neque vitae neque gravida porttitor.",
         requirements:["CNA", "Home Care Aide"],
         filePath:'../files/resumes/rn_resume_st_francis.txt',
         respondents:null
@@ -64,9 +64,9 @@ var postings = [
     }),
 
     new Posting({
-        organization:"58dd41b0de2af5035cb7f08d",
+        organization:"58dd93b62e9581337056457f",
         title:"NAC Needed Now - Pay Starts at $ 16/hour",
-        description:"JOB POSTING 5:  Vivamus quam turpis, bibendum eu elit ut, placerat rutrum ex. Vestibulum vulputate" +
+        description:"JOB POSTING 5 For Tranquil AFH:  Vivamus quam turpis, bibendum eu elit ut, placerat rutrum ex. Vestibulum vulputate" +
         " elit quis erat pellentesque varius. Vestibulum tincidunt ut justo at pulvinar. Nulla ante turpis, pellentesque" +
         " vel risus egestas, mattis faucibus risus. Suspendisse potenti. Pellentesque ac blandit lacus, eget vehicula" +
         " odio. Quisque vitae leo tincidunt, scelerisque est et, condimentum lacus. Integer velit quam, dignissim et " +
@@ -75,17 +75,26 @@ var postings = [
         " bibendum euismod arcu ac imperdiet.",
         requirements:["CNA", "CPR/FA"],
         filePath:'../files/resumes/rn_resume_st_francis.txt',
-        respondents:["58dd44d55037ac1374b542d7", "58dd44d55037ac1374b542d9", "58dd44d55037ac1374b542da", "58dd44d55037ac1374b542d8"]
+        respondents:["58db165fb5537f2c683ff99f", "58db165fb5537f2c683ff9a0", "58db165fb5537f2c683ff99e", "58db165fb5537f2c683ff9a1"]
     })
 
 ];
 /*
 
-"58dd44d55037ac1374b542d7"
-"58dd44d55037ac1374b542d9"
-"58dd44d55037ac1374b542da"
-"58dd44d55037ac1374b542d8"*/
 
+//-------------------------
+/*Organizations
+"58d7f03df26e2515a83ffc4e"
+"58dd92132e9581337056457d"
+"58dd92812e9581337056457e"
+"58dd93b62e9581337056457f"
+
+Respondents
+"58db165fb5537f2c683ff99f"
+"58db165fb5537f2c683ff9a0"
+"58db165fb5537f2c683ff99e"
+"58db165fb5537f2c683ff9a1"
+*/
 var done=0;
 
 var appnumber = postings.length;

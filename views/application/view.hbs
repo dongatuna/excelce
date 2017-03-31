@@ -1,42 +1,35 @@
 <div class="container">
 
     <div class="page-header">
-        <h1>Janis Lollel</h1>
-        <p class="lead">
-
-
-        </p>
+        <h1>{{application.provider.username}}</h1>
+        <p class="lead"> </p>
     </div>
 
     <h3>Profile</h3>
     <hr>
     <p>
-         Mauris dui ligula ac convallis quis. Lacinia at facilisi, dictum massa conubia porta, ' +
-        'tempor amet mauris mi per ipsum, venenatis enim amet. Dolor imperdiet nulla platea, scelerisque morbi leo ut ' +
-        'dolor mauris, vitae sodales egestas consequat ipsum, erat posuere vitae, diam fringilla vitae neque id. ' +
-        'Eu integer convallis aptent aliquam adipiscing mauris, quam nulla in, nibh placerat augue eget erat. Eget ' +
-        'nunc orci dis fermentum nibh, rutrum in donec. Et ut sed est, ligula morbi maecenas praesent erat neque risus. ' +
-        'Id ridiculus sit elementum risus lorem sagittis, in lectus occaecati. In posuere tortor, massa vel nulla, ' +
-        'elit turpis arcu dui.
+        {{application.description}}
 
     </p>
     <h3>Certifications</h3>
     <hr>
     <div class="row">
         <ul>
-            <li>CNA</li>
-            <li>CPR/First Aid</li>
-            <li>HIVAIDS</li>
+            {{#each application.certifications}}
+                <li>{{this}}</li>
+            {{/each}}
         </ul>
     </div>
     <hr>
-    <div class="well well-lg">
+    <div class="well well-sm">
         <p>
             <em>
                 <h5>
-                    Does Janis Lollel have all certifications needed for your job opening?
-                    If not, <strong><a href="/courses">get</a> </strong> Janis Lollel online course credits to meet
-                    your job opening requirements.
+                    <strong>
+                        Does {{application.provider.username}} have all certifications needed for your job opening?
+                        If not, <strong><a href="/courses">get</a> </strong> Janis Lollel online course credits to meet
+                        your job opening requirements.
+                    </strong>
                 </h5>
             </em>
 
@@ -59,8 +52,9 @@
     </div>
 
     <hr>
+    <button type="submit" class="btn btn-success">Contact Applicant</button>
 
-    <button type="submit" class="btn btn-success">Contact Caregiver</button>
     <hr>
     <i class="fa fa-download" aria-hidden="true"></i> Download Resume
-    </div>
+</div>
+
