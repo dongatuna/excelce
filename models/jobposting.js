@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 
 
 //this is a model for job posted by user employer
-var postingSchema = new Schema({
+var postingSchema = new Schema({ //mongoose.Types.ObjectId
     organization: {type: Schema.Types.ObjectId, ref:'User'},
     title: {type:String, required:true},
     description: {type:String, required:true},

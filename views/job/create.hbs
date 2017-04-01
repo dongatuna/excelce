@@ -4,18 +4,15 @@
         <p>$ 20 of the posting fee goes to pay for caregivers training in your community</p>
         ////Validation Errors for find caregivers form
         <form action="/job/create" method="post">
-            <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" id="name" name="name" class="form-control" placeholder="Enter name">
-            </div>
+
             <div class="form-group">
                 <label for="title">Job Title</label>
-                <input type="text" id="title" name="title" class="form-control" placeholder="Enter Job Title">
+                <input type="text" id="title" name="title" class="form-control" placeholder="Enter Job Title" required>
             </div>
 
             <div class="form-group">
                 <label for="description">Job Description</label>
-                <textarea name="description" id="description" class="form-control" rows = "15">Enter Job Description Here</textarea>
+                <textarea name="description" id="description" class="form-control" rows = "15" required>Enter Job Description Here</textarea>
             </div>
             <hr>
 

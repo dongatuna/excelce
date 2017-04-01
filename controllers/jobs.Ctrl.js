@@ -1,17 +1,31 @@
 "use strict";
 
-var JobPosting = require("../models/jobposting");
+var Posting = require("../models/jobposting");
 
 exports.createUserJobPosting = function (req, res) {
 
-    var title = res.body.title;
-    var description = res.body.description;
-    req.checkBody('description', 'You description should not empty.').notEmpty();
+    var title = req.body.title;
+    var description = req.body.description;
+    req.checkBody('description', 'Please include a description of your job .').notEmpty();
+    req.checkBody('title', 'Please include a title of your job.').notEmpty();
     //how do I include arrays
-    var requirements = res.body.requirements;
-    var imagePath = res.body.file_attachment;
+    var requirements = req.body.requirements;
+    var imagePath = req.body.file_attachment;
+    var errors = req.validationErrors(); //validationErrors() extracts all errors of validation
+    //store the errors messages in the error.msg property
+    if(errors){
+        //create an array of messages to pass to the view
+        var messages = [];
+        errors.forEach(function(error){
+            //push any error you find INTO the messages array
+            messages.push(error.msg);
+        });
 
-    var newJob= new JobPosting({
+        //return done (null, false, req.flash('error', messages));
+        return res.render('job/create', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0});
+    }
+
+    var newPosting= new Posting({
         user: req.user,
         title: title,
         description:description,
@@ -19,13 +33,13 @@ exports.createUserJobPosting = function (req, res) {
         imagePath: imagePath
     });
 
-    newJob.save();
+    newPosting.save();
 };
 
 exports.readUserJobPosting = function (req, res, next) {
     var id = req.params.id;
 
-    JobPosting.findById(id).populate('organization respondents').exec(function(err, posting){
+    Posting.findById(id).populate('organization respondents').exec(function(err, posting){
         if(err) {return next(err);}
 
         if(posting.respondents!==null){
@@ -37,7 +51,7 @@ exports.readUserJobPosting = function (req, res, next) {
 };
 
 exports.readAllUserJobPostings = function (req, res, next) {
-    JobPosting.find().populate('organization respondents').sort({createdAt: "descending"}).exec(function(err, postings){
+    Posting.find().populate('organization respondents').sort({createdAt: "descending"}).exec(function(err, postings){
         if(err) {return next(err);}
 
         postings.map(function (posting) {
@@ -49,9 +63,9 @@ exports.readAllUserJobPostings = function (req, res, next) {
 };
 
 exports.updateUserJobPosting = function (req, res, next) {
-    var id = req.body.id;
+    var id = req.params.id;
 
-    JobPosting.findById(id, function(err, doc){
+    Posting.findById(id, function(err, doc){
         if (err) {
             //console.error('error, no entry found');
             res.send(404, 'no entry found');
@@ -65,12 +79,12 @@ exports.updateUserJobPosting = function (req, res, next) {
         doc.save();
     });
 
-    res.redirect('/');
+    res.redirect('/users/success');
 };
 
 exports.deleteUserJobPosting = function (req, res, next) {
     var id = req.params.id;
 
-    models.Job.findByIdAndRemove(id).exec();
-    res.redirect('/');
+    Posting.findByIdAndRemove(id).exec();
+    res.redirect('/users/success');
 };

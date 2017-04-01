@@ -1,4 +1,6 @@
-  <div class="spacer"></div>
+<a href="/job/create" class="btn btn-danger pull-right" role="button">Post Job Opening</a>
+
+<div class="spacer"></div>
 
 {{# each applications}}
 
@@ -7,16 +9,17 @@
     {{!-- {{#each this}} --}}
     <div class="list-group application">
         <h4 class="list-group-item-heading">{{this.provider.username}}</h4>
-        <hr />
+        <hr>
+        <p><strong>Description:</strong></p>
+        <p class="list-group-item-text">{{this.truncated_description}}</p>
+        <a class="more" href="{{this._id}}">See more</a>
         <p><strong>Certifications:</strong></p>
         <ul>
             {{#each this.certifications}}
                 <li>{{this}}</li>
             {{/each}}
         </ul>
-        <p><strong>Description:</strong></p>
-        <p class="list-group-item-text">{{this.truncated_description}}</p>
-        <a class="more" href="{{this._id}}">See more</a>
+
     </div>
     {{!-- {{/each}} --}}
 </div>

@@ -5,9 +5,9 @@ var Event = require("../models/event");
 exports.createUserEvent = function (req, res) {
     //collect all data from the path
     var poster = req.user;
-    var presenter= res.body.presenter;//include plust
+    var presenter= req.body.presenter;//include plust
     var topic = res.body.topic;
-    var description = res.body.description;
+    var description = req.body.description;
     var eventdate = res.body.eventdate;
     var starttime = res.body.starttime;
     var endtime = res.body.endtime;
