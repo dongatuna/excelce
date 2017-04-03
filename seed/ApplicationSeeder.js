@@ -18,7 +18,7 @@ var applications = [
         ' ultricies erat nibh sed diam, vulputate elit phasellus nibh nulla commodo, erat dolor nisl turpis, litora ' +
         'dui, convallis nulla mollis conubia augue. Hendrerit in risus sit velit eleifend laboris, viverra amet etiam, ' +
         'vitae risus.' ,
-        certification: ["CNA", "Dementia", "Mental Health"],
+        //certification: ["CNA", "Dementia", "Mental Health"],
         filePath: '../files/resumes/rn_resume_seattle_children.txt'
     }),
 
@@ -33,7 +33,7 @@ var applications = [
         ' ipsum donec ut. Conubia elementum laoreet, placerat morbi vivamus eget congue, mattis faucibus molestie ' +
         'vestibulum morbi ullam, condimentum et sed, habitasse cras a nunc. Dolor vitae ac. Aliquam vitae scelerisque ' +
         'et, vel inceptos dictum vestibulum risus justo vel.' ,
-        certification: ["CNA"],
+       // certification: ["CNA"],
         filePath: '../files/resumes/rn_resume_northwest.txt'
     }),
 
@@ -46,7 +46,7 @@ var applications = [
         'nunc orci dis fermentum nibh, rutrum in donec. Et ut sed est, ligula morbi maecenas praesent erat neque risus. ' +
         'Id ridiculus sit elementum risus lorem sagittis, in lectus occaecati. In posuere tortor, massa vel nulla, ' +
         'elit turpis arcu dui.' ,
-        certification: ["CNA", "CPRFA"],
+        //certification: ["CNA", "CPRFA"],
         filePath: '../files/resumes/rn_resume_harborview.txt'
     }),
 
@@ -60,7 +60,7 @@ var applications = [
         'vitae aliquam, sed fusce ut semper massa nulla, lorem lacus sed semper at. Mauris in nonummy mattis ad rutrum.' +
         ' Nullam varius feugiat a nam neque fringilla, massa neque rutrum id in vel faucibus, tristique ut, aliquam per' +
         ' odio nec eros lorem lacus, nisl ipsum tellus.' ,
-        certification:["HCA", "Nurse Delegation", "Diabetes", "Dementia", "Mental Health"],
+        //certification:["HCA", "Nurse Delegation", "Diabetes", "Dementia", "Mental Health"],
         filePath: '../files/resumes/rn_resume_st_francis.txt'
     })
 ];

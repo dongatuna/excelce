@@ -46,7 +46,7 @@ exports.createUserJobPosting = function (req, res) {
     });
 
     newPosting.save(function (err, newPosting) {
-        if(err){return next(err);}
+        if(err){return (err);}
 
         res.render("job/view", {posting:newPosting, update:true,user:req.user, csrfToken: req.csrfToken()});
     });

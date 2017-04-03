@@ -1,26 +1,24 @@
 <div class="container">
 
     <div class="page-header">
-        <h1>{{posting.organization.username}}</h1>
+        <h1>{{posting.title}}</h1>
         <p class="lead"> </p>
     </div>
 
-    <h3>{{posting.title}}</h3>
-    <hr>
-    <p>
-        {{posting.description}}
+    <p> {{posting.description}}  </p>
 
-    </p>
-    <h3>Certifications</h3>
+    <p>By: <strong>{{posting.organization.username}}</strong></p>
+
+   <!-- <h3>Certifications</h3>
     <hr>
-   <!-- <div class="row">
+   &lt;!&ndash; <div class="row">
         <ul>
             {{#each posting.requirements}}
                 <li>{{this}}</li>
             {{/each}}
         </ul>
-    </div>-->
-    <hr>
+    </div>&ndash;&gt;
+    <hr>-->
 
     {{#if update}}
     <h3>{{contacts}} Respondents</h3>
@@ -37,10 +35,13 @@
 
     <hr>
 
-    <i class="fa fa-download" aria-hidden="true"></i> Download Job Flyer
+
+    <i class="fa fa-download" aria-hidden="true"></i> Download Job Flyer <br><br>
     {{#if update}}
         <button type="submit" class="btn btn-primary">Continue</button>
         <a href="/job/update/{{posting._id}}">Edit Job Post</a>
+    {{else}}
+        <button type="submit" class="btn btn-success">Contact Employer</button>
     {{/if}}
 
 

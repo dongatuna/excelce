@@ -38,7 +38,9 @@ router.get("/add-to-cart/:id", function(req, res, next){
    var cart = new Cart(req.session.cart ? req.session.cart: {});
 
    Course.findById(courseId, function(err, course){
-       if(err){return res.redirect('/');}//you need to add error messages in production
+       if(err){return
+           res.redirect('/');
+       }//you need to add error messages in production
 
        cart.add(course, course.id);
        req.session.cart = cart;
