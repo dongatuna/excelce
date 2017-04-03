@@ -15,7 +15,7 @@ var postings = [
         " Integer egestas lorem eget justo vestibulum iaculis eget non felis. Praesent massa risus, feugiat eget " +
         "elementum eget, pulvinar quis enim. Nullam pretium ultricies metus non varius. Morbi scelerisque tellus vel " +
         "justo finibus pharetra. Aliquam erat volutpat.",
-        requirements:["CNA", "Nurse Delegation", "Diabetes"],
+        //requirements:["CNA", "Nurse Delegation", "Diabetes"],
         filePath: "../files/resumes/rn_resume_st_francis.txt",
         respondents:["58db165fb5537f2c683ff99f", "58db165fb5537f2c683ff9a0"]
 
@@ -29,7 +29,7 @@ var postings = [
         " sit amet. Donec porttitor urna id ante iaculis blandit. Nullam ornare sagittis vestibulum. Nam sed augue nec" +
         " urna suscipit lobortis. Cras laoreet metus a ipsum mattis consectetur vel molestie felis. Ut id volutpat " +
         "massa. Curabitur ante ex, laoreet at leo sit amet, congue hendrerit metus",
-        requirements:["CNA", "CPR/FA"],
+        //requirements:["CNA", "CPR/FA"],
         filePath:'../files/resumes/rn_resume_st_francis.txt',
         respondents:["58db165fb5537f2c683ff99f"]
     }),
@@ -44,7 +44,7 @@ var postings = [
         "non placerat. Aenean vel dui a elit ultrices interdum. Maecenas quis arcu justo. Interdum et malesuada fames " +
         "ac ante ipsum primis in faucibus. Quisque neque est, faucibus eget est ac, cursus lobortis sem. Donec rhoncus " +
         "non velit eu pretium. Integer id odio libero.",
-        requirements:["Dementia", "Mental Health", "Home Care Aide"],
+        //requirements:["Dementia", "Mental Health", "Home Care Aide"],
         filePath:'../files/resumes/rn_resume_st_francis.txt',
         respondents:["58db165fb5537f2c683ff99f","58db165fb5537f2c683ff9a1"]
     }),
@@ -57,7 +57,7 @@ var postings = [
         "pharetra odio. Aliquam magna mi, tempus ut gravida quis, tempor sit amet mauris. Ut tristique blandit ipsum. " +
         "Maecenas id rhoncus dolor, quis aliquam lacus. Etiam et ante in ligula pretium sodales ut iaculis ipsum. " +
         "Phasellus nec neque vitae neque gravida porttitor.",
-        requirements:["CNA", "Home Care Aide"],
+        //requirements:["CNA", "Home Care Aide"],
         filePath:'../files/resumes/rn_resume_st_francis.txt',
         respondents:null
 
@@ -73,7 +73,7 @@ var postings = [
         "diam eu, congue pretium nulla. Mauris at volutpat quam, ac interdum nisi. Fusce nec ex quis arcu laoreet " +
         "molestie ut sed odio. Phasellus efficitur magna vel enim ornare, venenatis dapibus purus dapibus. Pellentesque" +
         " bibendum euismod arcu ac imperdiet.",
-        requirements:["CNA", "CPR/FA"],
+        //requirements:["CNA", "CPR/FA"],
         filePath:'../files/resumes/rn_resume_st_francis.txt',
         respondents:["58db165fb5537f2c683ff99f", "58db165fb5537f2c683ff9a0", "58db165fb5537f2c683ff99e", "58db165fb5537f2c683ff9a1"]
     })

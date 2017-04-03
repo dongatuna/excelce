@@ -14,56 +14,16 @@
 
             <p><strong>Your Certifications</strong></p>
 
-            <div class="form-group">
-                <div class="checkbox">
-                    <label for="CNA">
-                        <input type="checkbox" value="NAC/CNA" name="certifications[]" > NAC/CNA
-                    </label>
+            {{#each requirements}}
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label for="{{this}}">
+                            <input type="checkbox" name="requirements" value="{{this}}" > {{this}}
+                        </label>
+                    </div>
                 </div>
+            {{/each}}
 
-                <div class="checkbox">
-                    <label for ="HCA">
-                        <input type="checkbox" value="hca" name="certifications[]">75 hour Training/Home Care Aide
-                    </label>
-                </div>
-
-                <div class="checkbox">
-                    <label for = "Core Basic Training">
-                        <input type="checkbox" value="corebasic" name="certifications[]">Core Basic Training
-                    </label>
-                </div>
-
-                <div class="checkbox">
-                    <label for ="Safety and Orientation">
-                        <input type="checkbox" value="mhealth" name="certifications[]">Safety and Orientation
-                    </label>
-                </div>
-
-                <div class="checkbox">
-                    <label for="Dementia">
-                        <input type="checkbox" value="dementia" name="certifications[]">Dementia Certification
-                    </label>
-                </div>
-
-                <div class="checkbox">
-                    <label for ="Mental Health">
-                        <input type="checkbox" value="mhealth" name="certifications[]">Mental Health Certification
-                    </label>
-                </div>
-
-                <div class="checkbox">
-                    <label for ="Nurse Delegation">
-                        <input type="checkbox" value="delegation" name="certifications[]">Nurse Delegation
-                    </label>
-                </div>
-
-                <div class="checkbox">
-                    <label for ="Diabetes">
-                        <input type="checkbox" value="diabetes" name="certifications[]">Nurse Delegation for Diabetes
-                    </label>
-                </div>
-
-            </div>
 
             <div class="form-group">
                 <label for="attachment">Attach A Resume</label>

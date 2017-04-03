@@ -1,6 +1,5 @@
 "use strict";
 
-
 var session = require('express-session');
 var passport = require('passport');
 var Application = require("../models/application");

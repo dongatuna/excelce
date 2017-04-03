@@ -7,30 +7,25 @@ var jobsCtrl= require('../controllers/jobs.Ctrl');
 
 var csrfProtection =  csrf();
 router.use(csrfProtection);
+router.get('/create', isLoggedIn, jobsCtrl.getUserJobPosting);
+
+router.post('/create', isLoggedIn, jobsCtrl.createUserJobPosting);
 
 //this gets the page of all the job postings displayed in a descending order -- will only allow applications if user
 //is logged in
 router.get("/viewall", jobsCtrl.readAllUserJobPostings);
 
-router.get("/:id",  jobsCtrl.readUserJobPosting);
+router.get('/update/:id', isLoggedIn, jobsCtrl.renderUserJobPosting);
 
-router.get('/create', isLoggedIn, function (req, res) {
-    res.render('job/create', {csrfToken: req.csrfToken()});
-});
-
-router.post('/create', isLoggedIn, jobsCtrl.createUserJobPosting);
-
-router.get('/update/:id', isLoggedIn, function (res, req) {
-    var id = req.params.id;
-
-    res.render('job/update', {id:id, csrfToken: req.csrfToken()});
-});
 router.post('/update/:id',  isLoggedIn, jobsCtrl.updateUserJobPosting);
 
-router.get('/delete/:id', isLoggedIn, function (res, req) {
-    res.render('job/delete', {csrfToken: req.csrfToken()});
+router.get('/delete/:id', isLoggedIn, function (req, res) {
+    res.render('job/delete', {user:req.user, csrfToken: req.csrfToken()});
 });
 router.post('/delete/:id', isLoggedIn, jobsCtrl.deleteUserJobPosting);
+
+
+router.get("/:id",  jobsCtrl.readUserJobPosting);
 
 module.exports = router;
 

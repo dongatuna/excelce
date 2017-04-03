@@ -18,11 +18,11 @@ router.post('/create', isLoggedIn, applicationsCtrl.createUserApplication );
 //this gets the page of the providers/jobseeker's application
 router.get("/viewall", isLoggedIn, applicationsCtrl.viewAllUserApplication );
 
-router.get("/:id", isLoggedIn, applicationsCtrl.viewUserApplication );
-
 router.post('/update', isLoggedIn, applicationsCtrl.updateUserApplication );
 
 router.post('/delete', isLoggedIn, applicationsCtrl.deleteUserApplication);
+
+router.get("/:id", isLoggedIn, applicationsCtrl.viewUserApplication );
 
 module.exports = router;
 

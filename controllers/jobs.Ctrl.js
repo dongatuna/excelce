@@ -1,15 +1,27 @@
 "use strict";
-
+var session = require('express-session');
+var passport = require('passport');
 var Posting = require("../models/jobposting");
+
+exports.getUserJobPosting = function (req, res) {
+
+    var requirements = [
+        "NAC/CNA", "75 hour Training/Home Care Aide","Core Basic Training",
+        "Safety and Orientation", "Dementia Training", "Mental Health Training",
+        "Nurse Delegation", "Nurse Delegation for Diabetes"
+    ]
+    res.render('job/create', {user:req.user, requirements:requirements, csrfToken: req.csrfToken()});
+};
 
 exports.createUserJobPosting = function (req, res) {
 
     var title = req.body.title;
     var description = req.body.description;
+    //var requirements = req.body.requirements;
+
     req.checkBody('description', 'Please include a description of your job .').notEmpty();
     req.checkBody('title', 'Please include a title of your job.').notEmpty();
-    //how do I include arrays
-    var requirements = req.body.requirements;
+
     var imagePath = req.body.file_attachment;
     var errors = req.validationErrors(); //validationErrors() extracts all errors of validation
     //store the errors messages in the error.msg property
@@ -22,18 +34,33 @@ exports.createUserJobPosting = function (req, res) {
         });
 
         //return done (null, false, req.flash('error', messages));
-        return res.render('job/create', {csrfToken: req.csrfToken(), messages: messages, hasErrors:messages.length>0});
+        return res.render('job/create', {csrfToken: req.csrfToken(), user:req.user, messages: messages, hasErrors:messages.length>0});
     }
 
     var newPosting= new Posting({
-        user: req.user,
+        organization: req.user,
         title: title,
         description:description,
-        requirements: requirements,
+       // requirements: requirements,
         imagePath: imagePath
     });
 
-    newPosting.save();
+    newPosting.save(function (err, newPosting) {
+        if(err){return next(err);}
+
+        res.render("job/view", {posting:newPosting, update:true,user:req.user, csrfToken: req.csrfToken()});
+    });
+};
+
+
+exports.renderUserJobPosting = function (req, res, next) {
+    var id = req.params.id;
+
+    Posting.findById(id).exec(function(err, posting){
+        if(err) {return next(err);}
+
+        res.render('job/update', {title: "Edit Job Posting", csrfToken: req.csrfToken(), user:req.user, posting:posting});
+    });
 };
 
 exports.readUserJobPosting = function (req, res, next) {
@@ -42,11 +69,9 @@ exports.readUserJobPosting = function (req, res, next) {
     Posting.findById(id).populate('organization respondents').exec(function(err, posting){
         if(err) {return next(err);}
 
-        if(posting.respondents!==null){
-            var contacts = posting.respondents.length;
-        }else var contacts = "No ";
+        var contacts = (posting.respondents!==null)?posting.respondents.length: "No";
 
-        res.render('job/view', {title: "Job Postings By You", posting:posting, contacts:contacts});
+        res.render('job/view', {title: "Job Postings By You", user:req.user, posting:posting, contacts:contacts});
     });
 };
 
@@ -58,28 +83,34 @@ exports.readAllUserJobPostings = function (req, res, next) {
             posting.truncated_description = posting.description.substr(0, 300) + "...";
         });
 
-        res.render('job/viewall', {title: "Job Postings",postings:postings});
+        res.render('job/viewall', {title: "Job Postings",postings:postings, user:req.user});
     });
 };
 
 exports.updateUserJobPosting = function (req, res, next) {
     var id = req.params.id;
 
-    Posting.findById(id, function(err, doc){
-        if (err) {
-            //console.error('error, no entry found');
-            res.send(404, 'no entry found');
-        }
+    Posting.findById(id, function(err, posting){
+        if(err) {return next(err);}
 
-        doc.title = req.body.title;
-        doc.description= req.body.description;
-        doc.requirements= req.body.requirements;
-        doc.imagePath = req.body.imagePath;
+            posting.title = req.body.title;
+            posting.description= req.body.description;
+            //doc.requirements= req.body.requirements;
+            posting.imagePath = req.body.imagePath;
 
-        doc.save();
+            posting.save(function (err) {
+                if(err) {
+                    next (err);
+                    return;
+                }
+
+                req.flash("info", "Your job post has been updated");
+                res.render("job/view", {posting:posting, update:true,user:req.user, csrfToken: req.csrfToken()});
+
+            });
+
+
     });
-
-    res.redirect('/users/success');
 };
 
 exports.deleteUserJobPosting = function (req, res, next) {

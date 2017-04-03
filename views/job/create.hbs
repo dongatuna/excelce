@@ -16,58 +16,21 @@
             </div>
             <hr>
 
-            <p><strong>Required Certifications</strong></p>
+         <!--   <p><strong>Required Certifications</strong></p>
             <div class="form-group">
-                <div class="checkbox">
-                    <label for="CNA">
-                        <input type="checkbox" value="NAC/CNA" name="requirements[]" > NAC/CNA
-                    </label>
-                </div>
 
-                <div class="checkbox">
-                    <label for ="HCA">
-                        <input type="checkbox" value="hca" name="requirements[]">75 hour Training/Home Care Aide
-                    </label>
-                </div>
-
-                <div class="checkbox">
-                    <label for = "Core Basic Training">
-                        <input type="checkbox" value="corebasic" name="requirements[]">Core Basic Training
-                    </label>
-                </div>
-
-                <div class="checkbox">
-                    <label for ="Safety and Orientation">
-                        <input type="checkbox" value="mhealth" name="requirements[]">Safety and Orientation
-                    </label>
-                </div>
-
-                <div class="checkbox">
-                    <label for="Dementia">
-                        <input type="checkbox" value="dementia" name="requirements[]">Dementia Certification
-                    </label>
-                </div>
-
-                <div class="checkbox">
-                    <label for ="Mental Health">
-                        <input type="checkbox" value="mhealth" name="requirements[]">Mental Health Certification
-                    </label>
-                </div>
-
-                <div class="checkbox">
-                    <label for ="Nurse Delegation">
-                        <input type="checkbox" value="delegation" name="requirements[]">Nurse Delegation
-                    </label>
-                </div>
-
-                <div class="checkbox">
-                    <label for ="Diabetes">
-                        <input type="checkbox" value="diabetes" name="requirements[]">Nurse Delegation for Diabetes
-                    </label>
-                </div>
+                {{#each requirements}}
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label for="{{this}}">
+                                <input type="checkbox" name="requirements['{{this}}']" value="{{this}}" > {{this}}
+                            </label>
+                        </div>
+                    </div>
+                {{/each}}
 
             </div>
-
+-->
             <div class="form-group">
                 <label for="file_attachment">Attach A Flyer</label>
                 <input type="file" id="file_attachment" name="file_attachment" class="form-control">
