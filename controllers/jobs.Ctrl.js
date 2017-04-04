@@ -9,7 +9,7 @@ exports.getUserJobPosting = function (req, res) {
         "NAC/CNA", "75 hour Training/Home Care Aide","Core Basic Training",
         "Safety and Orientation", "Dementia Training", "Mental Health Training",
         "Nurse Delegation", "Nurse Delegation for Diabetes"
-    ]
+    ];
     res.render('job/create', {user:req.user, requirements:requirements, csrfToken: req.csrfToken()});
 };
 
@@ -62,7 +62,8 @@ exports.renderUserJobPosting = function (req, res, next) {
     Posting.findById(id).exec(function(err, posting){
         if(err) {return next(err);}
 
-        res.render('job/update', {title: "Edit Job Posting", csrfToken: req.csrfToken(), user:req.user, posting:posting});
+        res.render('job/update', {title: "Edit Job Posting", csrfToken: req.csrfToken(),
+            user:req.user, requirements:requirements, posting:posting, checked:checked});
     });
 };
 
