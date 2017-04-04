@@ -48,10 +48,10 @@ exports.createUserJobPosting = function (req, res) {
         imagePath: imagePath
     });
 
-    newPosting.save(function (err, newPosting) {
+    newPosting.save(function (err, posting) {
         if(err){return (err);}
 
-        res.render("job/view", {posting:newPosting, update:true,user:req.user, csrfToken: req.csrfToken()});
+        res.render("job/view", {posting:posting, update:true,user:req.user, csrfToken: req.csrfToken()});
     });
 };
 

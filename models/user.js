@@ -15,19 +15,7 @@ var userSchema = new Schema({
     createdAt:{type: Date, default:Date.now}
 });
 
-/*//this is a model for the appointment made by the employer for example
-var appointmentSchema = new Schema({
-    provider: {type: String},
-    time: {type: Date},
-    posting: [postingSchema]//use the posting schema to access organization
-});
 
-//this is a model for the organization appointment response made by the provider
-var responseSchema = new Schema({
-    organization: {type: String},
-    time: {type: Date},
-    application: [applicationSchema] //use the application schema to provider
-});*/
 
 var noop = function () {};
 
