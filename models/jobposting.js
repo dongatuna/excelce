@@ -7,7 +7,7 @@ var postingSchema = new Schema({
         organization: {type: Schema.Types.ObjectId, ref:'User'},
         title: {type:String, required:true},
         description: {type:String, required:true},
-        //requirements: {type:Array},
+        requirements: {type:Array},
         filePath:{type:String},
         respondents:[{type:Schema.Types.ObjectId, ref:'Application', default:null}]
 });

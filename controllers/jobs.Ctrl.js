@@ -17,7 +17,10 @@ exports.createUserJobPosting = function (req, res) {
 
     var title = req.body.title;
     var description = req.body.description;
-    //var requirements = req.body.requirements;
+    var requirements = req.body.requirements;
+
+    console.log("Requirements as a string");
+    console.log(requirements);
 
     req.checkBody('description', 'Please include a description of your job .').notEmpty();
     req.checkBody('title', 'Please include a title of your job.').notEmpty();
@@ -41,7 +44,7 @@ exports.createUserJobPosting = function (req, res) {
         organization: req.user,
         title: title,
         description:description,
-       // requirements: requirements,
+        requirements: requirements,
         imagePath: imagePath
     });
 
