@@ -14,16 +14,19 @@
 
             <p><strong>Your Certifications</strong></p>
 
-            {{#each requirements}}
-                <div class="form-group">
-                    <div class="checkbox">
-                        <label for="{{this}}">
-                            <input type="checkbox" name="requirements" value="{{this}}" > {{this}}
-                        </label>
-                    </div>
-                </div>
-            {{/each}}
+            <div class="form-group">
 
+                {{#each certifications}}
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label for="{{this}}">
+                                <input type="checkbox" name="certifications" value="{{this}}"  > {{this}}
+                            </label>
+                        </div>
+                    </div>
+                {{/each}}
+
+            </div>
 
             <div class="form-group">
                 <label for="attachment">Attach A Resume</label>

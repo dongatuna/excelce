@@ -8,10 +8,7 @@ var passport = require('passport');
 var csrfProtection =  csrf();
 router.use(csrfProtection);
 
-router.get("/create", isLoggedIn, function (req, res, next) {
-
-    res.render('application/create', { csrfToken: req.csrfToken()});
-});
+router.get("/create", isLoggedIn, applicationsCtrl.getUserJobApplication);
 
 router.post('/create', isLoggedIn, applicationsCtrl.createUserApplication );
 
@@ -22,7 +19,7 @@ router.post('/update', isLoggedIn, applicationsCtrl.updateUserApplication );
 
 router.post('/delete', isLoggedIn, applicationsCtrl.deleteUserApplication);
 
-router.get("/:id", isLoggedIn, applicationsCtrl.viewUserApplication );
+router.get("/update/:id", isLoggedIn, applicationsCtrl.viewUserApplication );
 
 module.exports = router;
 

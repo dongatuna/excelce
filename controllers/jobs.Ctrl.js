@@ -3,13 +3,13 @@ var session = require('express-session');
 var passport = require('passport');
 var Posting = require("../models/jobposting");
 
-exports.getUserJobPosting = function (req, res) {
+var requirements = [
+    "NAC/CNA", "75 hour Training/Home Care Aide","Core Basic Training", "BLS/CPR and First Aid",
+    "Safety and Orientation", "Dementia Training", "Mental Health Training",
+    "Nurse Delegation", "Nurse Delegation for Diabetes"
+];
 
-    var requirements = [
-        "NAC/CNA", "75 hour Training/Home Care Aide","Core Basic Training",
-        "Safety and Orientation", "Dementia Training", "Mental Health Training",
-        "Nurse Delegation", "Nurse Delegation for Diabetes"
-    ];
+exports.getUserJobPosting = function (req, res) {
     res.render('job/create', {user:req.user, requirements:requirements, csrfToken: req.csrfToken()});
 };
 
@@ -25,7 +25,7 @@ exports.createUserJobPosting = function (req, res) {
     req.checkBody('description', 'Please include a description of your job .').notEmpty();
     req.checkBody('title', 'Please include a title of your job.').notEmpty();
 
-    var imagePath = req.body.file_attachment;
+    var filePath = req.body.file_attachment;
     var errors = req.validationErrors(); //validationErrors() extracts all errors of validation
     //store the errors messages in the error.msg property
     if(errors){
@@ -45,7 +45,7 @@ exports.createUserJobPosting = function (req, res) {
         title: title,
         description:description,
         requirements: requirements,
-        imagePath: imagePath
+        filePath: filePath
     });
 
     newPosting.save(function (err, posting) {

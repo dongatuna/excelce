@@ -25,11 +25,18 @@
         <p>
             <em>
                 <h5>
-                    <strong>
-                        Does {{application.provider.username}} have all certifications needed for your job opening?
-                        If not, <strong><a href="/courses">get</a> </strong> {{application.provider.username}} online
-                        course credits to meet your job opening requirements.
-                    </strong>
+                    {{#if update}}
+                        <strong>
+                            Get more certifications <a href="/courses">here</a>  to get more job offers.
+                        </strong>
+                    {{else}}
+                        <strong>
+                            Does {{application.provider.username}} have all certifications needed for your job opening?
+                            If not, <a href="/courses">get</a> {{application.provider.username}} online course credits
+                            to meet your job opening requirements.
+                        </strong>
+                    {{/if}}
+
                 </h5>
             </em>
 
@@ -52,7 +59,13 @@
     </div>
 
     <hr>
-    <button type="submit" class="btn btn-success">Contact Applicant</button>
+    {{# if update}}
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a href="/application/update/{{application._id}}">Edit Job Application</a>
+    {{else}}
+        <button type="submit"  class="btn btn-primary"></button>
+    {{/if}}
+
 
     <hr>
     <i class="fa fa-download" aria-hidden="true"></i> Download Resume
