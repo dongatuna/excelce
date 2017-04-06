@@ -63,7 +63,7 @@ exports.renderUserJobPosting = function (req, res, next) {
         if(err) {return next(err);}
 
         res.render('job/update', {title: "Edit Job Posting", csrfToken: req.csrfToken(),
-            user:req.user, requirements:requirements, posting:posting, checked:checked});
+            user:req.user, requirements:requirements, posting:posting});
     });
 };
 
