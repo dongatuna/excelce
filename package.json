@@ -4,7 +4,10 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "seed": "node seed/CourseSeeder.js"
+    "seed:applications": "node seed/ApplicationSeeder.js",
+    "seed:courses": "node seed/CourseSeeder.js",
+    "seed:job_postings": "node seed/JobPostingSeeder.js",
+    "seed": "npm run seed:applications && npm run seed:courses && npm run seed:job_postings"
   },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
