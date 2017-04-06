@@ -70,7 +70,7 @@ exports.renderUserJobPosting = function (req, res, next) {
 exports.readUserJobPosting = function (req, res, next) {
     var id = req.params.id;
 
-    Posting.findById(id).populate('organization respondents').exec(function(err, posting){
+    Posting.findById(id).populate('organization').exec(function(err, posting){
         if(err) {return next(err);}
 
         var contacts = (posting.respondents!==null)?posting.respondents.length: "No";

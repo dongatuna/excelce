@@ -39,19 +39,20 @@ exports.createUserApplication = function (req, res, next) {
 };
 
 exports.viewAllUserApplication = function(req, res, next){
-    if(req.user.role==='organization'){
+    //if(req.user.role==='organization'){ }
 
-        Application.find().populate('provider').sort({}).exec(function(err, applications){
+        Application.find().populate('provider').sort({createdAt:"descending"}).exec(function(err, applications){
             if(err) {return next(err);}
 
             applications.map(function (application) {
                 application.truncated_description = application.description.substr(0, 300) + "...";
             });
+
             res.render('application/viewall', {user:req.user, applications:applications, title: "View Application"});
         });
-    }
+
         req.flash("error", "Only registered employers can view job seekers' profiles.");
-        res.redirect('/users/provider');
+        res.redirect('/users/success');
 
 };
 
