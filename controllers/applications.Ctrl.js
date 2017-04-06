@@ -33,7 +33,7 @@ exports.createUserApplication = function (req, res, next) {
         newApplication.save(function (err, application) {
             if(err){return (err);}
 
-            res.render("application/view", {application:application, update:true,user:req.user, csrfToken: req.csrfToken()});
+            res.render("application/view", {application:application, update:true,user:req.user});
         });
     }
 };
@@ -65,34 +65,36 @@ exports.viewUserApplication = function(req, res, next){
       var count = application.certifications.length;
       var certCount = certifications.length;
       var i, j;
-
+        //create an array filled with all false values
+        //fetch the data from database if
       for (i=0; i<=count;i++){
           for(j=i; j<=certCount;j++){
               if(application.certifications[j]===certifications[i]){
-                  var checked = true;
+                  //var checked = true;
+                  console.log(certifications[i]);
+                  console.log(application.certifications[j]);
               }
           }
       }
 
-       res.render('application/update', {user:req.user, application:application, checked:checked, certifications:certifications, title: "View Application"});
+       res.render('application/update', {user:req.user, application:application, csrfToken: req.csrfToken(), certifications:certifications, title: "View Application"});
     });
 };
 
 exports.updateUserApplication = function(req, res, next){
-    var id = req.body.id;
+    var id = req.params.id;
 
-    Application.findById(id, function(err, doc){
+    Application.findById(id, function(err, application){
         if (err) {
             console.error('error, no entry found');
         }
-
-        doc.description = req.body.description;
-        doc.certifications = req.body.certifications;
-        doc.imagePath = req.body.imagePath;
-        doc.save();
+        application.certifications = req.body.certifications;
+        application.description = req.body.descript;
+        application.filePath = req.body.filePath;
+        application.save();
     });
 
-    res.redirect('/application/view');
+
 };
 
 

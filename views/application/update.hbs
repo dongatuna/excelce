@@ -2,12 +2,10 @@
     <div class="col-md-6 col-md-offset-4">
         <h2>Apply for a Job</h2>
         ////Validation Errors for find caregivers form
-        <form action="/application/create" method="post">
+        <form action="/application/update/{{application._id}}" method="post">
             <div class="form-group">
                 <label for="description">Resume</label>
-                <textarea name="description" id="description" class="form-control" rows = "15">
-                    {{application.description}}
-                </textarea>
+                <textarea  id="description" class="form-control" name="descript" rows = "15">{{application.description}}</textarea>
             </div>
             <hr>
 

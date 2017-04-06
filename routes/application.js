@@ -15,7 +15,7 @@ router.post('/create', isLoggedIn, applicationsCtrl.createUserApplication );
 //this gets the page of the providers/jobseeker's application
 router.get("/viewall", isLoggedIn, applicationsCtrl.viewAllUserApplication );
 
-router.post('/update', isLoggedIn, applicationsCtrl.updateUserApplication );
+router.post('/update/:id', isLoggedIn, applicationsCtrl.updateUserApplication );
 
 router.post('/delete', isLoggedIn, applicationsCtrl.deleteUserApplication);
 
