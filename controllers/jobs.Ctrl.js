@@ -96,10 +96,9 @@ exports.updateUserJobPosting = function (req, res, next) {
 
     Posting.findById(id, function(err, posting){
         if(err) {return next(err);}
-
             posting.title = req.body.title;
             posting.description= req.body.description;
-            //doc.requirements= req.body.requirements;
+            posting.requirements = req.body.requirements;
             posting.imagePath = req.body.imagePath;
 
             posting.save(function (err) {

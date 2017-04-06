@@ -23,7 +23,7 @@
                     <div class="form-group">
                         <div class="checkbox">
                             <label for="{{this}}">
-                                <input type="checkbox" name="requirements" value="{{this}}"  > {{this}}
+                                <input type="checkbox" name="requirements" value="{{this}}" {{#ifIn this ../posting.requirements}}checked{{/ifIn}} > {{this}}
 
                             </label>
                         </div>

@@ -40,7 +40,18 @@ mongoose.connection.once('open', function(){
 });
 
 // view engine setup
-app.engine('.hbs', expressHbs({defaultLayout:'layout', extname:'.hbs'}));
+app.engine('.hbs', expressHbs({
+  defaultLayout:'layout',
+  extname:'.hbs',
+  helpers: {
+    ifIn: function(elem, list, options) {
+      if(list.indexOf(elem) > -1) {
+        return options.fn(this);
+      }
+      return options.inverse(this);
+    }
+  }
+}));
 app.set('view engine', '.hbs');
 
 // uncomment after placing your favicon in /public
