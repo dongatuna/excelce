@@ -94,7 +94,8 @@ exports.readAllUserJobPostings = function (req, res, next) {
 exports.updateUserJobPosting = function (req, res, next) {
     var id = req.params.id;
 
-    Posting.findById(id, function(err, posting){
+    Posting.findById(id).populate('organization').exec(function(err, posting){
+        console.log(posting)
         if(err) {return next(err);}
             posting.title = req.body.title;
             posting.description= req.body.description;
