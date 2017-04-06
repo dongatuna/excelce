@@ -3,6 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "vendor:datetimepicker": "cp node_modules/datetimepicker/dist/DateTimePicker.min.css public/stylesheets && cp node_modules/datetimepicker/dist/DateTimePicker.min.js public/javascripts",
+    "vendor": "npm run vendor:datetimepicker",
     "start": "node ./bin/www",
     "seed:applications": "node seed/ApplicationSeeder.js",
     "seed:courses": "node seed/CourseSeeder.js",
@@ -29,5 +31,8 @@
     "passport-local": "^1.0.0",
     "serve-favicon": "~2.3.2",
     "stripe": "^4.15.1"
+  },
+  "devDependencies": {
+    "datetimepicker": "^0.1.38"
   }
 }
