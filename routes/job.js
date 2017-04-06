@@ -1,28 +1,29 @@
 var express = require('express');
 var router = express.Router();
 var csrf = require('csurf');
+var multer = require('multer');
 var jobsCtrl= require('../controllers/jobs.Ctrl');
 
 
 
 var csrfProtection =  csrf();
-router.use(csrfProtection);
-router.get('/create', isLoggedIn, jobsCtrl.getUserJobPosting);
 
-router.post('/create', isLoggedIn, jobsCtrl.createUserJobPosting);
+router.get('/create', isLoggedIn, csrfProtection, jobsCtrl.getUserJobPosting);
+
+router.post('/create', isLoggedIn, multer().single('file_attachment'), csrfProtection, jobsCtrl.createUserJobPosting);
 
 //this gets the page of all the job postings displayed in a descending order -- will only allow applications if user
 //is logged in
 router.get("/viewall", jobsCtrl.readAllUserJobPostings);
 
-router.get('/update/:id', isLoggedIn, jobsCtrl.renderUserJobPosting);
+router.get('/update/:id', isLoggedIn, csrfProtection, jobsCtrl.renderUserJobPosting);
 
-router.post('/update/:id',  isLoggedIn, jobsCtrl.updateUserJobPosting);
+router.post('/update/:id',  isLoggedIn, multer().single('file_attachment'), csrfProtection, jobsCtrl.updateUserJobPosting);
 
 router.get('/delete/:id', isLoggedIn, function (req, res) {
     res.render('job/delete', {user:req.user, csrfToken: req.csrfToken()});
 });
-router.post('/delete/:id', isLoggedIn, jobsCtrl.deleteUserJobPosting);
+router.post('/delete/:id', isLoggedIn, multer().single('file_attachment'), csrfProtection, jobsCtrl.deleteUserJobPosting);
 
 
 router.get("/:id",  jobsCtrl.readUserJobPosting);
