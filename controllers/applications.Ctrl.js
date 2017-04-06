@@ -39,8 +39,7 @@ exports.createUserApplication = function (req, res, next) {
 };
 
 exports.viewAllUserApplication = function(req, res, next){
-    //if(req.user.role==='organization'){ }
-
+    if(req.user.role==='organization') {
         Application.find().populate('provider').sort({createdAt:"descending"}).exec(function(err, applications){
             if(err) {return next(err);}
 
@@ -50,10 +49,10 @@ exports.viewAllUserApplication = function(req, res, next){
 
             res.render('application/viewall', {user:req.user, applications:applications, title: "View Application"});
         });
-
+    } else {
         req.flash("error", "Only registered employers can view job seekers' profiles.");
         res.redirect('/users/success');
-
+    }
 };
 
 exports.viewUserApplication = function(req, res, next){
