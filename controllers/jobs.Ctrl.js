@@ -128,9 +128,9 @@ exports.getCheckout = function (req, res, next) {
 
     var errMsg = req.flash('error')[0];
 
-    var stripeTotal = 6000;
+    var stripeTotal = 60.00;
 
-    res.render('pages/checkout', {user:req.user, errMsg:errMsg, noError:!errMsg, stripeTotal:stripeTotal});
+    res.render('job/checkout', {user:req.user, errMsg:errMsg, noError:!errMsg, stripeTotal:stripeTotal});
 };
 
 exports.postCheckout = function(req, res, next){
