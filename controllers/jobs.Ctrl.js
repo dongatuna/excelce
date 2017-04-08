@@ -2,6 +2,8 @@
 var session = require('express-session');
 var passport = require('passport');
 var Posting = require("../models/jobposting");
+var Post = require("../models/post");
+
 
 var requirements = [
     "NAC/CNA", "75 hour Training/Home Care Aide","Core Basic Training", "BLS/CPR and First Aid",
@@ -95,7 +97,7 @@ exports.updateUserJobPosting = function (req, res, next) {
     var id = req.params.id;
 
     Posting.findById(id).populate('organization').exec(function(err, posting){
-        console.log(posting)
+
         if(err) {return next(err);}
             posting.title = req.body.title;
             posting.description= req.body.description;
@@ -114,6 +116,60 @@ exports.updateUserJobPosting = function (req, res, next) {
             });
 
 
+    });
+};
+
+exports.getCheckout = function (req, res, next) {
+    if (!req.user) {
+        req.flash("error", "Please sign in to complete posting your job opening");
+        req.session.oldUrl = req.url;
+        return res.redirect('/users/signin');
+    }
+
+    var errMsg = req.flash('error')[0];
+
+    var stripeTotal = 6000;
+
+    res.render('pages/checkout', {user:req.user, errMsg:errMsg, noError:!errMsg, stripeTotal:stripeTotal});
+};
+
+exports.postCheckout = function(req, res, next){
+
+    // Set your secret key: remember to change this to your live secret key in production
+    // See your keys here: https://dashboard.stripe.com/account/apikeys
+    var stripe = require("stripe")("sk_test_kWOaHzogv8SjynnUtJWU8RA6");
+
+    // Token is created using Stripe.js or Checkout!
+    // Get the payment token submitted by the form:
+    var token = req.body.stripeToken; // Using Express
+    // Create a Charge:
+    stripe.charges.create({
+        amount: 6000,//in cents
+        currency: "usd",
+        source: token,
+        description: "Job Post Charge"
+    },function (err, charge) {
+        if (err) {
+            req.flash("error", err.message);
+            return res.redirect("/job/checkout");
+        }
+
+        var post = new Post({
+            user: req.user,
+            address: req.body.address,
+            name: req.body.name,
+            postId: charge.id
+        });
+
+        post.save(function(err, result){
+            if (err) {
+                req.flash("error", err.message);
+                return res.redirect("/job/checkout");
+            }
+
+            req.flash("success", "Your post was successful.  Please check your email for further instruction!");
+            res.redirect("/users/success");
+        });
     });
 };
 

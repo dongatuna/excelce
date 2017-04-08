@@ -9,6 +9,7 @@
 
     <p>By: <strong>{{posting.organization.username}}</strong></p>
 
+    <hr>
   <h3>Certifications</h3>
     <hr>
   <div class="row">
@@ -18,7 +19,7 @@
             {{/each}}
         </ul>
     </div>
-    <hr>
+
 
     <!--{{#if update}}
     <h3>{{contacts}} Respondents</h3>
@@ -33,12 +34,13 @@
         {{/each}}
     {{/if}}
 -->
+
     <hr>
 
 
-    <i class="fa fa-download" aria-hidden="true"></i> Download Job Flyer <br><br>
     {{#if update}}
-        <button type="submit" class="btn btn-primary">Continue</button>
+        <a href="/job/checkout" class="btn btn-primary pull-right" role="button">Continue</a>
+        <!--<button type="submit" class="btn btn-primary">Continue</button>-->
         <a href="/job/update/{{posting._id}}">Edit Job Post</a>
     {{else}}
         <button type="submit" class="btn btn-success">Contact Employer</button>

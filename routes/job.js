@@ -20,6 +20,11 @@ router.get('/update/:id', isLoggedIn, csrfProtection, jobsCtrl.renderUserJobPost
 
 router.post('/update/:id',  isLoggedIn, multer().single('file_attachment'), csrfProtection, jobsCtrl.updateUserJobPosting);
 
+router.get("/checkout", isLoggedIn,  csrfProtection, jobsCtrl.getCheckout );
+
+
+router.post("/checkout", isLoggedIn,  csrfProtection, jobsCtrl.postCheckout );
+
 router.get('/delete/:id', isLoggedIn, function (req, res) {
     res.render('job/delete', {user:req.user, csrfToken: req.csrfToken()});
 });
