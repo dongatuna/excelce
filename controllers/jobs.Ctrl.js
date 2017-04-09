@@ -69,17 +69,6 @@ exports.renderUserJobPosting = function (req, res, next) {
     });
 };
 
-exports.readUserJobPosting = function (req, res, next) {
-    var id = req.params.id;
-
-    Posting.findById(id).populate('organization').exec(function(err, posting){
-        if(err) {return next(err);}
-
-        var contacts = (posting.respondents!==null)?posting.respondents.length: "No";
-
-        res.render('job/view', {title: "Job Postings By You", user:req.user, posting:posting, contacts:contacts});
-    });
-};
 
 exports.readAllUserJobPostings = function (req, res, next) {
     Posting.find().populate('organization respondents').sort({createdAt: "descending"}).exec(function(err, postings){
@@ -166,11 +155,22 @@ exports.postCheckout = function(req, res, next){
                 req.flash("error", err.message);
                 return res.redirect("/job/checkout");
             }
-
             req.flash("success", "Your post was successful.  Please check your email for further instruction!");
             res.redirect("/users/success");
         });
     });
+};
+
+exports.getDeleteUserJobPosting = function (req, res) {
+    var dele = true;
+    var id = req.params.id;
+    Posting.findById(id).exec(function(err, posting){
+        if(err) {return next(err);}
+
+        res.render('job/delete', {title: "Delete Job Posting", delete:dele, csrfToken: req.csrfToken(),
+            user:req.user, posting:posting});
+    });
+
 };
 
 exports.deleteUserJobPosting = function (req, res, next) {

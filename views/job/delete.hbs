@@ -1,0 +1,59 @@
+<div class="row">
+    <div class="col-md-6 col-md-offset-4">
+        <form action="/job/delete/{{posting._id}}" method="post" enctype="multipart/form-data">
+
+            <div class="form-group">
+                <h1>Title: {{posting.title}}</h1>
+            </div>
+
+            <div class="form-group">
+                <h3>Description</h3>
+                <hr>
+                <p>{{posting.description}}</p>
+            </div>
+
+            <div class="form-group">
+                <p>By: <strong>{{user.username}}</strong></p>
+            </div>
+
+            <div class="form-group">
+                <h3>Certifications</h3>
+                <hr>
+                <div class="row">
+                    <ul>
+                        {{#each posting.requirements}}
+                            <li>{{this}}</li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </div>
+
+                <!--{{#if update}}
+                <h3>{{contacts}} Respondents</h3>
+                    {{#each posting.respondents}}
+                        <strong>{{this.respondents.username}}</strong>
+                        <p>{{this.description}}</p>
+                        {{# each this.certifications}}
+                            <ul display="inline">
+                                <li >{{this}}</li>
+                            </ul>
+                        {{/each}}
+                {{/each}}
+                {{/if}}
+            -->
+
+            <hr>
+            <input type="hidden" name="_csrf" id="_csrf" value="{{csrfToken}}" >
+
+                {{#if delete}}
+                    <!--<a href="/job/checkout" class="btn btn-danger pull-right" role="button">Delete Post</a>-->
+                    <button type="submit" class="btn btn-danger pull-right">Delete Post</button>
+                    <!--<button type="submit" class="btn btn-primary">Continue</button>-->
+                    <a href="/job/update/{{posting._id}}">Edit Job Post</a>
+
+                {{/if}}
+            <hr>
+
+        </form>
+    </div>
+</div>

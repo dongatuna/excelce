@@ -16,7 +16,7 @@ router.post('/create', isLoggedIn, multer().single('file_attachment'), csrfProte
 //is logged in
 router.get("/viewall", jobsCtrl.readAllUserJobPostings);
 
-router.get('/update/:id', isLoggedIn, csrfProtection, jobsCtrl.renderUserJobPosting);
+router.get('/update/:id', isLoggedIn, multer().single('file_attachment'), csrfProtection,  jobsCtrl.renderUserJobPosting);
 
 router.post('/update/:id',  isLoggedIn, multer().single('file_attachment'), csrfProtection, jobsCtrl.updateUserJobPosting);
 
@@ -25,13 +25,11 @@ router.get("/checkout", isLoggedIn,  jobsCtrl.getCheckout );
 
 router.post("/checkout", isLoggedIn,  jobsCtrl.postCheckout );
 
-router.get('/delete/:id', isLoggedIn, function (req, res) {
-    res.render('job/delete', {user:req.user, csrfToken: req.csrfToken()});
-});
+router.get('/delete/:id', isLoggedIn, multer().single('file_attachment'), csrfProtection,jobsCtrl.getDeleteUserJobPosting);
 router.post('/delete/:id', isLoggedIn, multer().single('file_attachment'), csrfProtection, jobsCtrl.deleteUserJobPosting);
 
 
-router.get("/:id",  jobsCtrl.readUserJobPosting);
+//router.get("/:id",  isLoggedIn, jobsCtrl.readUserJobPosting);
 
 module.exports = router;
 

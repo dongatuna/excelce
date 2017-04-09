@@ -13,7 +13,6 @@
         <div class="list-group">
             <button type="button" class="list-group-item"><a href="/users/notification">Set Your Alert Notifications</a> </button>
             <button type="button" class="list-group-item"><a href="/application/viewall">Find Caregivers</a> </button>
-            <button type="button" class="list-group-item">Your Job Opening Postings</button>
             <button type="button" class="list-group-item">Keep Your Employee's CEs current</button>
             <button type="button" class="list-group-item">Sponsor a Caregiver Training</button>
             <button type="button" class="list-group-item">Buy Credits </button>
@@ -21,11 +20,11 @@
     </div>
 </div>
 
+<!--
 <div class="row">
     <div class ="col-md-8 col-md-offset-2">
         <h3>My Orders</h3>
         <hr>
-
         {{# each orders}}
 
             <div class="panel panel-default">
@@ -45,3 +44,30 @@
         {{/each}}
     </div>
 </div>
+-->
+
+
+<div class="row">
+    <div class ="col-md-8 col-md-offset-2">
+        <h3>My Job Posts</h3>
+        <hr>
+
+        {{# each posts}}
+
+            <div class="panel panel-default">
+
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            {{this.title}}
+                            <a href="/job/delete/{{this._id}}"  class="pull-right">Delete</a>
+                            <a href="/job/update/{{this._id}}"  class="pull-right">Edit</a>
+                            <a href="/job/update/{{this._id}}"  class="pull-right">Repost</a>
+                        </li>
+                    </ul>
+
+            </div>
+        {{/each}}
+    </div>
+</div>
+
+

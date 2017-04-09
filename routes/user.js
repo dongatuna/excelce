@@ -6,7 +6,7 @@ var usersCtrl = require('../controllers/users.Ctrl');
 var User = require("../models/user");
 var Order = require("../models/order");
 var Cart = require("../models/cart");
-
+var Posting = require("../models/jobposting");
 
 var csrfProtection =  csrf();
 router.use(csrfProtection);
@@ -35,10 +35,11 @@ router.get('/provider', isLoggedIn, function (req, res, next) {
     });
 });
 
-router.get('/organization', isLoggedIn, function (req, res) {
+router.get('/organization', isLoggedIn, function (req, res, next) {
 
-    var successMsg = req.flash("success")[0];
-    Order.find({user:req.user}, function(err, orders){
+   var successMsg = req.flash("success")[0];
+
+/*   Order.find({user:req.user}, function(err, orders){
 
         if(err){req.write("There has been an error");}
 
@@ -46,9 +47,23 @@ router.get('/organization', isLoggedIn, function (req, res) {
             cart = new Cart(order.cart);
             order.items = cart.generateArray();
         });
+        //res.render('users/organization', {posts:posts, orders:orders, user:req.user, successMsg: successMsg, noMessages: !successMsg});
 
-        res.render('users/organization', {orders:orders, user:req.user, successMsg: successMsg, noMessages: !successMsg});
     });
+   */
+
+    Posting.find({"organization":req.user}).sort({createdAt: "descending"}).exec(function(err, posts){
+       if(err) {return next(err);}
+
+        res.render('users/organization', {posts:posts, user:req.user, successMsg: successMsg, noMessages: !successMsg});
+
+
+
+   });
+
+
+
+
 });
 
 router.get('/success', isLoggedIn, usersCtrl.getSuccessRoute);

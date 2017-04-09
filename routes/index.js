@@ -106,11 +106,11 @@ router.post('/checkout', isLoggedIn, function(req, res, next){
 
     var cart = new Cart(req.session.cart);
     // Set your secret key: remember to change this to your live secret key in production
-// See your keys here: https://dashboard.stripe.com/account/apikeys
+    // See your keys here: https://dashboard.stripe.com/account/apikeys
     var stripe = require("stripe")("sk_test_kWOaHzogv8SjynnUtJWU8RA6");
 
-// Token is created using Stripe.js or Checkout!
-// Get the payment token submitted by the form:
+    // Token is created using Stripe.js or Checkout!
+    // Get the payment token submitted by the form:
     var token = req.body.stripeToken; // Using Express
     // Create a Charge:
     stripe.charges.create({

@@ -93,8 +93,6 @@ exports.updateUserApplication = function(req, res, next){
         application.filePath = req.body.filePath;
         application.save();
     });
-
-
 };
 
 
