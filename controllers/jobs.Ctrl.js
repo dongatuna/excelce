@@ -69,6 +69,17 @@ exports.renderUserJobPosting = function (req, res, next) {
     });
 };
 
+exports.readUserJobPosting = function (req, res, next) {
+    var id = req.params.id;
+
+    Posting.findById(id).populate('organization').exec(function(err, posting){
+        if(err) {return next(err);}
+
+        var contacts = (posting.respondents!==null)?posting.respondents.length: "No";
+
+        res.render('job/view', {title: "Job Postings By You", user:req.user, posting:posting, contacts:contacts});
+    });
+};
 
 exports.readAllUserJobPostings = function (req, res, next) {
     Posting.find().populate('organization respondents').sort({createdAt: "descending"}).exec(function(err, postings){

@@ -15,7 +15,10 @@
   <div class="row">
         <ul>
             {{#each posting.requirements}}
-                <li>{{this}}</li>
+                <li>{{this}}
+                <!--<a href="/courses" class="pull-right">Get this requirement here</a>-->
+                </li>
+
             {{/each}}
         </ul>
     </div>
@@ -43,7 +46,8 @@
         <!--<button type="submit" class="btn btn-primary">Continue</button>-->
         <a href="/job/update/{{posting._id}}">Edit Job Post</a>
     {{else}}
-        <button type="submit" class="btn btn-success">Contact Employer</button>
+
+        <a href="/job/checkout" class="btn btn-primary pull-right" role="button">Contact Employer</a>
     {{/if}}
 
 

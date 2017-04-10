@@ -6,6 +6,7 @@ var orderSchema = new Schema ({
     cart: {type:Object, required: true},
     address: {type: String, required: true},
     name: {type: String, required: true},
+    createdAt:{type: Date, default:Date.now},
     paymentId: {type:String, required: true}
 });
 

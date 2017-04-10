@@ -9,6 +9,7 @@ var eventSchema = new Schema({
     description: {type:String, required:true},
     start:{type: Date},
     end:{type:Date},
+    createdAt:{type: Date, default:Date.now},
     filePath:{type:String}
 });
 

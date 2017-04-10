@@ -7,6 +7,7 @@ var applicationSchema = new Schema ({
     provider:{type:Schema.Types.ObjectId, ref:'User'},
     description: {type:String, required:true},
     certifications: [{type:String}],
+    createdAt:{type: Date, default:Date.now},
     filePath:{type:String}
 });
 

@@ -28,8 +28,7 @@ router.post("/checkout", isLoggedIn,  jobsCtrl.postCheckout );
 router.get('/delete/:id', isLoggedIn, multer().single('file_attachment'), csrfProtection,jobsCtrl.getDeleteUserJobPosting);
 router.post('/delete/:id', isLoggedIn, multer().single('file_attachment'), csrfProtection, jobsCtrl.deleteUserJobPosting);
 
-
-//router.get("/:id",  isLoggedIn, jobsCtrl.readUserJobPosting);
+router.get("/:id",  isLoggedIn, jobsCtrl.readUserJobPosting);
 
 module.exports = router;
 

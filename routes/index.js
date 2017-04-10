@@ -117,7 +117,7 @@ router.post('/checkout', isLoggedIn, function(req, res, next){
         amount: cart.totalPrice*100,//in cents
         currency: "usd",
         source: token,
-        description: "Test Charge"
+        description: "Course Charge"
     },function (err, charge) {
         if (err) {
             req.flash("error", err.message);
