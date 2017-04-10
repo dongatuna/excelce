@@ -56,13 +56,7 @@ router.get('/organization', isLoggedIn, function (req, res, next) {
        if(err) {return next(err);}
 
         res.render('users/organization', {posts:posts, user:req.user, successMsg: successMsg, noMessages: !successMsg});
-
-
-
    });
-
-
-
 
 });
 
@@ -74,6 +68,15 @@ router.get("/register/:role", function (req, res) {
 });
 
 router.get("/register", usersCtrl.getUserRegisterRoute);
+
+router.get('/auth/facebook', passport.authenticate('facebook'));
+
+router.get('/auth/facebook/callback',
+    passport.authenticate('facebook', { failureRedirect: '/login' }),
+    function(req, res) {
+        // Successful authentication, redirect home.
+        res.redirect('/');
+    });
 
 router.post('/register', function(req, res, next){
 
