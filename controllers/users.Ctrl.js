@@ -1,5 +1,28 @@
 "use strict";
 
+exports.mustHaveRoleChosen = function (req, res, next) {
+    var role = req.user.role;
+    if (role && role != "") return next();
+    res.redirect("/users/choose-role");
+}
+
+exports.chooseRole = function (req, res, next) {
+    var role = req.user.role;
+    if (role && role != "") return next();
+    res.render("users/choose-role");
+}
+
+exports.setRole = function (req, res, next) {
+    var role = req.body.role;
+    var user = req.user;
+    user.role = role;
+    user.save(next);
+}
+
+exports.goToRole = function (req, res, next) {
+    res.redirect("/users/" + req.user.role);
+}
+
 exports.getUserRegisterRoute = function (req, res) {
     var role = req.session.role;
     //get any errors from passport

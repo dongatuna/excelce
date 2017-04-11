@@ -3,6 +3,7 @@ var User = require('../models/user');
 var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+var uuidV4 = require("uuid/v4");
 
 passport.serializeUser(function (user, done) {
     done(null, user.id);
@@ -47,27 +48,32 @@ passport.use('local', new LocalStrategy(
 passport.use(new FacebookStrategy({
         clientID: "286814831741215",
         clientSecret: "2c2bf9d137d4139790c4e33adb29d7dc",
-        callbackURL: "https://211f39bn.ngrok.io/users/success",
+        callbackURL: "https://5d7a7ba3.ngrok.io/users/success/facebook",
         enableProof: true,
         profileFields: ['id', 'displayName', 'photos', 'email']
     },
     function(accessToken, refreshToken, profile, done) {
-        User.findOrCreate({ facebookId: profile.id }, function (err, user) {
-            if(err){return done(err);}
-            done(null, user);
-        });
+        console.log(profile);
+
+        emails = profile.emails;
+        email = emails && emails[0];
+        if (!email) return done(new Error("no email returned from OAuth login"));
+
+        User.findOrCreate(email, done);
     }
 ));
 
 passport.use(new GoogleStrategy({
         clientID: "320818312142-purmb3530ngrn4i7d4cqskkgahf2p0uu.apps.googleusercontent.com",
         clientSecret: "pMtxXeocjMFAaXo310AHwqVs",
-        callbackURL: "https://211f39bn.ngrok.io/users/success"
+        callbackURL: "https://5d7a7ba3.ngrok.io/users/success/google"
     },
     function(accessToken, refreshToken, profile, done) {
-        User.findOrCreate({ googleId: profile.id }, function (err, user) {
-            return done(err, user);
-        });
+        emails = profile.emails;
+        email = emails && emails[0];
+        if (!email) return done(new Error("no email returned from OAuth login"));
+
+        User.findOrCreate(email, done)
     }
 ));
 

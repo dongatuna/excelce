@@ -69,8 +69,9 @@ router.get("/register", usersCtrl.getUserRegisterRoute);
 
 router.get('/auth/facebook', passport.authenticate('facebook'));
 
-router.get('/success',
+router.get('/success/facebook',
     passport.authenticate('facebook', { failureRedirect: '/login' }),
+    usersCtrl.mustHaveRoleChosen,
     function(req, res) {
         // Successful authentication, redirect home.
         res.redirect('/');
@@ -80,12 +81,16 @@ router.get('/auth/google',
     passport.authenticate('google', { scope: 'https://www.google.com/m8/feeds' }));
 
 
-router.get('/auth/google/success',
+router.get('/success/google',
     passport.authenticate('google', { failureRedirect: '/login' }),
+    usersCtrl.mustHaveRoleChosen,
     function(req, res) {
         res.redirect('/');
     }
 );
+
+router.get('/choose-role', isLoggedIn, usersCtrl.chooseRole, usersCtrl.goToRole);
+router.post('/choose-role', isLoggedIn, usersCtrl.setRole, usersCtrl.goToRole);
 
 router.post('/register', function(req, res, next){
 

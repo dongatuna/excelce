@@ -9,7 +9,7 @@ var userSchema = new Schema({
     email: {type: String, required:true, unique:true},
     username:{type: String, required:true},
     password: {type: String, required:true},
-    role: {type: String, enum: ['organization', 'provider'], required:true},
+    role: {type: String, enum: ['organization', 'provider']},
     tel: {type:String, default:null},
     notifyByPhone: {type: Boolean},
     notifyBySms: {type: Boolean},
@@ -48,5 +48,25 @@ userSchema.methods.checkPassword = function(guess, done){
     });
 };
 
-module.exports = mongoose.model('User', userSchema);
+var User = mongoose.model('User', userSchema);
 
+User.findOrCreate = function(email, done) {
+    User.findOne({email: email}, function (err, user){
+        if (err) return done(err);
+        if (user) return done(null, user);
+
+        if (!user) {
+            user = new User({
+                email: email,
+                username: email,
+                password: uuidV4()
+            });
+            user.save(function(err) {
+                if (err) return done(err);
+                done(null, user);
+            });
+        }
+    });
+};
+
+module.exports = User;
