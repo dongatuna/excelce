@@ -76,11 +76,11 @@ router.get('/success',
         res.redirect('/');
     });
 
-app.get('/auth/google',
+router.get('/auth/google',
     passport.authenticate('google', { scope: 'https://www.google.com/m8/feeds' }));
 
 
-app.get('/success',
+router.get('/auth/google/success',
     passport.authenticate('google', { failureRedirect: '/login' }),
     function(req, res) {
         res.redirect('/');
