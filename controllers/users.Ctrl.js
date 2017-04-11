@@ -39,6 +39,22 @@ exports.addUserNotification = function(req, res, next) {
 
         user.tel = req.body.tel;
         user.mode = req.body.mode;
+
+        //validate the telephone number
+        req.checkBody('tel', 'Phone number must be 10 digits').notEmpty().isLength({min:10});
+        //if the validation errors exist, store them in the variable errors
+        var errors = req.validationErrors(); //validationErrors() extracts all errors of validation
+        //store the errors messages in the error.msg property
+        if(errors){
+            //create an array of messages to pass to the view
+            var messages = [];
+            errors.forEach(function(error){
+                //push any error you find INTO the messages array
+                messages.push(error.msg);
+            });
+            res.locals.messages = messages;
+            return next();
+        }
         user.save();
      });
 };
