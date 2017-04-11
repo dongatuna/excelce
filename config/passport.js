@@ -47,7 +47,7 @@ passport.use('local', new LocalStrategy(
 passport.use(new FacebookStrategy({
         clientID: "286814831741215",
         clientSecret: "2c2bf9d137d4139790c4e33adb29d7dc",
-        callbackURL: "http://localhost:3000/users/success",
+        callbackURL: "https://211f39bn.ngrok.io/users/success",
         enableProof: true,
         profileFields: ['id', 'displayName', 'photos', 'email']
     },
@@ -62,7 +62,7 @@ passport.use(new FacebookStrategy({
 passport.use(new GoogleStrategy({
         clientID: "320818312142-purmb3530ngrn4i7d4cqskkgahf2p0uu.apps.googleusercontent.com",
         clientSecret: "pMtxXeocjMFAaXo310AHwqVs",
-        callbackURL: "http://localhost:3000/users/success"
+        callbackURL: "https://211f39bn.ngrok.io/users/success"
     },
     function(accessToken, refreshToken, profile, done) {
         User.findOrCreate({ googleId: profile.id }, function (err, user) {

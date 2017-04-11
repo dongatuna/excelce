@@ -17,7 +17,7 @@
                     <div class="form-group">
                         <div class="checkbox">
                             <label for="{{this}}">
-                                <input type="checkbox" name="certifications" value="{{this}}" {{#if checked}} checked {{/if}}  > {{this}}
+                                <input type="checkbox" name="certifications" value="{{this}}" {{#ifIn this ../application.certifications}}checked{{/ifIn}} > {{this}}
                             </label>
                         </div>
                     </div>

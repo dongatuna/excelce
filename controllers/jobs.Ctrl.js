@@ -89,7 +89,7 @@ exports.readAllUserJobPostings = function (req, res, next) {
             posting.truncated_description = posting.description.substr(0, 300) + "...";
         });
 
-        res.render('job/viewall', {title: "Job Postings",postings:postings, user:req.user});
+        res.render('job/viewall', {title: "Job Postings", postings:postings, user:req.user});
     });
 };
 

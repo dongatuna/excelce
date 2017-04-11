@@ -3,9 +3,6 @@ var router = express.Router();
 var csrf = require('csurf');
 var multer = require('multer');
 var jobsCtrl= require('../controllers/jobs.Ctrl');
-
-
-
 var csrfProtection =  csrf();
 
 router.get('/create', isLoggedIn, csrfProtection, jobsCtrl.getUserJobPosting);
