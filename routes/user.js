@@ -71,12 +71,23 @@ router.get("/register", usersCtrl.getUserRegisterRoute);
 
 router.get('/auth/facebook', passport.authenticate('facebook'));
 
-router.get('/auth/facebook/callback',
+router.get('/success',
     passport.authenticate('facebook', { failureRedirect: '/login' }),
     function(req, res) {
         // Successful authentication, redirect home.
         res.redirect('/');
     });
+
+app.get('/auth/google',
+    passport.authenticate('google', { scope: 'https://www.google.com/m8/feeds' }));
+
+
+app.get('/success',
+    passport.authenticate('google', { failureRedirect: '/login' }),
+    function(req, res) {
+        res.redirect('/');
+    }
+);
 
 router.post('/register', function(req, res, next){
 
@@ -121,7 +132,7 @@ router.post('/register', function(req, res, next){
         });
         //
     },
-    passport.authenticate("local.signin",
+    passport.authenticate("local",
         {
             //successRedirect: '/users/success',
             failureRedirect: '/users/signin',
@@ -142,7 +153,7 @@ router.post('/register', function(req, res, next){
 router.get('/signin', usersCtrl.getUserSignInRoute);
 
 
-router.post('/signin', passport.authenticate('local.signin',
+router.post('/signin', passport.authenticate('local',
      {
          failureRedirect: '/users/signin',
          failureFlash: true
@@ -157,9 +168,9 @@ router.post('/signin', passport.authenticate('local.signin',
     }
  );
 
-router.get('/notification', isLoggedIn, usersCtrl.findNotification, usersCtrl.renderNotification);
+router.get('/notification', isLoggedIn, usersCtrl.renderNotification);
 
-router.post('/notification', isLoggedIn, usersCtrl.findNotification, usersCtrl.updateNotification, usersCtrl.renderNotification);
+router.post('/notification', isLoggedIn, usersCtrl.updateNotification, usersCtrl.renderNotification);
 
 module.exports = router;
 

@@ -10,8 +10,9 @@ var userSchema = new Schema({
     username:{type: String, required:true},
     password: {type: String, required:true},
     role: {type: String, enum: ['organization', 'provider'], required:true},
-    application:{type:Schema.Types.ObjectId, ref:'Application', unique:true},
-    notification:{type:Schema.Types.ObjectId, ref:'Notification'},
+    tel: {type:String, default:"null"},
+    mode:[{type: String}],
+    application:{type:Schema.Types.ObjectId, ref:'Application'},
     createdAt:{type: Date, default:Date.now}
 });
 

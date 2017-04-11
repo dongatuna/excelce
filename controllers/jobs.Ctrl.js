@@ -6,9 +6,9 @@ var Post = require("../models/post");
 
 
 var requirements = [
-    "NAC/CNA", "75 hour Training/Home Care Aide","Core Basic Training", "BLS/CPR and First Aid",
-    "Safety and Orientation", "Dementia Training", "Mental Health Training",
-    "Nurse Delegation", "Nurse Delegation for Diabetes"
+    "NAC/CNA", "75 hour Training/Home Care Aide","Core Basic Training","BLS/CPR and First Aid",
+    "HIV/AIDS and Infection Control","Safety and Orientation", "Dementia Training", "Mental Health Training",
+    "Nurse Delegation", "Nurse Delegation for Diabetes", "Developmental Disability Training"
 ];
 
 exports.getUserJobPosting = function (req, res) {
@@ -22,7 +22,7 @@ exports.createUserJobPosting = function (req, res) {
     var requirements = req.body.requirements;
 
     console.log("Requirements as a string");
-    console.log(requirements);
+   // console.log(requirements);
 
     req.checkBody('description', 'Please include a description of your job .').notEmpty();
     req.checkBody('title', 'Please include a title of your job.').notEmpty();

@@ -2,7 +2,7 @@ var passport = require('passport');
 var User = require('../models/user');
 var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
-
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 passport.serializeUser(function (user, done) {
     done(null, user.id);
@@ -16,7 +16,7 @@ passport.deserializeUser(function (id, done) {
 });
 
 //passport strategy for signing in the user
-passport.use('local.signin', new LocalStrategy(
+passport.use('local', new LocalStrategy(
     {
         //this is where data is passed from form
         passwordField: 'password',
@@ -58,3 +58,16 @@ passport.use(new FacebookStrategy({
         });
     }
 ));
+
+passport.use(new GoogleStrategy({
+        clientID: "320818312142-purmb3530ngrn4i7d4cqskkgahf2p0uu.apps.googleusercontent.com",
+        clientSecret: "pMtxXeocjMFAaXo310AHwqVs",
+        callbackURL: "http://localhost:3000/users/success"
+    },
+    function(accessToken, refreshToken, profile, done) {
+        User.findOrCreate({ googleId: profile.id }, function (err, user) {
+            return done(err, user);
+        });
+    }
+));
+

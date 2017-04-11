@@ -6,8 +6,8 @@ var Application = require("../models/application");
 
 var certifications = [
     "NAC/CNA", "75 hour Training/Home Care Aide","Core Basic Training","BLS/CPR and First Aid",
-    "Safety and Orientation", "Dementia Training", "Mental Health Training",
-    "Nurse Delegation", "Nurse Delegation for Diabetes"
+    "HIV/AIDS and Infection Control","Safety and Orientation", "Dementia Training", "Mental Health Training",
+    "Nurse Delegation", "Nurse Delegation for Diabetes", "Developmental Disability Training"
 ];
 
 exports.getUserJobApplication = function (req, res, next) {
@@ -51,7 +51,7 @@ exports.viewAllUserApplication = function(req, res, next){
         });
     } else {
         req.flash("error", "Only registered employers can view job seekers' profiles.");
-        res.redirect('/users/success');
+        res.redirect('/application/info');
     }
 };
 

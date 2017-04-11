@@ -1,6 +1,5 @@
 <div class="row">
     <div class="col-md-5 col-md-offset-3">
-        <h1>Choose Your Alert Notifications</h1>
 
         {{#if hasErrors}}
            <div class="alert alert-danger">
@@ -14,24 +13,26 @@
          <div class="row">
              <div class="col-xs-12">
                  <div class="form-group">
-                     <label for="name">Phone Number: </label>
-                     <input type="tel" id="tel" class="form-control" required name="tel" value="{{ notification.tel }}">
+                     <label for="name">Mobile Number: </label>
+                     <input type="tel" id="tel" class="form-control" required name="tel" value="tel">
                 </div>
-
-
             <hr>
+                 {{#if isOrganization}}
+                     <h3>I want caregivers to reach me through... </h3>
+                 {{else}}
+                     <h3>I want employers to reach me through...</h3>
+                 {{/if}}
+
                 <div class="notification-types">
+
                     <label class="checkbox-inline">
-                        <input type="checkbox" name="phone" {{#if notification.phone}}checked{{/if}}> Phone Call
+                        <input type="checkbox" name="mode" value="{{this}}"> {{this}}
                     </label>
-                    <label class="checkbox-inline">
-                        <input type="checkbox" name="sms" {{#if notification.sms}}checked{{/if}}> SMS/Text Message
-                    </label>
-                    <label class="checkbox-inline">
-                        <input type="checkbox" name="email" {{#if notification.email}}checked{{/if}}> Email
-                    </label>
+
                 </div>
              </div>
+             <p>Excel CE maintains users' contact information private and secure through out during the their
+                 interactions.  Users can obviously decide to exchange their contact information on their own accord.</p>
          </div>
                 <button type="submit" class="btn btn-success">Save</button>
     <input type="hidden" name="_csrf" id="_csrf" value="{{csrfToken}}" >

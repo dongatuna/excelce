@@ -1,8 +1,8 @@
-//"use strict";
+"use strict";
 
-var Notification = require("../models/notification");
+//var Notification = require("../models/notification");
 
-
+var notifications = ["Phone Call", "SMS/Text Message", "Email"];
 
 exports.getUserRegisterRoute = function (req, res) {
     var role = req.session.role;
@@ -22,32 +22,31 @@ exports.getUserSignInRoute= function (req, res) {
 
 exports.getSuccessRoute = function (req, res) {
     if(req.user.role==='organization'){
-        console.log("Organizaton", req.user);
+        //console.log("Organizaton", req.user);
         return res.redirect("/users/organization");
     }else{
-        console.log("Provider", req.user);
+        //console.log("Provider", req.user);
         return res.redirect("/users/provider");
     }
 };
 
-exports.findNotification = function(req, res, next) {
-    Notification.findOne({user: req.user._id}, function (err, notification){
+exports.addUserNotification = function(req, res, next) {
+
+    var id = req.user._id;
+
+    User.findById(id, function (err, user){
         if (err) return next(err);
-        if (!notification) {
-            notification = new Notification({
-                user: req.user._id
-            });
-        }
-        res.locals.notification = notification;
-        next();
-    });
+
+        user.tel = req.body.tel;
+        user.mode = req.body.mode;
+        user.save();
+     });
 };
 
 exports.updateNotification = function(req, res, next) {
     var tel = req.body.tel;
-    var phone = req.body.phone;
-    var email = req.body.email;
-    var sms = req.body.sms;
+    var mode= req.body.mode;
+
 
     //validate the telephone number
     req.checkBody('tel', 'Phone number must be 10 digits').notEmpty().isLength({min:10});
@@ -77,7 +76,8 @@ exports.renderNotification = function(req, res, next) {
     return res.render('users/notification', {
         csrfToken: req.csrfToken(),
         hasErrors: res.locals.messages && res.locals.messages.length>0,
-        isOrganization: (req.user.role === "organization")
+        isOrganization: (req.user.role === "organization"),
+        notifications:notifications
     });
 };
 
