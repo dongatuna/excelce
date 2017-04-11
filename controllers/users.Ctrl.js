@@ -1,9 +1,5 @@
 "use strict";
 
-//var Notification = require("../models/notification");
-
-var notifications = ["Phone Call", "SMS/Text Message", "Email"];
-
 exports.getUserRegisterRoute = function (req, res) {
     var role = req.session.role;
     //get any errors from passport
@@ -30,38 +26,10 @@ exports.getSuccessRoute = function (req, res) {
     }
 };
 
-exports.addUserNotification = function(req, res, next) {
-
-    var id = req.user._id;
-
-    User.findById(id, function (err, user){
-        if (err) return next(err);
-
-        user.tel = req.body.tel;
-        user.mode = req.body.mode;
-
-        //validate the telephone number
-        req.checkBody('tel', 'Phone number must be 10 digits').notEmpty().isLength({min:10});
-        //if the validation errors exist, store them in the variable errors
-        var errors = req.validationErrors(); //validationErrors() extracts all errors of validation
-        //store the errors messages in the error.msg property
-        if(errors){
-            //create an array of messages to pass to the view
-            var messages = [];
-            errors.forEach(function(error){
-                //push any error you find INTO the messages array
-                messages.push(error.msg);
-            });
-            res.locals.messages = messages;
-            return next();
-        }
-        user.save();
-     });
-};
-
 exports.updateNotification = function(req, res, next) {
     var tel = req.body.tel;
     var mode= req.body.mode;
+    var user = req.user;
 
 
     //validate the telephone number
@@ -80,12 +48,11 @@ exports.updateNotification = function(req, res, next) {
         return next();
     }
 
-    var notification = res.locals.notification;
-    notification.tel = tel;
-    notification.phone = phone;
-    notification.sms = sms;
-    notification.email = email;
-    notification.save(next);
+    user.tel = tel;
+    user.notifyByPhone = req.body.notifyByPhone;
+    user.notifyBySms = req.body.notifyBySms;
+    user.notifyByEmail = req.body.notifyByEmail;
+    user.save(next);
 };
 
 exports.renderNotification = function(req, res, next) {
@@ -93,7 +60,7 @@ exports.renderNotification = function(req, res, next) {
         csrfToken: req.csrfToken(),
         hasErrors: res.locals.messages && res.locals.messages.length>0,
         isOrganization: (req.user.role === "organization"),
-        notifications:notifications
+        user: req.user
     });
 };
 

@@ -14,7 +14,7 @@
              <div class="col-xs-12">
                  <div class="form-group">
                      <label for="name">Mobile Number: </label>
-                     <input type="tel" id="tel" class="form-control" required name="tel" value="tel">
+                     <input type="tel" id="tel" class="form-control" required name="tel" value="{{ user.tel }}" placeholder="(XXX) XXX-XXXX">
                 </div>
             <hr>
                  {{#if isOrganization}}
@@ -26,7 +26,13 @@
                 <div class="notification-types">
 
                     <label class="checkbox-inline">
-                        <input type="checkbox" name="mode" value="{{this}}"> {{this}}
+                        <input type="checkbox" name="notifyByPhone" {{#if user.notifyByPhone}}checked{{/if}}> Phone Call
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" name="notifyBySms" {{#if user.notifyBySms}}checked{{/if}}> SMS/Text Message
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" name="notifyByEmail" {{#if user.notifyByEmail}}checked{{/if}}> Email
                     </label>
 
                 </div>
