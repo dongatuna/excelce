@@ -39,25 +39,23 @@ router.get('/organization', isLoggedIn, function (req, res, next) {
 
    var successMsg = req.flash("success")[0];
 
-/*   Order.find({user:req.user}, function(err, orders){
-
-        if(err){req.write("There has been an error");}
+   Order.find({user:req.user}, function(err, orders){
+        if(err) {return next(err);}
 
         orders.forEach(function (order) {
             cart = new Cart(order.cart);
             order.items = cart.generateArray();
         });
-        //res.render('users/organization', {posts:posts, orders:orders, user:req.user, successMsg: successMsg, noMessages: !successMsg});
+
+        Posting.find({"organization":req.user})
+        .sort({createdAt: "descending"})
+        .exec(function(err, posts){
+           if(err) {return next(err);}
+
+            res.render('users/organization', {posts:posts, orders:orders, user:req.user, successMsg: successMsg, noMessages: !successMsg});
+        });
 
     });
-   */
-
-    Posting.find({"organization":req.user}).sort({createdAt: "descending"}).exec(function(err, posts){
-       if(err) {return next(err);}
-
-        res.render('users/organization', {posts:posts, user:req.user, successMsg: successMsg, noMessages: !successMsg});
-   });
-
 });
 
 router.get('/success', isLoggedIn, usersCtrl.getSuccessRoute);
