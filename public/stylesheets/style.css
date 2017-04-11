@@ -26,3 +26,5 @@ form.register label.role input[type="radio"] { margin-right: 8px; }
 .notification-types { display: flex; flex-flow: row wrap; justify-content: space-between; margin-bottom: 4em; }
 .notification-types .checkbox-inline { padding-left: 40px; padding-top: 4px; height: 30px; }
 .notification-types .checkbox-inline input[type=checkbox] { width: 30px; height: 30px; margin-left: -40px; margin-top: -4px; }
+
+.organization.job-posts .job-post a { margin: 4px; }
