@@ -1,7 +1,7 @@
 "use strict";
 var Order = require("../models/order");
 var Posting = require("../models/jobposting");
-
+var Cart = require("../models/cart");
 
 exports.mustHaveRoleChosen = function (req, res, next) {
     var role = req.user.role;

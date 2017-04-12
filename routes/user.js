@@ -2,10 +2,8 @@ var express = require('express');
 var router = express.Router();
 var csrf = require('csurf');
 var passport = require('passport');
-var usersCtrl = require('../controllers/users.Ctrl');
 var User = require("../models/user");
-var Order = require("../models/order");
-var Cart = require("../models/cart");
+var usersCtrl = require('../controllers/users.Ctrl');
 
 
 var csrfProtection =  csrf();

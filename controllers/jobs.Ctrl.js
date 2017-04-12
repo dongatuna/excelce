@@ -93,7 +93,8 @@ exports.readAllUserJobPostings = function (req, res, next) {
         res.render('job/viewall', {title: "Job Postings", postings:postings, user:req.user});
     });
 };
-
+/*
+* this controller should check  whether it is a new posting altogether, an update or repost*/
 exports.updateUserJobPosting = function (req, res, next) {
     var id = req.params.id;
 
@@ -110,8 +111,6 @@ exports.updateUserJobPosting = function (req, res, next) {
                     next (err);
                     return;
                 }
-
-                Post.
                 req.flash("info", "Your job post has been updated");
                 res.render("job/view", {posting:posting, update:true,user:req.user, csrfToken: req.csrfToken()});
 
@@ -122,6 +121,8 @@ exports.updateUserJobPosting = function (req, res, next) {
 };
 
 exports.getCheckout = function (req, res, next) {
+
+    var id = req.params.id;
     if (!req.user) {
         req.flash("error", "Please sign in to complete posting your job opening");
         req.session.oldUrl = req.url;
@@ -132,7 +133,7 @@ exports.getCheckout = function (req, res, next) {
 
     var stripeTotal = 60.00;
 
-    res.render('job/checkout', {user:req.user, errMsg:errMsg, noError:!errMsg, stripeTotal:stripeTotal});
+    res.render('job/checkout', {user:req.user, errMsg:errMsg, id:id, noError:!errMsg, stripeTotal:stripeTotal});
 };
 
 exports.postCheckout = function(req, res, next){
@@ -156,21 +157,24 @@ exports.postCheckout = function(req, res, next){
             return res.redirect("/job/checkout");
         }
 
-        var post = new Post({
-            user: req.user,
-            address: req.body.address,
-            name: req.body.name,
-            postId: charge.id
-        });
+           var post = new Post({
+               user: req.user,
+               address: req.body.address,
+               name: req.body.name,
+               postId: charge.id,
+               posting:req.body.posting.toString()
+           });
 
-        post.save(function(err, result){
-            if (err) {
-                req.flash("error", err.message);
-                return res.redirect("/job/checkout");
-            }
-            req.flash("success", "Your post was successful.  Please check your email for further instruction!");
-            res.redirect("/users/success");
-        });
+           post.save(function (err, result) {
+               if (err) {
+                   req.flash("error", err.message);
+                   return res.redirect("/job/checkout");
+               }
+               req.flash("success", "Your post was successful.  Please check your email for further instruction!");
+               res.redirect("/users/success");
+           });
+
+
     });
 };
 

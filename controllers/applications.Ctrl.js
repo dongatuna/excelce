@@ -19,7 +19,7 @@ exports.createUserApplication = function (req, res, next) {
     if(req.user.role==="provider"){
 
         var description = req.body.description;
-        req.checkBody('description', 'You description should not empty.').notEmpty();
+        req.checkBody('description', 'Please enter a description of your achievements.').notEmpty();
         //how do I include arrays
         var certifications = req.body.certifications;
         var filePath = req.body.file_attachment;
@@ -65,8 +65,7 @@ exports.viewUserApplication = function(req, res, next){
       var count = application.certifications.length;
       var certCount = certifications.length;
       var i, j;
-        //create an array filled with all false values
-        //fetch the data from database if
+
       for (i=0; i<=count;i++){
           for(j=i; j<=certCount;j++){
               if(application.certifications[j]===certifications[i]){

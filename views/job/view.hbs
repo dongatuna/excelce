@@ -42,11 +42,10 @@
 
 
     {{#if update}}
-        <a href="/job/checkout" class="btn btn-primary pull-right" role="button">Continue</a>
+        <a href="/job/checkout/{{posting._id}}" class="btn btn-primary pull-right" role="button">Continue</a>
         <!--<button type="submit" class="btn btn-primary">Continue</button>-->
         <a href="/job/update/{{posting._id}}">Edit Job Post</a>
     {{else}}
-
         <a href="/job/checkout" class="btn btn-primary pull-right" role="button">Contact Employer</a>
     {{/if}}
 

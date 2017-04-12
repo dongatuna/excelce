@@ -17,7 +17,7 @@ router.get('/update/:id', isLoggedIn, multer().single('file_attachment'), csrfPr
 
 router.post('/update/:id',  isLoggedIn, multer().single('file_attachment'), csrfProtection, jobsCtrl.updateUserJobPosting);
 
-router.get("/checkout", isLoggedIn,  jobsCtrl.getCheckout );
+router.get("/checkout/:id", isLoggedIn,  jobsCtrl.getCheckout );
 
 
 router.post("/checkout", isLoggedIn,  jobsCtrl.postCheckout );
