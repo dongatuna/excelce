@@ -53,6 +53,7 @@ exports.createUserJobPosting = function (req, res) {
     newPosting.save(function (err, posting) {
         if(err){return (err);}
 
+
         res.render("job/view", {posting:posting, update:true,user:req.user, csrfToken: req.csrfToken()});
     });
 };
@@ -110,6 +111,7 @@ exports.updateUserJobPosting = function (req, res, next) {
                     return;
                 }
 
+                Post.
                 req.flash("info", "Your job post has been updated");
                 res.render("job/view", {posting:posting, update:true,user:req.user, csrfToken: req.csrfToken()});
 

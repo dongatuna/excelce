@@ -6,7 +6,7 @@ var usersCtrl = require('../controllers/users.Ctrl');
 var User = require("../models/user");
 var Order = require("../models/order");
 var Cart = require("../models/cart");
-var Posting = require("../models/jobposting");
+
 
 var csrfProtection =  csrf();
 router.use(csrfProtection);
@@ -17,46 +17,9 @@ router.get('/logout', isLoggedIn, function(req, res, next){
     res.redirect('/users/signin');
 });
 
-router.get('/provider', isLoggedIn, function (req, res, next) {
-    var successMsg = req.flash("success")[0];
+router.get('/provider', isLoggedIn, usersCtrl.displayProviderApplicationsandOrders);
 
-    Order.find({user:req.user}, function(err, orders){
-
-        if(err){req.write("There has been an error");}
-
-        orders.forEach(function (order) {
-            cart = new Cart(order.cart);
-            order.items = cart.generateArray();
-        });
-
-        var messages = req.flash('error');
-
-        res.render('users/provider', {orders:orders, user:req.user, messages:messages, hasErrors:messages.length>0, successMsg: successMsg, noMessages: !successMsg});
-    });
-});
-
-router.get('/organization', isLoggedIn, function (req, res, next) {
-
-   var successMsg = req.flash("success")[0];
-
-   Order.find({user:req.user}, function(err, orders){
-        if(err) {return next(err);}
-
-        orders.forEach(function (order) {
-            cart = new Cart(order.cart);
-            order.items = cart.generateArray();
-        });
-
-        Posting.find({"organization":req.user})
-        .sort({createdAt: "descending"})
-        .exec(function(err, posts){
-           if(err) {return next(err);}
-
-            res.render('users/organization', {posts:posts, orders:orders, user:req.user, successMsg: successMsg, noMessages: !successMsg});
-        });
-
-    });
-});
+router.get('/organization', isLoggedIn, usersCtrl.displayOrganizationPostsandOrders);
 
 router.get('/success', isLoggedIn, usersCtrl.getSuccessRoute);
 

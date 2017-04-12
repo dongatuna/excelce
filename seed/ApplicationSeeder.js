@@ -1,8 +1,6 @@
 var Application = require('../models/application');
 var mongoose = require('mongoose');
-mongoose.connect("mongodb://localhost/expaddress");
-
-
+mongoose.connect("mongodb://localhost/exptwilio");
 
 var applications = [
 

@@ -1,7 +1,7 @@
 var Course = require('../models/course');
 var mongoose = require('mongoose');
-mongoose.connect("mongodb://localhost/expaddress");
 
+mongoose.connect("mongodb://localhost/exptwilio");
 
 
 var courses = [

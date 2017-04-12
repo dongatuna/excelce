@@ -1,4 +1,7 @@
 "use strict";
+var Order = require("../models/order");
+var Posting = require("../models/jobposting");
+
 
 exports.mustHaveRoleChosen = function (req, res, next) {
     var role = req.user.role;
@@ -17,11 +20,11 @@ exports.setRole = function (req, res, next) {
     var user = req.user;
     user.role = role;
     user.save(next);
-}
+};
 
 exports.goToRole = function (req, res, next) {
     res.redirect("/users/" + req.user.role);
-}
+};
 
 exports.getUserRegisterRoute = function (req, res) {
     var role = req.session.role;
@@ -51,7 +54,7 @@ exports.getSuccessRoute = function (req, res) {
 
 exports.updateNotification = function(req, res, next) {
     var tel = req.body.tel;
-    var mode= req.body.mode;
+    //var mode= req.body.mode;
     var user = req.user;
 
 
@@ -87,38 +90,48 @@ exports.renderNotification = function(req, res, next) {
     });
 };
 
-/*
-exports.displayProviderOrders = function (req, res, next) {
+
+exports.displayOrganizationPostsandOrders = function (req, res, next) {
+
     var successMsg = req.flash("success")[0];
 
     Order.find({user:req.user}, function(err, orders){
-
-        if(err){req.write("There has been an error");}
+        if(err) {return next(err);}
 
         orders.forEach(function (order) {
             cart = new Cart(order.cart);
             order.items = cart.generateArray();
         });
 
-        var messages = req.flash('error');
+        Posting.find({"organization":req.user})
+            .sort({createdAt: "descending"})
+            .exec(function(err, posts){
+                if(err) {return next(err);}
 
-        res.render('users/provider', {orders:orders, user:req.user, messages:messages, hasErrors:messages.length>0, successMsg: successMsg, noMessages: !successMsg});
+                res.render('users/organization', {posts:posts, orders:orders,
+                    user:req.user, successMsg: successMsg, noMessages: !successMsg});
+            });
+
     });
 };
 
-exports.displayOrganizationOrders =function (req, res) {
+ exports.displayProviderApplicationsandOrders = function (req, res, next) {
 
-    var successMsg = req.flash("success")[0];
-    Order.find({user:req.user}, function(err, orders){
+     var successMsg = req.flash("success")[0];
 
-        if(err){req.write("There has been an error");}
+     Order.find({user:req.user}, function(err, orders){
 
-        orders.forEach(function (order) {
-            cart = new Cart(order.cart);
-            order.items = cart.generateArray();
-        });
+         if(err){req.write("There has been an error");}
 
-        res.render('users/organization', {orders:orders, user:req.user, successMsg: successMsg, noMessages: !successMsg});
-    });
-}
-*/
+         orders.forEach(function (order) {
+             cart = new Cart(order.cart);
+             order.items = cart.generateArray();
+         });
+
+         var messages = req.flash('error');
+
+         res.render('users/provider', {orders:orders, user:req.user, messages:messages,
+             hasErrors:messages.length>0,
+             successMsg: successMsg, noMessages: !successMsg});
+     });
+ };
