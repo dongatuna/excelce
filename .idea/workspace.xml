@@ -6,15 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="88f6008d-96dc-4444-bff2-031f6b15df00" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/applications.Ctrl.js" afterPath="$PROJECT_DIR$/controllers/applications.Ctrl.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/jobs.Ctrl.js" afterPath="$PROJECT_DIR$/controllers/jobs.Ctrl.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/users.Ctrl.js" afterPath="$PROJECT_DIR$/controllers/users.Ctrl.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/course.js" afterPath="$PROJECT_DIR$/models/course.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/post.js" afterPath="$PROJECT_DIR$/models/post.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/job.js" afterPath="$PROJECT_DIR$/routes/job.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/user.js" afterPath="$PROJECT_DIR$/routes/user.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/job/checkout.hbs" afterPath="$PROJECT_DIR$/views/job/checkout.hbs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/job/view.hbs" afterPath="$PROJECT_DIR$/views/job/view.hbs" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -44,31 +36,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="jobs.Ctrl.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="jobs.Ctrl.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controllers/jobs.Ctrl.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="409">
-              <caret line="142" column="71" lean-forward="true" selection-start-line="142" selection-start-column="71" selection-end-line="142" selection-end-column="71" />
+            <state relative-caret-position="154">
+              <caret line="142" column="34" lean-forward="false" selection-start-line="142" selection-start-column="34" selection-end-line="142" selection-end-column="34" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="checkout.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/javascripts/checkout.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="22" column="38" lean-forward="true" selection-start-line="22" selection-start-column="38" selection-end-line="22" selection-end-column="38" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="checkout.hbs" pinned="false" current-in-tab="false">
+      <file leaf-file-name="checkout.hbs" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/job/checkout.hbs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="918">
-              <caret line="57" column="46" lean-forward="true" selection-start-line="57" selection-start-column="46" selection-end-line="57" selection-end-column="46" />
+            <state relative-caret-position="774">
+              <caret line="57" column="76" lean-forward="false" selection-start-line="57" selection-start-column="76" selection-end-line="57" selection-end-column="76" />
               <folding />
             </state>
           </provider>
@@ -77,8 +59,8 @@
       <file leaf-file-name="job.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/job.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+            <state relative-caret-position="323">
+              <caret line="19" column="25" lean-forward="false" selection-start-line="19" selection-start-column="25" selection-end-line="19" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -212,10 +194,10 @@
         <option value="$PROJECT_DIR$/seed/CourseSeeder.js" />
         <option value="$PROJECT_DIR$/models/course.js" />
         <option value="$PROJECT_DIR$/models/post.js" />
-        <option value="$PROJECT_DIR$/views/job/view.hbs" />
-        <option value="$PROJECT_DIR$/views/job/checkout.hbs" />
-        <option value="$PROJECT_DIR$/routes/job.js" />
         <option value="$PROJECT_DIR$/controllers/jobs.Ctrl.js" />
+        <option value="$PROJECT_DIR$/views/job/view.hbs" />
+        <option value="$PROJECT_DIR$/routes/job.js" />
+        <option value="$PROJECT_DIR$/views/job/checkout.hbs" />
       </list>
     </option>
   </component>
@@ -722,12 +704,12 @@
       <workItem from="1491912609702" duration="11306000" />
       <workItem from="1491960018120" duration="184000" />
       <workItem from="1491960245606" duration="9423000" />
-      <workItem from="1492015693083" duration="14887000" />
+      <workItem from="1492015693083" duration="17528000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="790222000" />
+    <option name="totallyTimeSpent" value="792863000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1128,10 +1110,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/job/checkout.hbs">
+    <entry file="file://$PROJECT_DIR$/routes/job.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="918">
-          <caret line="57" column="46" lean-forward="true" selection-start-line="57" selection-start-column="46" selection-end-line="57" selection-end-column="46" />
+        <state relative-caret-position="323">
+          <caret line="19" column="25" lean-forward="false" selection-start-line="19" selection-start-column="25" selection-end-line="19" selection-end-column="25" />
           <folding />
         </state>
       </provider>
@@ -1144,18 +1126,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/job.js">
+    <entry file="file://$PROJECT_DIR$/controllers/jobs.Ctrl.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+        <state relative-caret-position="154">
+          <caret line="142" column="34" lean-forward="false" selection-start-line="142" selection-start-column="34" selection-end-line="142" selection-end-column="34" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/jobs.Ctrl.js">
+    <entry file="file://$PROJECT_DIR$/views/job/checkout.hbs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="409">
-          <caret line="142" column="71" lean-forward="true" selection-start-line="142" selection-start-column="71" selection-end-line="142" selection-end-column="71" />
+        <state relative-caret-position="774">
+          <caret line="57" column="76" lean-forward="false" selection-start-line="57" selection-start-column="76" selection-end-line="57" selection-end-column="76" />
           <folding />
         </state>
       </provider>

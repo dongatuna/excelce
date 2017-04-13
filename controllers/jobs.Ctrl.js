@@ -122,7 +122,7 @@ exports.updateUserJobPosting = function (req, res, next) {
 
 exports.getCheckout = function (req, res, next) {
 
-    var id = req.params.id;
+    //var id = req.params.id;
     if (!req.user) {
         req.flash("error", "Please sign in to complete posting your job opening");
         req.session.oldUrl = req.url;
@@ -133,48 +133,51 @@ exports.getCheckout = function (req, res, next) {
 
     var stripeTotal = 60.00;
 
-    res.render('job/checkout', {user:req.user, errMsg:errMsg, id:id, noError:!errMsg, stripeTotal:stripeTotal});
+    res.render('job/checkout', {user:req.user, errMsg:errMsg, noError:!errMsg, stripeTotal:stripeTotal});
 };
 
 exports.postCheckout = function(req, res, next){
+    var id =req.body.posting;
 
-    // Set your secret key: remember to change this to your live secret key in production
-    // See your keys here: https://dashboard.stripe.com/account/apikeys
-    var stripe = require("stripe")("sk_test_kWOaHzogv8SjynnUtJWU8RA6");
+    Posting.find(id, function (err, posting) {
+        if(err){return next(err);}
 
-    // Token is created using Stripe.js or Checkout!
-    // Get the payment token submitted by the form:
-    var token = req.body.stripeToken; // Using Express
-    // Create a Charge:
-    stripe.charges.create({
-        amount: 6000,//in cents
-        currency: "usd",
-        source: token,
-        description: "Job Post Charge"
-    },function (err, charge) {
-        if (err) {
-            req.flash("error", err.message);
-            return res.redirect("/job/checkout");
-        }
+        // Set your secret key: remember to change this to your live secret key in production
+        // See your keys here: https://dashboard.stripe.com/account/apikeys
+        var stripe = require("stripe")("sk_test_kWOaHzogv8SjynnUtJWU8RA6");
 
-           var post = new Post({
-               user: req.user,
-               address: req.body.address,
-               name: req.body.name,
-               postId: charge.id,
-               posting:req.body.posting.toString()
-           });
+        // Token is created using Stripe.js or Checkout!
+        // Get the payment token submitted by the form:
+        var token = req.body.stripeToken; // Using Express
+        // Create a Charge:
+        stripe.charges.create({
+            amount: 6000,//in cents
+            currency: "usd",
+            source: token,
+            description: "Job Post Charge"
+        },function (err, charge) {
+            if (err) {
+                req.flash("error", err.message);
+                return res.redirect("/job/checkout");
+            }
 
-           post.save(function (err, result) {
-               if (err) {
-                   req.flash("error", err.message);
-                   return res.redirect("/job/checkout");
-               }
-               req.flash("success", "Your post was successful.  Please check your email for further instruction!");
-               res.redirect("/users/success");
-           });
+            var post = new Post({
+                user: req.user,
+                address: req.body.address,
+                name: req.body.name,
+                postId: charge.id,
+                posting:posting
+            });
 
-
+            post.save(function (err, result) {
+                if (err) {
+                    req.flash("error", err.message);
+                    return res.redirect("/job/checkout");
+                }
+                req.flash("success", "Your post was successful.  Please check your email for further instruction!");
+                res.redirect("/users/success");
+            });
+        });
     });
 };
 
