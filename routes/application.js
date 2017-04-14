@@ -2,23 +2,24 @@ var express = require('express');
 var router = express.Router();
 var csrf = require('csurf');
 var multer = require('multer');
+var upload = multer({dest: 'public/uploads/resume'})
 var applicationsCtrl = require("../controllers/applications.Ctrl");
 var passport = require('passport');
 var csrfProtection =  csrf();
 //router.use(csrfProtection);
 
-router.get("/create", isLoggedIn, multer().single('file_attachment'), csrfProtection,applicationsCtrl.getUserJobApplication);
+router.get("/create", isLoggedIn, upload.single('file_attachment'), csrfProtection,applicationsCtrl.getUserJobApplication);
 
-router.post('/create', isLoggedIn, multer().single('file_attachment'), csrfProtection,applicationsCtrl.createUserApplication );
+router.post('/create', isLoggedIn, upload.single('file_attachment'), csrfProtection,applicationsCtrl.createUserApplication );
 
 //this gets the page of the providers/jobseeker's application
-router.get("/viewall", isLoggedIn, multer().single('file_attachment'), csrfProtection,applicationsCtrl.viewAllUserApplication );
+router.get("/viewall", isLoggedIn, upload.single('file_attachment'), csrfProtection,applicationsCtrl.viewAllUserApplication );
 
-router.post('/update/:id', isLoggedIn, multer().single('file_attachment'), csrfProtection, applicationsCtrl.updateUserApplication );
+router.post('/update/:id', isLoggedIn, upload.single('file_attachment'), csrfProtection, applicationsCtrl.updateUserApplication );
 
-router.post('/delete', isLoggedIn, multer().single('file_attachment'), csrfProtection, applicationsCtrl.deleteUserApplication);
+router.post('/delete', isLoggedIn, upload.single('file_attachment'), csrfProtection, applicationsCtrl.deleteUserApplication);
 
-router.get("/update/:id", isLoggedIn, multer().single('file_attachment'), csrfProtection, applicationsCtrl.viewUserApplication );
+router.get("/update/:id", isLoggedIn, upload.single('file_attachment'), csrfProtection, applicationsCtrl.viewUserApplication );
 
 module.exports = router;
 
